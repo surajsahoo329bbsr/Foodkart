@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="9f60bfe3f4684dc989101b1d761895bb" Name="Diagram1">
+        <EntityTypeShape EntityType="FoodkartDBModel.Admin" Width="1.5" PointX="5.25" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="FoodkartDBModel.CartItem" Width="1.5" PointX="3" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FoodkartDBModel.Cart" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FoodkartDBModel.Customer" Width="1.5" PointX="1.5" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="FoodkartDBModel.Food" Width="1.5" PointX="0.75" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FoodkartDBModel.Menu" Width="1.5" PointX="3" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="FoodkartDBModel.OrderItem" Width="1.5" PointX="6" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="FoodkartDBModel.Order" Width="1.5" PointX="1.5" PointY="16.125" IsExpanded="true" />
+        <AssociationConnector Association="FoodkartDBModel.FK_AdminMenu" ManuallyRouted="false" />
+        <AssociationConnector Association="FoodkartDBModel.FK_CartItemCart" ManuallyRouted="false" />
+        <AssociationConnector Association="FoodkartDBModel.FK_FoodCartItem" ManuallyRouted="false" />
+        <AssociationConnector Association="FoodkartDBModel.FK_CustomerCart" ManuallyRouted="false" />
+        <AssociationConnector Association="FoodkartDBModel.FK_OrderCart" ManuallyRouted="false" />
+        <AssociationConnector Association="FoodkartDBModel.FK_FoodOrderItem" ManuallyRouted="false" />
+        <AssociationConnector Association="FoodkartDBModel.FK_MenuFood" ManuallyRouted="false" />
+        <AssociationConnector Association="FoodkartDBModel.FK_OrderOrderItem" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

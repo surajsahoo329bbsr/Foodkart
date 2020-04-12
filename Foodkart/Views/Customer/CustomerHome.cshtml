@@ -1,0 +1,40 @@
+﻿@model Foodkart.Customer
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>CustomerHome</title>
+</head>
+<body>
+    <style type="text/css">
+        
+        .blue-button {
+            font-size: 14px;
+            border-radius: 8px;
+            padding: 10px 8px;
+            background-color: #03A9F4;
+            color: #FFFFFF;
+            text-decoration: none;
+        }
+
+            .blue-button:hover {
+                background-color: #01579B;
+                color: #FFFFFF;
+                transition: 0.8s;
+                text-decoration: none;
+            }
+
+        body {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+    </style>
+    <h2>Welcome, @Model.CustFName</h2>
+    <a href="~/Home/Login" class="blue-button">Sign-Out</a>
+</body>
+</html>

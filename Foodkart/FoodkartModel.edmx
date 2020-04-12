@@ -1,0 +1,582 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="FoodkartDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Admins">
+          <Key>
+            <PropertyRef Name="AdminId" />
+          </Key>
+          <Property Name="AdminId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AdminFName" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="AdminLName" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="AdminPassword" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="AdminMenuId" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CartItems">
+          <Key>
+            <PropertyRef Name="CartItemId" />
+          </Key>
+          <Property Name="CartItemId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CartItemCartId" Type="bigint" Nullable="false" />
+          <Property Name="CartAddDate" Type="datetime" Nullable="false" />
+          <Property Name="CartRemoveDate" Type="datetime" Nullable="false" />
+          <Property Name="CartItemQty" Type="bigint" Nullable="false" />
+          <Property Name="CartItemUnitPrice" Type="bigint" Nullable="false" />
+          <Property Name="CartItemFoodId" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Carts">
+          <Key>
+            <PropertyRef Name="CartId" />
+          </Key>
+          <Property Name="CartId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CartCustId" Type="bigint" Nullable="false" />
+          <Property Name="CartOrderId" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Customers">
+          <Key>
+            <PropertyRef Name="CustId" />
+          </Key>
+          <Property Name="CustId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustEmail" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CustPhone" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="CustFName" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="CustLName" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="CustPassword" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Foods">
+          <Key>
+            <PropertyRef Name="FoodId" />
+          </Key>
+          <Property Name="FoodId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FoodName" Type="nvarchar" MaxLength="40" Nullable="false" />
+          <Property Name="FoodQty" Type="bigint" Nullable="false" />
+          <Property Name="FoodUnitPrice" Type="bigint" Nullable="false" />
+          <Property Name="FoodCategory" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Menus">
+          <Key>
+            <PropertyRef Name="MenuId" />
+          </Key>
+          <Property Name="MenuId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MenuFoodId" Type="bigint" Nullable="false" />
+          <Property Name="MenuAddDate" Type="datetime" Nullable="false" />
+          <Property Name="MenuRemoveDate" Type="datetime" Nullable="false" />
+          <Property Name="MenuFoodQty" Type="bigint" Nullable="false" />
+          <Property Name="MenuUnitPrice" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OrderItems">
+          <Key>
+            <PropertyRef Name="OrderItemId" />
+          </Key>
+          <Property Name="OrderItemId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderItemOrderId" Type="bigint" Nullable="false" />
+          <Property Name="OrderItemFoodId" Type="bigint" Nullable="false" />
+          <Property Name="OrderItemQty" Type="bigint" Nullable="false" />
+          <Property Name="OrderItemUnitPrice" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="OrderId" />
+          </Key>
+          <Property Name="OrderId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderDate" Type="datetime" Nullable="false" />
+          <Property Name="OrderCustId" Type="bigint" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_AdminMenu">
+          <End Role="Menus" Type="Self.Menus" Multiplicity="1" />
+          <End Role="Admins" Type="Self.Admins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menus">
+              <PropertyRef Name="MenuId" />
+            </Principal>
+            <Dependent Role="Admins">
+              <PropertyRef Name="AdminMenuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CartItemCart">
+          <End Role="Carts" Type="Self.Carts" Multiplicity="1" />
+          <End Role="CartItems" Type="Self.CartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Carts">
+              <PropertyRef Name="CartId" />
+            </Principal>
+            <Dependent Role="CartItems">
+              <PropertyRef Name="CartItemCartId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerCart">
+          <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
+          <End Role="Carts" Type="Self.Carts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="CustId" />
+            </Principal>
+            <Dependent Role="Carts">
+              <PropertyRef Name="CartCustId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FoodCartItem">
+          <End Role="Foods" Type="Self.Foods" Multiplicity="1" />
+          <End Role="CartItems" Type="Self.CartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Foods">
+              <PropertyRef Name="FoodId" />
+            </Principal>
+            <Dependent Role="CartItems">
+              <PropertyRef Name="CartItemFoodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FoodOrderItem">
+          <End Role="Foods" Type="Self.Foods" Multiplicity="1" />
+          <End Role="OrderItems" Type="Self.OrderItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Foods">
+              <PropertyRef Name="FoodId" />
+            </Principal>
+            <Dependent Role="OrderItems">
+              <PropertyRef Name="OrderItemFoodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MenuFood">
+          <End Role="Foods" Type="Self.Foods" Multiplicity="1" />
+          <End Role="Menus" Type="Self.Menus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Foods">
+              <PropertyRef Name="FoodId" />
+            </Principal>
+            <Dependent Role="Menus">
+              <PropertyRef Name="MenuFoodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderCart">
+          <End Role="Orders" Type="Self.Orders" Multiplicity="1" />
+          <End Role="Carts" Type="Self.Carts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="OrderId" />
+            </Principal>
+            <Dependent Role="Carts">
+              <PropertyRef Name="CartOrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderOrderItem">
+          <End Role="Orders" Type="Self.Orders" Multiplicity="1" />
+          <End Role="OrderItems" Type="Self.OrderItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="OrderId" />
+            </Principal>
+            <Dependent Role="OrderItems">
+              <PropertyRef Name="OrderItemOrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FoodkartDBModelStoreContainer">
+          <EntitySet Name="Admins" EntityType="Self.Admins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CartItems" EntityType="Self.CartItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Carts" EntityType="Self.Carts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Foods" EntityType="Self.Foods" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Menus" EntityType="Self.Menus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderItems" EntityType="Self.OrderItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AdminMenu" Association="Self.FK_AdminMenu">
+            <End Role="Menus" EntitySet="Menus" />
+            <End Role="Admins" EntitySet="Admins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CartItemCart" Association="Self.FK_CartItemCart">
+            <End Role="Carts" EntitySet="Carts" />
+            <End Role="CartItems" EntitySet="CartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerCart" Association="Self.FK_CustomerCart">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Carts" EntitySet="Carts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FoodCartItem" Association="Self.FK_FoodCartItem">
+            <End Role="Foods" EntitySet="Foods" />
+            <End Role="CartItems" EntitySet="CartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FoodOrderItem" Association="Self.FK_FoodOrderItem">
+            <End Role="Foods" EntitySet="Foods" />
+            <End Role="OrderItems" EntitySet="OrderItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MenuFood" Association="Self.FK_MenuFood">
+            <End Role="Foods" EntitySet="Foods" />
+            <End Role="Menus" EntitySet="Menus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderCart" Association="Self.FK_OrderCart">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="Carts" EntitySet="Carts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderOrderItem" Association="Self.FK_OrderOrderItem">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="OrderItems" EntitySet="OrderItems" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FoodkartDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="AdminId" />
+          </Key>
+          <Property Name="AdminId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AdminFName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AdminLName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AdminPassword" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AdminMenuId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Menu" Relationship="Self.FK_AdminMenu" FromRole="Admins" ToRole="Menus" />
+        </EntityType>
+        <EntityType Name="CartItem">
+          <Key>
+            <PropertyRef Name="CartItemId" />
+          </Key>
+          <Property Name="CartItemId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CartItemCartId" Type="Int64" Nullable="false" />
+          <Property Name="CartAddDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CartRemoveDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CartItemQty" Type="Int64" Nullable="false" />
+          <Property Name="CartItemUnitPrice" Type="Int64" Nullable="false" />
+          <Property Name="CartItemFoodId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Cart" Relationship="Self.FK_CartItemCart" FromRole="CartItems" ToRole="Carts" />
+          <NavigationProperty Name="Food" Relationship="Self.FK_FoodCartItem" FromRole="CartItems" ToRole="Foods" />
+        </EntityType>
+        <EntityType Name="Cart">
+          <Key>
+            <PropertyRef Name="CartId" />
+          </Key>
+          <Property Name="CartId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CartCustId" Type="Int64" Nullable="false" />
+          <Property Name="CartOrderId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="CartItems" Relationship="Self.FK_CartItemCart" FromRole="Carts" ToRole="CartItems" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_CustomerCart" FromRole="Carts" ToRole="Customers" />
+          <NavigationProperty Name="Order" Relationship="Self.FK_OrderCart" FromRole="Carts" ToRole="Orders" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustId" />
+          </Key>
+          <Property Name="CustId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CustPhone" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="CustFName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CustLName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CustPassword" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Carts" Relationship="Self.FK_CustomerCart" FromRole="Customers" ToRole="Carts" />
+        </EntityType>
+        <EntityType Name="Food">
+          <Key>
+            <PropertyRef Name="FoodId" />
+          </Key>
+          <Property Name="FoodId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FoodName" Type="String" MaxLength="40" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FoodQty" Type="Int64" Nullable="false" />
+          <Property Name="FoodUnitPrice" Type="Int64" Nullable="false" />
+          <Property Name="FoodCategory" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="CartItems" Relationship="Self.FK_FoodCartItem" FromRole="Foods" ToRole="CartItems" />
+          <NavigationProperty Name="OrderItems" Relationship="Self.FK_FoodOrderItem" FromRole="Foods" ToRole="OrderItems" />
+          <NavigationProperty Name="Menus" Relationship="Self.FK_MenuFood" FromRole="Foods" ToRole="Menus" />
+        </EntityType>
+        <EntityType Name="Menu">
+          <Key>
+            <PropertyRef Name="MenuId" />
+          </Key>
+          <Property Name="MenuId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MenuFoodId" Type="Int64" Nullable="false" />
+          <Property Name="MenuAddDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="MenuRemoveDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="MenuFoodQty" Type="Int64" Nullable="false" />
+          <Property Name="MenuUnitPrice" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Admins" Relationship="Self.FK_AdminMenu" FromRole="Menus" ToRole="Admins" />
+          <NavigationProperty Name="Food" Relationship="Self.FK_MenuFood" FromRole="Menus" ToRole="Foods" />
+        </EntityType>
+        <EntityType Name="OrderItem">
+          <Key>
+            <PropertyRef Name="OrderItemId" />
+          </Key>
+          <Property Name="OrderItemId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderItemOrderId" Type="Int64" Nullable="false" />
+          <Property Name="OrderItemFoodId" Type="Int64" Nullable="false" />
+          <Property Name="OrderItemQty" Type="Int64" Nullable="false" />
+          <Property Name="OrderItemUnitPrice" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Food" Relationship="Self.FK_FoodOrderItem" FromRole="OrderItems" ToRole="Foods" />
+          <NavigationProperty Name="Order" Relationship="Self.FK_OrderOrderItem" FromRole="OrderItems" ToRole="Orders" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="OrderId" />
+          </Key>
+          <Property Name="OrderId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="OrderCustId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Carts" Relationship="Self.FK_OrderCart" FromRole="Orders" ToRole="Carts" />
+          <NavigationProperty Name="OrderItems" Relationship="Self.FK_OrderOrderItem" FromRole="Orders" ToRole="OrderItems" />
+        </EntityType>
+        <Association Name="FK_AdminMenu">
+          <End Role="Menus" Type="Self.Menu" Multiplicity="1" />
+          <End Role="Admins" Type="Self.Admin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menus">
+              <PropertyRef Name="MenuId" />
+            </Principal>
+            <Dependent Role="Admins">
+              <PropertyRef Name="AdminMenuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CartItemCart">
+          <End Role="Carts" Type="Self.Cart" Multiplicity="1" />
+          <End Role="CartItems" Type="Self.CartItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Carts">
+              <PropertyRef Name="CartId" />
+            </Principal>
+            <Dependent Role="CartItems">
+              <PropertyRef Name="CartItemCartId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FoodCartItem">
+          <End Role="Foods" Type="Self.Food" Multiplicity="1" />
+          <End Role="CartItems" Type="Self.CartItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Foods">
+              <PropertyRef Name="FoodId" />
+            </Principal>
+            <Dependent Role="CartItems">
+              <PropertyRef Name="CartItemFoodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerCart">
+          <End Role="Customers" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Carts" Type="Self.Cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="CustId" />
+            </Principal>
+            <Dependent Role="Carts">
+              <PropertyRef Name="CartCustId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderCart">
+          <End Role="Orders" Type="Self.Order" Multiplicity="1" />
+          <End Role="Carts" Type="Self.Cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="OrderId" />
+            </Principal>
+            <Dependent Role="Carts">
+              <PropertyRef Name="CartOrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FoodOrderItem">
+          <End Role="Foods" Type="Self.Food" Multiplicity="1" />
+          <End Role="OrderItems" Type="Self.OrderItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Foods">
+              <PropertyRef Name="FoodId" />
+            </Principal>
+            <Dependent Role="OrderItems">
+              <PropertyRef Name="OrderItemFoodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MenuFood">
+          <End Role="Foods" Type="Self.Food" Multiplicity="1" />
+          <End Role="Menus" Type="Self.Menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Foods">
+              <PropertyRef Name="FoodId" />
+            </Principal>
+            <Dependent Role="Menus">
+              <PropertyRef Name="MenuFoodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderOrderItem">
+          <End Role="Orders" Type="Self.Order" Multiplicity="1" />
+          <End Role="OrderItems" Type="Self.OrderItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="OrderId" />
+            </Principal>
+            <Dependent Role="OrderItems">
+              <PropertyRef Name="OrderItemOrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FoodkartDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Admins" EntityType="Self.Admin" />
+          <EntitySet Name="CartItems" EntityType="Self.CartItem" />
+          <EntitySet Name="Carts" EntityType="Self.Cart" />
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="Foods" EntityType="Self.Food" />
+          <EntitySet Name="Menus" EntityType="Self.Menu" />
+          <EntitySet Name="OrderItems" EntityType="Self.OrderItem" />
+          <EntitySet Name="Orders" EntityType="Self.Order" />
+          <AssociationSet Name="FK_AdminMenu" Association="Self.FK_AdminMenu">
+            <End Role="Menus" EntitySet="Menus" />
+            <End Role="Admins" EntitySet="Admins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CartItemCart" Association="Self.FK_CartItemCart">
+            <End Role="Carts" EntitySet="Carts" />
+            <End Role="CartItems" EntitySet="CartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FoodCartItem" Association="Self.FK_FoodCartItem">
+            <End Role="Foods" EntitySet="Foods" />
+            <End Role="CartItems" EntitySet="CartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerCart" Association="Self.FK_CustomerCart">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Carts" EntitySet="Carts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderCart" Association="Self.FK_OrderCart">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="Carts" EntitySet="Carts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FoodOrderItem" Association="Self.FK_FoodOrderItem">
+            <End Role="Foods" EntitySet="Foods" />
+            <End Role="OrderItems" EntitySet="OrderItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MenuFood" Association="Self.FK_MenuFood">
+            <End Role="Foods" EntitySet="Foods" />
+            <End Role="Menus" EntitySet="Menus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderOrderItem" Association="Self.FK_OrderOrderItem">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="OrderItems" EntitySet="OrderItems" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FoodkartDBModelStoreContainer" CdmEntityContainer="FoodkartDBEntities">
+          <EntitySetMapping Name="Admins">
+            <EntityTypeMapping TypeName="FoodkartDBModel.Admin">
+              <MappingFragment StoreEntitySet="Admins">
+                <ScalarProperty Name="AdminId" ColumnName="AdminId" />
+                <ScalarProperty Name="AdminFName" ColumnName="AdminFName" />
+                <ScalarProperty Name="AdminLName" ColumnName="AdminLName" />
+                <ScalarProperty Name="AdminPassword" ColumnName="AdminPassword" />
+                <ScalarProperty Name="AdminMenuId" ColumnName="AdminMenuId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CartItems">
+            <EntityTypeMapping TypeName="FoodkartDBModel.CartItem">
+              <MappingFragment StoreEntitySet="CartItems">
+                <ScalarProperty Name="CartItemId" ColumnName="CartItemId" />
+                <ScalarProperty Name="CartItemCartId" ColumnName="CartItemCartId" />
+                <ScalarProperty Name="CartAddDate" ColumnName="CartAddDate" />
+                <ScalarProperty Name="CartRemoveDate" ColumnName="CartRemoveDate" />
+                <ScalarProperty Name="CartItemQty" ColumnName="CartItemQty" />
+                <ScalarProperty Name="CartItemUnitPrice" ColumnName="CartItemUnitPrice" />
+                <ScalarProperty Name="CartItemFoodId" ColumnName="CartItemFoodId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Carts">
+            <EntityTypeMapping TypeName="FoodkartDBModel.Cart">
+              <MappingFragment StoreEntitySet="Carts">
+                <ScalarProperty Name="CartId" ColumnName="CartId" />
+                <ScalarProperty Name="CartCustId" ColumnName="CartCustId" />
+                <ScalarProperty Name="CartOrderId" ColumnName="CartOrderId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="FoodkartDBModel.Customer">
+              <MappingFragment StoreEntitySet="Customers">
+                <ScalarProperty Name="CustId" ColumnName="CustId" />
+                <ScalarProperty Name="CustEmail" ColumnName="CustEmail" />
+                <ScalarProperty Name="CustPhone" ColumnName="CustPhone" />
+                <ScalarProperty Name="CustFName" ColumnName="CustFName" />
+                <ScalarProperty Name="CustLName" ColumnName="CustLName" />
+                <ScalarProperty Name="CustPassword" ColumnName="CustPassword" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Foods">
+            <EntityTypeMapping TypeName="FoodkartDBModel.Food">
+              <MappingFragment StoreEntitySet="Foods">
+                <ScalarProperty Name="FoodId" ColumnName="FoodId" />
+                <ScalarProperty Name="FoodName" ColumnName="FoodName" />
+                <ScalarProperty Name="FoodQty" ColumnName="FoodQty" />
+                <ScalarProperty Name="FoodUnitPrice" ColumnName="FoodUnitPrice" />
+                <ScalarProperty Name="FoodCategory" ColumnName="FoodCategory" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Menus">
+            <EntityTypeMapping TypeName="FoodkartDBModel.Menu">
+              <MappingFragment StoreEntitySet="Menus">
+                <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+                <ScalarProperty Name="MenuFoodId" ColumnName="MenuFoodId" />
+                <ScalarProperty Name="MenuAddDate" ColumnName="MenuAddDate" />
+                <ScalarProperty Name="MenuRemoveDate" ColumnName="MenuRemoveDate" />
+                <ScalarProperty Name="MenuFoodQty" ColumnName="MenuFoodQty" />
+                <ScalarProperty Name="MenuUnitPrice" ColumnName="MenuUnitPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderItems">
+            <EntityTypeMapping TypeName="FoodkartDBModel.OrderItem">
+              <MappingFragment StoreEntitySet="OrderItems">
+                <ScalarProperty Name="OrderItemId" ColumnName="OrderItemId" />
+                <ScalarProperty Name="OrderItemOrderId" ColumnName="OrderItemOrderId" />
+                <ScalarProperty Name="OrderItemFoodId" ColumnName="OrderItemFoodId" />
+                <ScalarProperty Name="OrderItemQty" ColumnName="OrderItemQty" />
+                <ScalarProperty Name="OrderItemUnitPrice" ColumnName="OrderItemUnitPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="FoodkartDBModel.Order">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="OrderCustId" ColumnName="OrderCustId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
