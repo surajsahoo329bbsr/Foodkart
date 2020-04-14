@@ -1,4 +1,7 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace Foodkart.Controllers
 {
@@ -16,8 +19,11 @@ namespace Foodkart.Controllers
         public ActionResult Login(Customer customer)
         {
             
-            FoodkartDBEntities userContext = new FoodkartDBEntities();
-            Customer custFound = userContext.Customers.Find(customer.CustEmail);
+            FoodkartDBEntities foodContext = new FoodkartDBEntities();
+            IList<Customer> CustList = (from cust in foodContext.Customers where cust.CustEmail == customer.CustEmail select cust).ToList();
+            long custId = 0;
+            foreach (Customer cust in CustList) custId = cust.CustId;
+            Customer custFound = foodContext.Customers.Find(custId);
 
             if (custFound != null && custFound.CustPassword != customer.CustPassword)
             {
@@ -25,7 +31,9 @@ namespace Foodkart.Controllers
                 return View(customer);
             }
             else if (custFound != null)
-                return View("~/Views/Admin/AdminHome.cshtml", custFound);
+            {
+                return RedirectToAction("CustomerHome","Customer", custFound);
+            }
             else
             {
                 customer.CustEmail = "NotRegistered";
@@ -33,38 +41,41 @@ namespace Foodkart.Controllers
             }
         }
 
-        public ActionResult RegisterNew()
+        public ActionResult Registration()
         {
             Customer customer = new Customer();
             if (customer.CustEmail != null)
-                return View("RegisterNew", customer);
+                return View("Registration", customer);
             return View(customer);
         }
 
         [HttpPost]
-        public ActionResult RegisterNew(Customer customer)
+        public ActionResult Registration(Customer customer)
         {
-            FoodkartDBEntities userContext = new FoodkartDBEntities();
-            Customer custFound = userContext.Customers.Find(customer.CustEmail);
+            FoodkartDBEntities foodContext = new FoodkartDBEntities();
+            IList<Customer> CustList = (from cust in foodContext.Customers where cust.CustEmail == customer.CustEmail select cust).ToList();
+            long custId = 0;
+            foreach (Customer cust in CustList) custId = cust.CustId;
+            Customer custFound = foodContext.Customers.Find(custId);
 
             if (customer.CustEmail == null || customer.CustFName == null || customer.CustLName == null)
             {
                 customer.CustEmail = "CustNull";
-                return View("RegisterNew", customer);
+                return View("Registration", customer);
             }
             else if (custFound == null)
             {
-                userContext.Customers.Add(customer);
-                if (userContext.SaveChanges() > 0)
+                foodContext.Customers.Add(customer);
+                if (foodContext.SaveChanges() > 0)
                 {
                     customer.CustEmail = "CustRegistered";
-                    return View("RegisterNew", customer);
+                    return View("Registration", customer);
                 }
             }
             else
             {
                 customer.CustEmail = "CustExists";
-                return View("RegisterNew", customer);
+                return View("Registration", customer);
             }
 
             return View(customer);

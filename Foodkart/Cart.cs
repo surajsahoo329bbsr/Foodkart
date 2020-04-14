@@ -22,11 +22,9 @@ namespace Foodkart
     
         public long CartId { get; set; }
         public long CartCustId { get; set; }
-        public long CartOrderId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CartItem> CartItems { get; set; }
         public virtual Customer Customer { get; set; }
-        public virtual Order Order { get; set; }
     }
 }
