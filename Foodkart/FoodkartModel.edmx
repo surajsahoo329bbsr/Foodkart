@@ -64,7 +64,7 @@
     <Property Name="CartItemId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="CartItemCartId" Type="bigint" Nullable="false" />
     <Property Name="CartAddDate" Type="datetime" Nullable="false" />
-    <Property Name="CartRemoveDate" Type="datetime" Nullable="false" />
+    <Property Name="CartRemoveDate" Type="datetime" Nullable="true" />
     <Property Name="CartItemQty" Type="bigint" Nullable="false" />
     <Property Name="CartItemUnitPrice" Type="bigint" Nullable="false" />
     <Property Name="CartItemFoodId" Type="bigint" Nullable="false" />
@@ -104,7 +104,7 @@
     <Property Name="MenuId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="MenuFoodId" Type="bigint" Nullable="false" />
     <Property Name="MenuAddDate" Type="datetime" Nullable="false" />
-    <Property Name="MenuRemoveDate" Type="datetime" Nullable="false" />
+    <Property Name="MenuRemoveDate" Type="datetime" Nullable="true" />
     <Property Name="MenuFoodQty" Type="bigint" Nullable="false" />
     <Property Name="MenuUnitPrice" Type="bigint" Nullable="false" />
   </EntityType>
@@ -244,7 +244,7 @@
           <Property Name="CartItemId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CartItemCartId" Type="Int64" Nullable="false" />
           <Property Name="CartAddDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CartRemoveDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CartRemoveDate" Type="DateTime" Precision="3" Nullable="true" />
           <Property Name="CartItemQty" Type="Int64" Nullable="false" />
           <Property Name="CartItemUnitPrice" Type="Int64" Nullable="false" />
           <Property Name="CartItemFoodId" Type="Int64" Nullable="false" />
@@ -293,7 +293,7 @@
           <Property Name="MenuId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="MenuFoodId" Type="Int64" Nullable="false" />
           <Property Name="MenuAddDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="MenuRemoveDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="MenuRemoveDate" Type="DateTime" Nullable="true" Precision="3" />
           <Property Name="MenuFoodQty" Type="Int64" Nullable="false" />
           <Property Name="MenuUnitPrice" Type="Int64" Nullable="false" />
           <NavigationProperty Name="Admins" Relationship="Self.FK_AdminMenu" FromRole="Menus" ToRole="Admins" />

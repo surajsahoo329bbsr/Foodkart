@@ -96,31 +96,16 @@
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
         }
     </style>
-    <script type="text/javascript">
-        function updateQty() {
-            var qty = document.getElementById("FoodQty").value;
-            alert(qty);
-            @Session["FoodQty"] = qty; 
-        }
-    </script>
-    @using (Html.BeginForm("CustomerHome", "Customer", FormMethod.Post))
+    <header>
+        @Html.Partial("~/Views/Shared/_Header.cshtml");
+    </header>
+    <h2>Welcome, @Session["CustFName"]</h2>
+    <a href="~/Auth/Login" class="blue-button">Sign-Out</a>
+    <br />
+    <br />
+    @using (Html.BeginForm("AddToCart", "Customer"))
     {
 
-        <header>
-            @Html.Partial("~/Views/Shared/_Header.cshtml");
-        </header>
-        <h2>Welcome, @ViewBag.CustFName</h2>
-        <a href="~/Auth/Login" class="blue-button">Sign-Out</a>
-        <br />
-        <br />
-        if (ViewBag.Status == "success")
-        {
-            <div>
-                <h4>Items Added to Cart Successfully</h4>
-            </div>
-            <br />
-            <br />
-        }
         foreach (Food food in @Model)
         {
             <div class="card">
@@ -139,7 +124,7 @@
                 <table align="center">
                     <tr>
                         <td style="position: absolute; margin-left: -200px;"><a href="/Auth/Registration" class="blue-link">Remove from Cart</a></td>
-                        <td style="position: absolute; margin-left: 110px;"><a href="@Url.Action("AddToCart","Customer", new { foodId = food.FoodId, foodUnitPrice = food.FoodUnitPrice })" class="blue-button" onclick="updateQty()">Add to Cart</a></td>
+                        <td style="position: absolute; margin-left: 110px;"><a href="@Url.Action("AddToCart","Customer", new { foodId = food.FoodId, foodUnitPrice = food.FoodUnitPrice })" class="blue-button">Add to Cart</a></td>
                     </tr>
                 </table>
             </div>

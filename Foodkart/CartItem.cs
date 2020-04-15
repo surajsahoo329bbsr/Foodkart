@@ -17,7 +17,7 @@ namespace Foodkart
         public long CartItemId { get; set; }
         public long CartItemCartId { get; set; }
         public System.DateTime CartAddDate { get; set; }
-        public System.DateTime CartRemoveDate { get; set; }
+        public Nullable<System.DateTime> CartRemoveDate { get; set; }
         public long CartItemQty { get; set; }
         public long CartItemUnitPrice { get; set; }
         public long CartItemFoodId { get; set; }

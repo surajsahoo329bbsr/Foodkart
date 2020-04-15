@@ -10,14 +10,14 @@ namespace Foodkart.Controllers
         // GET: Customer
         public ActionResult CustomerHome(Customer customer)
         {
-            ViewBag.CustFName = customer.CustFName;
+            Session["CustFName"] = customer.CustFName;
             Session["CustId"] = customer.CustId;
             FoodkartDBEntities foodContext = new FoodkartDBEntities();
             List<Food> FoodList = (from food in foodContext.Foods select food).ToList(); 
             return View(FoodList);
         }
         
-        public ActionResult AddToCart(long foodId, long foodUnitPrice)
+        public ActionResult AddToCart(long foodId, long foodUnitPrice, FormCollection formCollection)
         {
             FoodkartDBEntities foodContext = new FoodkartDBEntities();
             Cart cart = new Cart
@@ -29,25 +29,26 @@ namespace Foodkart.Controllers
             foodContext.SaveChanges();
 
             List<Cart> CartList = (from cartList in foodContext.Carts select cartList).ToList();
-            long cartItemCartId = CartList.Last().CartCustId;
 
             CartItem cartItem = new CartItem
             {
-                CartItemCartId = cartItemCartId,
+                CartItemCartId = CartList.Last().CartId,
                 CartAddDate = DateTime.Now,
-                CartRemoveDate = DateTime.Now,
-                CartItemQty = 4,
+                CartItemQty = 0,
                 CartItemUnitPrice = foodUnitPrice,
                 CartItemFoodId = foodId
-
             };
 
             foodContext.CartItems.Add(cartItem);
             foodContext.SaveChanges();
 
-            ViewBag.Status = "success";
-            List<Food> FoodList = (from foodItem in foodContext.Foods select foodItem).ToList();
-            return View("~/_Layout.cshtml");
+            Customer customer = new Customer
+            {
+                CustId = long.Parse(Session["CustId"].ToString()),
+                CustFName = Session["CustFName"].ToString()
+            };
+
+            return RedirectToAction("CustomerHome", "Customer", customer);
         }
 
     }

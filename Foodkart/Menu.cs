@@ -23,7 +23,7 @@ namespace Foodkart
         public long MenuId { get; set; }
         public long MenuFoodId { get; set; }
         public System.DateTime MenuAddDate { get; set; }
-        public System.DateTime MenuRemoveDate { get; set; }
+        public Nullable<System.DateTime> MenuRemoveDate { get; set; }
         public long MenuFoodQty { get; set; }
         public long MenuUnitPrice { get; set; }
     
