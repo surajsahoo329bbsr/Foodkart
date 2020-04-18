@@ -13,10 +13,10 @@ namespace Foodkart
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class FoodkartDBEntities : DbContext
+    public partial class FoodkartModelContainer : DbContext
     {
-        public FoodkartDBEntities()
-            : base("name=FoodkartDBEntities")
+        public FoodkartModelContainer()
+            : base("name=FoodkartModelContainer")
         {
         }
     

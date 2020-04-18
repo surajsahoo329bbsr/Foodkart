@@ -103,7 +103,9 @@
 
         body {
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-            background-image: url("/Images/login.jpg");
+            background-image: url("/Images/orders.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
         }
     </style>
     <img src="~/Logos/logo.png" style="position:absolute; margin-left:-900px; height:100px; width:250px;" />
@@ -111,25 +113,25 @@
         <h2 style="text-align:center; font-size:50px;">Login</h2>
         @using (Html.BeginForm("Login", "Auth", FormMethod.Post))
         {
-        <table align="center" style="margin-top:20px;margin-bottom:20px;">
-            <tr>
-                <td>
-                    <div class="input-group">
-                        <input type="text" id="CustEmail" name="CustEmail" class="input-area" pattern="^([a-zA-Z0-9_\-\.]+)\u0040([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" required />
-                        <label for="CustEmail" class="label">Email</label>
-                    </div>
-                </td>
-            </tr>
-            <tr><td><br/></td></tr>
-            <tr>
-                <td>
-                    <div class="input-group">
-                        <input type="password" id="CustPassword" name="CustPassword" pattern="^[a-zA-Z0-9]{8,20}$" class="input-area" required />
-                        <label for="CustPassword" class="label">Password</label>
-                    </div>
-                </td>
-            </tr>
-        </table>
+            <table align="center" style="margin-top:20px;margin-bottom:20px;">
+                <tr>
+                    <td>
+                        <div class="input-group">
+                            <input type="text" id="CustEmail" name="CustEmail" class="input-area" pattern="^([a-zA-Z0-9_\-\.]+)\u0040([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" required />
+                            <label for="CustEmail" class="label">Email</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>
+                        <div class="input-group">
+                            <input type="password" id="CustPassword" name="CustPassword" pattern="^[a-zA-Z0-9]{8,20}$" class="input-area" required />
+                            <label for="CustPassword" class="label">Password</label>
+                        </div>
+                    </td>
+                </tr>
+            </table>
             <br />
             <br />
             <table align="center">
@@ -154,6 +156,13 @@
             </div>
         }
     </div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    @Html.Partial("~/Views/Shared/_Footer.cshtml")
 </body>
 </html>
 

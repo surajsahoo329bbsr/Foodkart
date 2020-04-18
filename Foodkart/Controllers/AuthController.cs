@@ -19,7 +19,7 @@ namespace Foodkart.Controllers
         public ActionResult Login(Customer customer)
         {
             
-            FoodkartDBEntities foodContext = new FoodkartDBEntities();
+            FoodkartModelContainer foodContext = new FoodkartModelContainer();
             IList<Customer> CustList = (from cust in foodContext.Customers where cust.CustEmail == customer.CustEmail select cust).ToList();
             long custId = 0;
             foreach (Customer cust in CustList) custId = cust.CustId;
@@ -52,7 +52,7 @@ namespace Foodkart.Controllers
         [HttpPost]
         public ActionResult Registration(Customer customer)
         {
-            FoodkartDBEntities foodContext = new FoodkartDBEntities();
+            FoodkartModelContainer foodContext = new FoodkartModelContainer();
             IList<Customer> CustList = (from cust in foodContext.Customers where cust.CustEmail == customer.CustEmail select cust).ToList();
             long custId = 0;
             foreach (Customer cust in CustList) custId = cust.CustId;

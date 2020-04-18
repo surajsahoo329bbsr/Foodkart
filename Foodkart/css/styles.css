@@ -1,0 +1,80 @@
+﻿@font-face{
+    font-family: MyFont;
+    src: url(../fonts/Montserrat-Medium.ttf);
+}
+
+li, a, button, p{
+    font-family: MyFont, sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    font-weight: bold;
+    color: #000000;
+    text-decoration: none;
+}
+
+.blue-button-header {
+    font-size: 22px;
+    border-radius: 8px;
+    padding: 10px 8px;
+    background-color: #03A9F4;
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+    .blue-button-header:hover {
+        background-color: #01579B;
+        color: #FFFFFF;
+        transition: 0.8s;
+        text-decoration: none;
+    }
+
+
+header {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 10%;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+.logo{
+    cursor: pointer;
+}
+
+.nav_links{
+    list-style: none;
+}
+
+.nav_links li{
+    display: inline-block;
+    padding: 0px 20px;
+}
+
+.nav_links li a{
+    transition: all 0.3s ease 0s;
+}
+
+.nav_links li a:hover {
+    color: #03A9F4;
+}
+
+button {
+    padding: 9px 25px;
+    background-color: rgba(3, 169, 244, 1);
+    border: none;
+    border-radius: 50px;
+    color: #ffffff;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+}
+
+button:hover {
+    background-color: rgba(3, 169, 244, 0.8);
+}

@@ -1,4 +1,5 @@
-﻿@model List<Foodkart.Food>
+﻿@model List<Foodkart.CartItem>
+
 @{
     Layout = null;
 }
@@ -8,18 +9,19 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>CustomerHome</title>
+    <title>CustomerCart</title>
     @Html.Partial("~/Views/Shared/_Header.cshtml");
 </head>
 <body>
     <style type="text/css">
+
         .card {
             box-shadow: 0 4px 8px 0 #8D8D8D;
             border-radius: 5px;
             transition: 0.3s;
             padding: 20px;
             width: 800px;
-            height: 240px;
+            height: 200px;
             position: relative;
             margin-top: 20px;
             margin-left: auto;
@@ -72,7 +74,7 @@
             }
 
         .blue-button {
-            font-size: 20px;
+            font-size: 24px;
             border-radius: 8px;
             padding: 10px 8px;
             background-color: #03A9F4;
@@ -95,45 +97,44 @@
 
         body {
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-            background-image: url("/Images/bbq.jpg");
+            background-image: url("/Images/cart.jpg");
             background-repeat: no-repeat;
             background-size: cover;
         }
     </style>
-    <br />  <br /> <br /> <br /> <br /> <br />
-    @if (ViewBag.Status == "added")
+    <br />
+    <br />
+    @if (ViewBag.Status == "ordered")
     {
-        <h2>Item added successfully</h2>
+        <h2>Ordered successfully</h2>
     }
-    <br />
-    <br />
-    @using (Html.BeginForm("AddToCart", "Customer"))
+    else
     {
-
-        foreach (Food food in @Model)
+        <br /><br /><br /><br /><br /><br />
+        using (Html.BeginForm())
         {
-            <div class="card">
-                <h1>@food.FoodName</h1>
-                <h2>&#8360 @food.FoodUnitPrice  (@food.FoodCategory)</h2>
-                <table>
-                    <tr>
-                        <td>
-                            <div class="input-group">
-                                <input type="number" id="FoodQty" name="FoodQty" min="0" max="@food.FoodQty" class="input-area" />
-                                <label for="FoodQty" class="label">Quantity</label>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-                <table align="center">
-                    <tr>
-                        <td style="position: absolute; margin-left: -200px;"><a href="/Auth/Registration" class="blue-link">Remove from Cart</a></td>
-                        <td style="position: absolute; margin-left: 110px;"><a href="@Url.Action("AddToCart","Customer", new { foodId = food.FoodId})" class="blue-button">Add to Cart</a></td>
-                    </tr>
-                </table>
+
+            foreach (CartItem cartItem in @Model)
+            {
+
+                {
+                    FoodkartModelContainer foodkartContext = new FoodkartModelContainer();
+                    Food food = foodkartContext.Foods.Find(cartItem.CartItemFoodId);
+                    <div class="card">
+                        <h2>@food.FoodName (@food.FoodCategory) </h2>
+                        <h2>Rs @food.FoodUnitPrice</h2>
+                        <h2>@cartItem.CartItemQty item(s)</h2>
+                    </div>
+
+                }
+
+
+            }
+
+            <div style="text-align:center; margin-top:40px; margin-bottom:40px; position: relative;">
+                <a href="#" class="blue-button" onclick="this.closest('form').submit(); return false;">Place Order</a>
             </div>
-            <br />
-            <br />
+
         }
     }
     <br />

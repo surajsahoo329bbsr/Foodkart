@@ -13,9 +13,10 @@
 </head>
 <body>
     <style type="text/css">
-        h4{
+        h4 {
             font-size: 24px;
         }
+
         .card {
             box-shadow: 0 4px 8px 0 #8D8D8D;
             border-radius: 5px;
@@ -25,8 +26,9 @@
             height: 900px;
             position: relative;
             margin-left: auto;
-            background-color:#FFFFFF;
+            background-color: #FFFFFF;
         }
+
         .input-group {
             position: relative;
         }
@@ -100,94 +102,89 @@
 
         body {
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-            background-image: url("/Images/register.jpg");
-            overflow: hidden;
-            width: 100%;
-            display: block;
-            max-height: 1080px;
-            max-width: 1920px;
-            width: auto;
-            height: auto;
+            background-image: url("/Images/register2.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
         }
     </style>
     <script type="text/javascript">
         function validatePassword() {
             var password = document.getElementById("CustPassword").value;
-            var confirmPassword = document.getElementById("ConfirmPassword").value;            
+            var confirmPassword = document.getElementById("ConfirmPassword").value;
             if (password != confirmPassword) {
                 alert("Password and Confirm Password Fields Do Not Match !");
                 return false;
             }
             return true;
         }
-    </script>  
-    <img src="~/Logos/logo.png" style="position:absolute; margin-top:100px; margin-left:20px; height:100px; width:250px;" />
+    </script>
+    <img src="~/Logos/logo.png" style="position:absolute; margin-left:20px; height:100px; width:250px;" />
     <div class="card">
         <h2 style="text-align:center; font-size:50px;">Registration</h2>
         @using (Html.BeginForm("Registration", "Auth", FormMethod.Post, new { onsubmit = "return validatePassword();" }))
         {
-        <table align="center">
-            <tr>
-                <td>
-                    <div class="input-group">
-                        <input type="text" id="CustFName" name="CustFName" pattern="^[a-zA-Z]{1,20}$" class="input-area" required />
-                        <label for="CustFName" class="label">First Name</label>
-                    </div>
-                </td>
-            </tr>
-            <tr><td> </td> <td> </td></tr>
-            <tr><td> </td> <td> </td></tr>
-            <tr>
-                <td>
-                    <div class="input-group">
-                        <input type="text" id="CustLName" name="CustLName" pattern="^[a-zA-Z]{1,20}$" class="input-area" required />
-                        <label for="CustLName" class="label">Last Name</label>
-                    </div>
-                </td>
-            </tr>
-            <tr><td> </td> <td> </td></tr>
-            <tr><td> </td> <td> </td></tr>
-            <tr>
-                <td>
-                    <div class="input-group">
-                        <input type="text" id="CustEmail" name="CustEmail" pattern="^([a-zA-Z0-9_\-\.]+)\u0040([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" class="input-area" required />
-                        <label for="CustEmail" class="label">Email</label>
-                    </div>
-                </td>
-            </tr>
-            <tr><td> </td> <td> </td></tr>
-            <tr><td> </td> <td> </td></tr>
-            <tr>
-                <td>
-                    <div class="input-group">
-                        <input type="text" id="CustPhone" name="CustPhone" pattern="^[789]{1}[0-9]{9}$" class="input-area" required />
-                        <label for="CustPhone" class="label">Phone</label>
-                    </div>
-                </td>
-            </tr>
-            <tr><td> </td> <td> </td></tr>
-            <tr><td> </td> <td> </td></tr>
-            <tr>
-                <td>
-                    <div class="input-group">
-                        <input type="password" id="CustPassword" name="CustPassword" pattern="^[a-zA-Z0-9]{8,20}$" required class="input-area" />
-                        <label for="CustPassword" class="label">Password</label>
-                    </div>
-                </td>
-            </tr>
-            <tr><td> </td> <td> </td></tr>
-            <tr><td> </td> <td> </td></tr>
-            <tr>
-                <td>
-                    <div class="input-group">
-                        <input type="password" id="ConfirmPassword" name="ConfirmPassword" pattern="^[a-zA-Z0-9]{8,20}$" required class="input-area" />
-                        <label for="ConfirmPassword" class="label">ConfirmPassword</label>
-                    </div>
-                </td>
-            </tr>
-        </table>
-            <br/>
-            <br/>
+            <table align="center">
+                <tr>
+                    <td>
+                        <div class="input-group">
+                            <input type="text" id="CustFName" name="CustFName" pattern="^[a-zA-Z]{1,20}$" class="input-area" required />
+                            <label for="CustFName" class="label">First Name</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr><td> </td> <td> </td></tr>
+                <tr><td> </td> <td> </td></tr>
+                <tr>
+                    <td>
+                        <div class="input-group">
+                            <input type="text" id="CustLName" name="CustLName" pattern="^[a-zA-Z]{1,20}$" class="input-area" required />
+                            <label for="CustLName" class="label">Last Name</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr><td> </td> <td> </td></tr>
+                <tr><td> </td> <td> </td></tr>
+                <tr>
+                    <td>
+                        <div class="input-group">
+                            <input type="text" id="CustEmail" name="CustEmail" pattern="^([a-zA-Z0-9_\-\.]+)\u0040([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" class="input-area" required />
+                            <label for="CustEmail" class="label">Email</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr><td> </td> <td> </td></tr>
+                <tr><td> </td> <td> </td></tr>
+                <tr>
+                    <td>
+                        <div class="input-group">
+                            <input type="text" id="CustPhone" name="CustPhone" pattern="^[789]{1}[0-9]{9}$" class="input-area" required />
+                            <label for="CustPhone" class="label">Phone</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr><td> </td> <td> </td></tr>
+                <tr><td> </td> <td> </td></tr>
+                <tr>
+                    <td>
+                        <div class="input-group">
+                            <input type="password" id="CustPassword" name="CustPassword" pattern="^[a-zA-Z0-9]{8,20}$" required class="input-area" />
+                            <label for="CustPassword" class="label">Password</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr><td> </td> <td> </td></tr>
+                <tr><td> </td> <td> </td></tr>
+                <tr>
+                    <td>
+                        <div class="input-group">
+                            <input type="password" id="ConfirmPassword" name="ConfirmPassword" pattern="^[a-zA-Z0-9]{8,20}$" required class="input-area" />
+                            <label for="ConfirmPassword" class="label">ConfirmPassword</label>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <br />
             <table align="center">
                 <tr><td> </td> <td> </td></tr>
                 <tr><td> </td> <td> </td></tr>
@@ -197,8 +194,8 @@
                 </tr>
             </table>
         }
-        <br/>
-        <br/> 
+        <br />
+        <br />
         @if (Model.CustEmail == "CustNull")
         {
             <div style="text-align:center">
@@ -218,5 +215,12 @@
             </div>
         }
     </div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    @Html.Partial("~/Views/Shared/_Footer.cshtml")
 </body>
 </html>
