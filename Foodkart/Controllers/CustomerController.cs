@@ -16,7 +16,7 @@ namespace Foodkart.Controllers
             Session["CustFName"] = customer.CustFName;
             Session["CustId"] = customer.CustId;
             Session["CustModel"] = customer;
-            if (customer.CustPassword == "Hacked")
+            if (customer.CustPassword == "CartAdded")
                 ViewBag.Status = "added";
             FoodkartModelContainer foodContext = new FoodkartModelContainer();
             List<Food> FoodList = (from food in foodContext.Foods select food).ToList(); 
@@ -24,6 +24,15 @@ namespace Foodkart.Controllers
         }
         
         public ActionResult AddToCart(long foodId)
+        {
+            FoodkartModelContainer foodContext = new FoodkartModelContainer();
+            Food food = foodContext.Foods.Find(foodId);
+            return View(food);
+
+        }
+
+        [HttpPost]
+        public ActionResult AddToCart(FormCollection forms)
         {
             FoodkartModelContainer foodContext = new FoodkartModelContainer();
             Cart cart = new Cart
@@ -40,8 +49,8 @@ namespace Foodkart.Controllers
             {
                 CartItemCartId = CartList.Last().CartId,
                 CartAddDate = DateTime.Now,
-                CartItemQty = 1,
-                CartItemFoodId = foodId
+                CartItemQty = long.Parse(forms["FoodQty"].ToString()),
+                CartItemFoodId = long.Parse(forms["FoodId"].ToString())
             };
 
             foodContext.CartItems.Add(cartItem);
@@ -51,10 +60,10 @@ namespace Foodkart.Controllers
             {
                 CustId = long.Parse(Session["CustId"].ToString()),
                 CustFName = Session["CustFName"].ToString(),
-                CustPassword = "Hacked"
+                CustPassword = "CartAdded"
             };
 
-            return RedirectToAction("CustomerHome", "Customer", customer);
+            return View();
 
         }
 
@@ -79,7 +88,7 @@ namespace Foodkart.Controllers
         }
 
         [HttpPost]
-        public ActionResult CustomerCart(CartItem cI)
+        public ActionResult CustomerCart(FormCollection formCollection)
         {
             FoodkartModelContainer foodContext = new FoodkartModelContainer();
 
@@ -106,6 +115,17 @@ namespace Foodkart.Controllers
                     }
                 }
             }
+
+            SqlConnection sqlConnection = new SqlConnection(@"Data Source=JOHNDOE-PC\SQLEXPRESS;Initial Catalog=FoodKartDB;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework");
+            sqlConnection.Open();
+
+            foreach (CartItem items in showCartItems)
+            {
+                SqlCommand sqlCommand = new SqlCommand("update Foods set FoodQty = FoodQty  - " + items.CartItemQty + " where FoodId = ( select CartItemFoodId from CartItems where CartItemCartId = " + items.CartItemCartId + " );", sqlConnection);
+                sqlCommand.ExecuteNonQuery();
+            }
+
+            sqlConnection.Close();
 
 
             List<Order> OrderList = (from orderList in foodContext.Orders select orderList).ToList();
@@ -138,11 +158,8 @@ namespace Foodkart.Controllers
                 }
             }
 
-
-            ViewBag.Status = "ordered";
-
-            showCartItems = new List<CartItem>();
-
+            ViewBag.Status = "ordered";            
+            showCartItems = new List<CartItem>(); //Adding this hence Null Pointer Exception Doesn't arise
             return View(showCartItems);
         }
 

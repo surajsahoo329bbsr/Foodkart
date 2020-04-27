@@ -106,30 +106,42 @@
     <br /><br /><br /><br /><br /><br /><br /><br />
 
     <div class="card">
-        @foreach (Foodkart.Models.OrdersModel ordersModel in @Model)
+        @if (ViewBag.Status == "ordered")
         {
-            if (ViewBag.Pre_Id != ordersModel.OrderId)
+            <h2>Ordered successfully</h2>
+        }
+        @if (Model.Count() == 0)
+        {
+            <h2>Orders Empty</h2>
+        }
+        else
+        {
+            foreach (Foodkart.Models.OrdersModel ordersModel in @Model)
             {
-                if (ViewBag.Pre_Id != 0)
+                if (ViewBag.Pre_Id != ordersModel.OrderId)
                 {
-                    <hr style="height:2px; background: black;" />
+                    if (ViewBag.Pre_Id != 0)
+                    {
+                        <hr style="height:2px; background: black;" />
+                    }
+                    <h2>Order Id - @ordersModel.OrderId &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; (@ordersModel.OrderDate)</h2>
+                    {
+                        ViewBag.Pre_Id = long.Parse(ordersModel.OrderId.ToString());
+                    }
+                    <h2>@ordersModel.FoodName (@ordersModel.FoodCategory)</h2>
+                    <h2>Rs @ordersModel.OrderItemUnitPrice - @ordersModel.OrderItemQty item(s)</h2>
                 }
-                <h2>Order Id - @ordersModel.OrderId &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; (@ordersModel.OrderDate)</h2>
+                else
                 {
-                    ViewBag.Pre_Id = long.Parse(ordersModel.OrderId.ToString());
+                    {
+                        ViewBag.Pre_Id = long.Parse(ordersModel.OrderId.ToString());
+                    }
+                    <h2>@ordersModel.FoodName (@ordersModel.FoodCategory)</h2>
+                    <h2>Rs @ordersModel.OrderItemUnitPrice - @ordersModel.OrderItemQty item(s)</h2>
                 }
-                <h2>@ordersModel.FoodName (@ordersModel.FoodCategory)</h2>
-                <h2>Rs @ordersModel.OrderItemUnitPrice - @ordersModel.OrderItemQty item(s)</h2>
-            }
-            else
-            {
-                {
-                    ViewBag.Pre_Id = long.Parse(ordersModel.OrderId.ToString());
-                }
-                <h2>@ordersModel.FoodName (@ordersModel.FoodCategory)</h2>
-                <h2>Rs @ordersModel.OrderItemUnitPrice - @ordersModel.OrderItemQty item(s)</h2>
             }
         }
+
     </div>
     <br />
     <br />

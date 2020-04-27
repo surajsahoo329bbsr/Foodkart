@@ -50,7 +50,7 @@ namespace Foodkart.Controllers
         }
 
         [HttpPost]
-        public ActionResult Registration(Customer customer)
+        public ActionResult Registration(Customer customer, FormCollection forms)
         {
             FoodkartModelContainer foodContext = new FoodkartModelContainer();
             IList<Customer> CustList = (from cust in foodContext.Customers where cust.CustEmail == customer.CustEmail select cust).ToList();
@@ -58,9 +58,9 @@ namespace Foodkart.Controllers
             foreach (Customer cust in CustList) custId = cust.CustId;
             Customer custFound = foodContext.Customers.Find(custId);
 
-            if (customer.CustEmail == null || customer.CustFName == null || customer.CustLName == null)
+            if (customer.CustEmail == null || customer.CustFName == null || customer.CustLName == null || customer.CustPhone == null || customer.CustPassword != forms["ConfirmPassword"].ToString())
             {
-                customer.CustEmail = "CustNull";
+                customer.CustEmail = "CustInvalid";
                 return View("Registration", customer);
             }
             else if (custFound == null)

@@ -28,6 +28,7 @@ namespace Foodkart
         public long FoodUnitPrice { get; set; }
         public string FoodCategory { get; set; }
         public string FoodType { get; set; }
+        public string FoodPhotoUrl { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CartItem> CartItems { get; set; }

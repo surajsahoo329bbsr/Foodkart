@@ -13,6 +13,25 @@
 </head>
 <body>
     <style type="text/css">
+
+        table {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+            border: 1px solid black;
+            border-collapse: collapse;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 25px;
+            box-shadow: 5px;
+            font-size: 20px;
+            background-color: #FFFFFF; 
+        }
+
+        tr, td, th {
+            border: 1px solid black;
+            padding: 10px;
+        }
+
         .card {
             box-shadow: 0 4px 8px 0 #8D8D8D;
             border-radius: 5px;
@@ -107,41 +126,47 @@
     }
     <br />
     <br />
-    @using (Html.BeginForm("AddToCart", "Customer"))
+    @using (Html.BeginForm())
     {
-
-        foreach (Food food in @Model)
-        {
-            <div class="card">
-                <h1>@food.FoodName</h1>
-                <h2>&#8360 @food.FoodUnitPrice  (@food.FoodCategory)</h2>
-                <table>
-                    <tr>
-                        <td>
-                            <div class="input-group">
-                                <input type="number" id="FoodQty" name="FoodQty" min="0" max="@food.FoodQty" class="input-area" />
-                                <label for="FoodQty" class="label">Quantity</label>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-                <table align="center">
-                    <tr>
-                        <td style="position: absolute; margin-left: -200px;"><a href="/Auth/Registration" class="blue-link">Remove from Cart</a></td>
-                        <td style="position: absolute; margin-left: 110px;"><a href="@Url.Action("AddToCart","Customer", new { foodId = food.FoodId})" class="blue-button">Add to Cart</a></td>
-                    </tr>
-                </table>
-            </div>
-            <br />
-            <br />
-        }
-    }
+        <table>
+            <tr>
+                <th>Food Name</th>
+                <th>Food Category</th>
+                <th>Food Unit Price</th>
+                <th>Available Quantity</th>
+                <th>Food Type</th>
+                <th>Add To Cart</th>
+            </tr>
+            @foreach (Food food in @Model)
+            {
+            <tr>
+                <td>@food.FoodName</td>
+                <td>@food.FoodCategory</td>
+                <td>Rs @food.FoodUnitPrice</td>
+                <td>@food.FoodQty</td>
+                @if (food.FoodType == "V")
+                {
+                    <td>Veg</td>
+                }
+                else if (food.FoodType == "N")
+                {
+                    <td>Non-Veg</td>
+                }
+                else
+                {
+                    <td>Egg</td>
+                }
+                <td><a href="@Url.Action("AddToCart","Customer", new { foodId = food.FoodId })" class="blue-link">Add</a></td>
+            </tr>
+             }
+        </table>
+     }        
     <br />
     <br />
     <br />
     <br />
     <br />
     <br />
-    @Html.Partial("~/Views/Shared/_Footer.cshtml")
+     @Html.Partial("~/Views/Shared/_Footer.cshtml")
 </body>
 </html>

@@ -1,4 +1,4 @@
-﻿@model List<Foodkart.CartItem>
+﻿@model Foodkart.Food
 
 @{
     Layout = null;
@@ -9,19 +9,18 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>CustomerCart</title>
+    <title>AddToCart</title>
     @Html.Partial("~/Views/Shared/_Header.cshtml");
 </head>
 <body>
     <style type="text/css">
-
         .card {
             box-shadow: 0 4px 8px 0 #8D8D8D;
             border-radius: 5px;
             transition: 0.3s;
             padding: 20px;
             width: 800px;
-            height: 200px;
+            height: 250px;
             position: relative;
             margin-top: 20px;
             margin-left: auto;
@@ -74,7 +73,7 @@
             }
 
         .blue-button {
-            font-size: 24px;
+            font-size: 20px;
             border-radius: 8px;
             padding: 10px 8px;
             background-color: #03A9F4;
@@ -97,56 +96,62 @@
 
         body {
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-            background-image: url("/Images/cart.jpg");
+            background-image: url("/Images/bbq.jpg");
             background-repeat: no-repeat;
             background-size: cover;
         }
     </style>
+    <br />  <br /> <br /> <br /> <br /> <br />
     <br />
     <br />
-    @if (ViewBag.Status == "ordered")
+    @if (@Model == null)
     {
         <div class="card">
-            <h2>Ordered successfully</h2>
+            <h2>Item added successfully</h2>
         </div>
     }
     else
     {
-        <br /><br /><br /><br /><br /><br />
-
-        if (Model.Count() == 0)
+        using (Html.BeginForm("AddToCart", "Customer", FormMethod.Post))
         {
+            <input type="number" id="FoodId" name="FoodId" value="@Model.FoodId" hidden />
+
             <div class="card">
-                <h2>Cart Empty</h2>
-            </div>
-        }
-        else
-        {
-            using (Html.BeginForm())
-            {
-
-                foreach (CartItem cartItem in @Model)
+                <h1>@Model.FoodName</h1>
+                @if (Model.FoodType == "V")
                 {
-
-                    {
-                        FoodkartModelContainer foodkartContext = new FoodkartModelContainer();
-                        Food food = foodkartContext.Foods.Find(cartItem.CartItemFoodId);
-                        <div class="card">
-                            <h2>@food.FoodName (@food.FoodCategory) </h2>
-                            <h2>Rs @food.FoodUnitPrice</h2>
-                            <h2>@cartItem.CartItemQty item(s)</h2>
-                        </div>
-                    }
-
-
+                    <h2>&#8360 @Model.FoodUnitPrice  (@Model.FoodCategory, Veg) </h2>
                 }
-
-                <div style="text-align:center; margin-top:40px; margin-bottom:40px; position: relative;">
-                    <a href="#" class="blue-button" onclick="this.closest('form').submit(); return false;">Place Order</a>
-                </div>
-
-            }
+                else if (Model.FoodType == "N")
+                {
+                    <h2>&#8360 @Model.FoodUnitPrice  (@Model.FoodCategory, Non-Veg) </h2>
+                }
+                else
+                {
+                    <h2>&#8360 @Model.FoodUnitPrice  (@Model.FoodCategory, Egg) </h2>
+                }
+                <a><img src="@Model.FoodPhotoUrl" style="width: 200px; height: 200px; position: absolute; margin-left: 575px; margin-top: -100px;" /></a>
+                <table>
+                    <tr>
+                        <td>
+                            <div class="input-group">
+                                <input type="number" id="FoodQty" name="FoodQty" min="0" max="@Model.FoodQty" class="input-area" />
+                                <label for="FoodQty" class="label">Quantity</label>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <table align="center">
+                    <tr>
+                        <td style="position: absolute; margin-left: -250px;"><a href="/Customer/CustomerHome" class="blue-link">Back</a></td>
+                        <td style="position: absolute; margin-left: 0px;"><a href="#" class="blue-button" onclick="this.closest('form').submit();">Add to Cart</a></td>
+                    </tr>
+                </table>
+            </div>
+            <br />
+            <br />
         }
+
     }
     <br />
     <br />

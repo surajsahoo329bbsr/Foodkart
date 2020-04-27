@@ -184,6 +184,7 @@
       <LastGenOutput>FoodkartModel.Context.cs</LastGenOutput>
       <DependentUpon>FoodkartModel.edmx</DependentUpon>
     </Content>
+    <Content Include="FoodkartModel.edmx.sql" />
     <Content Include="FoodkartModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>FoodkartModel.cs</LastGenOutput>
@@ -239,6 +240,7 @@
     <Content Include="Views\Customer\CustomerCart.cshtml" />
     <Content Include="Views\Customer\CustomerOrders.cshtml" />
     <Content Include="Views\Shared\_Footer.cshtml" />
+    <Content Include="Views\Customer\AddToCart.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
