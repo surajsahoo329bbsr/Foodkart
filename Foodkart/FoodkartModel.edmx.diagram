@@ -5,22 +5,22 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="435e963ddfe14d28983690daa2713c80" Name="Diagram1" >
-        <EntityTypeShape EntityType="FoodkartModel.Admin" Width="1.5" PointX="5.25" PointY="11.125" />
-        <EntityTypeShape EntityType="FoodkartModel.CartItem" Width="1.5" PointX="3" PointY="4.5" />
+        <EntityTypeShape EntityType="FoodkartModel.Admin" Width="1.5" PointX="12.875" PointY="5.5" />
+        <EntityTypeShape EntityType="FoodkartModel.CartItem" Width="1.5" PointX="1.25" PointY="4.375" />
         <EntityTypeShape EntityType="FoodkartModel.Cart" Width="1.5" PointX="0.75" PointY="0.875" />
-        <EntityTypeShape EntityType="FoodkartModel.Customer" Width="1.5" PointX="1.5" PointY="15.125" />
-        <EntityTypeShape EntityType="FoodkartModel.Food" Width="1.5" PointX="0.75" PointY="4.375" />
-        <EntityTypeShape EntityType="FoodkartModel.Menu" Width="1.5" PointX="3" PointY="10.875" />
-        <EntityTypeShape EntityType="FoodkartModel.OrderItem" Width="1.5" PointX="6" PointY="4.625" />
-        <EntityTypeShape EntityType="FoodkartModel.Order" Width="1.5" PointX="3.75" PointY="0.75" />
+        <EntityTypeShape EntityType="FoodkartModel.Customer" Width="1.5" PointX="3.5" PointY="0.5" />
+        <EntityTypeShape EntityType="FoodkartModel.Food" Width="1.5" PointX="5.5" PointY="3.875" />
+        <EntityTypeShape EntityType="FoodkartModel.Menu" Width="1.5" PointX="8.75" PointY="5.375" />
+        <EntityTypeShape EntityType="FoodkartModel.OrderItem" Width="1.5" PointX="11.875" PointY="2.75" />
+        <EntityTypeShape EntityType="FoodkartModel.Order" Width="1.5" PointX="9.25" PointY="0.625" />
         <AssociationConnector Association="FoodkartModel.FK_AdminMenu" />
         <AssociationConnector Association="FoodkartModel.FK_CartItemCart" />
         <AssociationConnector Association="FoodkartModel.FK_FoodCartItem" />
         <AssociationConnector Association="FoodkartModel.FK_CustomerCart" />
         <AssociationConnector Association="FoodkartModel.FK_CustomerOrder" />
         <AssociationConnector Association="FoodkartModel.FK_FoodOrderItem" />
-        <AssociationConnector Association="FoodkartModel.FK_MenuFood" />
         <AssociationConnector Association="FoodkartModel.FK_OrderOrderItem" />
+        <AssociationConnector Association="FoodkartModel.FoodMenu" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

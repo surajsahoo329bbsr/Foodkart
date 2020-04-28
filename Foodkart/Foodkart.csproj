@@ -241,6 +241,7 @@
     <Content Include="Views\Customer\CustomerOrders.cshtml" />
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Customer\AddToCart.cshtml" />
+    <Content Include="Views\Customer\ShowFoodItems.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

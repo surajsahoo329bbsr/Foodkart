@@ -38,13 +38,13 @@
       <End Role="Food" EntitySet="Foods" />
       <End Role="OrderItem" EntitySet="OrderItems" />
     </AssociationSet>
-    <AssociationSet Name="FK_MenuFood" Association="FoodkartModel.Store.FK_MenuFood">
-      <End Role="Food" EntitySet="Foods" />
-      <End Role="Menu" EntitySet="Menus" />
-    </AssociationSet>
     <AssociationSet Name="FK_OrderOrderItem" Association="FoodkartModel.Store.FK_OrderOrderItem">
       <End Role="Order" EntitySet="Orders" />
       <End Role="OrderItem" EntitySet="OrderItems" />
+    </AssociationSet>
+    <AssociationSet Name="FoodMenu" Association="FoodkartModel.Store.FoodMenu">
+      <End Role="Food" EntitySet="Foods" />
+      <End Role="Menu" EntitySet="Menus" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Admins">
@@ -64,7 +64,6 @@
     <Property Name="CartItemId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="CartItemCartId" Type="bigint" Nullable="false" />
     <Property Name="CartAddDate" Type="datetime" Nullable="false" />
-    <Property Name="CartRemoveDate" Type="datetime" Nullable="true" />
     <Property Name="CartItemQty" Type="bigint" Nullable="false" />
     <Property Name="CartItemFoodId" Type="bigint" Nullable="false" />
   </EntityType>
@@ -97,17 +96,18 @@
     <Property Name="FoodCategory" Type="nvarchar" Nullable="false" MaxLength="30" />
     <Property Name="FoodType" Type="nchar" Nullable="false" MaxLength="1" />
     <Property Name="FoodPhotoUrl" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="FoodMenuId" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="Menus">
     <Key>
       <PropertyRef Name="MenuId" />
     </Key>
     <Property Name="MenuId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="MenuFoodId" Type="bigint" Nullable="false" />
+    <Property Name="MenuName" Type="nvarchar" Nullable="false" MaxLength="30" />
+    <Property Name="MenuAvailable" Type="bit" Nullable="false" />
     <Property Name="MenuAddDate" Type="datetime" Nullable="false" />
-    <Property Name="MenuRemoveDate" Type="datetime" Nullable="true" />
-    <Property Name="MenuFoodQty" Type="bigint" Nullable="false" />
-    <Property Name="MenuUnitPrice" Type="bigint" Nullable="false" />
+    <Property Name="MenuModifyDate" Type="datetime" Nullable="true" />
+    <Property Name="MenuLogoUrl" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="OrderItems">
     <Key>
@@ -199,18 +199,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_MenuFood">
-    <End Role="Food" Type="FoodkartModel.Store.Foods" Multiplicity="1" />
-    <End Role="Menu" Type="FoodkartModel.Store.Menus" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Food">
-        <PropertyRef Name="FoodId" />
-      </Principal>
-      <Dependent Role="Menu">
-        <PropertyRef Name="MenuFoodId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_OrderOrderItem">
     <End Role="Order" Type="FoodkartModel.Store.Orders" Multiplicity="1" />
     <End Role="OrderItem" Type="FoodkartModel.Store.OrderItems" Multiplicity="*" />
@@ -220,6 +208,18 @@
       </Principal>
       <Dependent Role="OrderItem">
         <PropertyRef Name="OrderItemOrderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FoodMenu">
+    <End Role="Food" Type="FoodkartModel.Store.Foods" Multiplicity="*" />
+    <End Role="Menu" Type="FoodkartModel.Store.Menus" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Menu">
+        <PropertyRef Name="MenuId" />
+      </Principal>
+      <Dependent Role="Food">
+        <PropertyRef Name="FoodMenuId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -260,13 +260,13 @@
             <End Role="Food" EntitySet="Foods" />
             <End Role="OrderItem" EntitySet="OrderItems" />
           </AssociationSet>
-          <AssociationSet Name="FK_MenuFood" Association="FoodkartModel.FK_MenuFood">
-            <End Role="Food" EntitySet="Foods" />
-            <End Role="Menu" EntitySet="Menus" />
-          </AssociationSet>
           <AssociationSet Name="FK_OrderOrderItem" Association="FoodkartModel.FK_OrderOrderItem">
             <End Role="Order" EntitySet="Orders" />
             <End Role="OrderItem" EntitySet="OrderItems" />
+          </AssociationSet>
+          <AssociationSet Name="FoodMenu" Association="FoodkartModel.FoodMenu">
+            <End Role="Food" EntitySet="Foods" />
+            <End Role="Menu" EntitySet="Menus" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Admin">
@@ -287,7 +287,6 @@
           <Property Name="CartItemId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CartItemCartId" Type="Int64" Nullable="false" />
           <Property Name="CartAddDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CartRemoveDate" Type="DateTime" Precision="3" />
           <Property Name="CartItemQty" Type="Int64" Nullable="false" />
           <Property Name="CartItemFoodId" Type="Int64" Nullable="false" />
           <NavigationProperty Name="Cart" Relationship="FoodkartModel.FK_CartItemCart" FromRole="CartItem" ToRole="Cart" />
@@ -325,23 +324,24 @@
           <Property Name="FoodUnitPrice" Type="Int64" Nullable="false" />
           <Property Name="FoodCategory" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="FoodType" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="FoodPhotoUrl" Type="String" FixedLength="false" MaxLength="Max" Nullable="true" />
           <NavigationProperty Name="CartItems" Relationship="FoodkartModel.FK_FoodCartItem" FromRole="Food" ToRole="CartItem" />
           <NavigationProperty Name="OrderItems" Relationship="FoodkartModel.FK_FoodOrderItem" FromRole="Food" ToRole="OrderItem" />
-          <NavigationProperty Name="Menus" Relationship="FoodkartModel.FK_MenuFood" FromRole="Food" ToRole="Menu" />
-          <Property Name="FoodPhotoUrl" Type="String" FixedLength="false" MaxLength="Max" Nullable="true" />
+          <NavigationProperty Name="Menu" Relationship="FoodkartModel.FoodMenu" FromRole="Food" ToRole="Menu" />
+          <Property Name="FoodMenuId" Type="Int64" Nullable="false" />
         </EntityType>
         <EntityType Name="Menu">
           <Key>
             <PropertyRef Name="MenuId" />
           </Key>
           <Property Name="MenuId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MenuFoodId" Type="Int64" Nullable="false" />
+          <Property Name="MenuName" Type="String" Nullable="false" FixedLength="false" MaxLength="30" />
+          <Property Name="MenuAvailable" Type="Boolean" Nullable="false" />
           <Property Name="MenuAddDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="MenuRemoveDate" Type="DateTime" Precision="3" />
-          <Property Name="MenuFoodQty" Type="Int64" Nullable="false" />
-          <Property Name="MenuUnitPrice" Type="Int64" Nullable="false" />
+          <Property Name="MenuModifyDate" Type="DateTime" Precision="3" Nullable="true" />
           <NavigationProperty Name="Admins" Relationship="FoodkartModel.FK_AdminMenu" FromRole="Menu" ToRole="Admin" />
-          <NavigationProperty Name="Food" Relationship="FoodkartModel.FK_MenuFood" FromRole="Menu" ToRole="Food" />
+          <NavigationProperty Name="Foods" Relationship="FoodkartModel.FoodMenu" FromRole="Menu" ToRole="Food" />
+          <Property Name="MenuLogoUrl" Type="String" Nullable="false" FixedLength="false" MaxLength="Max" />
         </EntityType>
         <EntityType Name="OrderItem">
           <Key>
@@ -437,18 +437,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_MenuFood">
-          <End Type="FoodkartModel.Food" Role="Food" Multiplicity="1" />
-          <End Type="FoodkartModel.Menu" Role="Menu" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Food">
-              <PropertyRef Name="FoodId" />
-            </Principal>
-            <Dependent Role="Menu">
-              <PropertyRef Name="MenuFoodId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_OrderOrderItem">
           <End Type="FoodkartModel.Order" Role="Order" Multiplicity="1" />
           <End Type="FoodkartModel.OrderItem" Role="OrderItem" Multiplicity="*" />
@@ -458,6 +446,18 @@
             </Principal>
             <Dependent Role="OrderItem">
               <PropertyRef Name="OrderItemOrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FoodMenu">
+          <End Type="FoodkartModel.Food" Role="Food" Multiplicity="*" />
+          <End Type="FoodkartModel.Menu" Role="Menu" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Menu">
+              <PropertyRef Name="MenuId" />
+            </Principal>
+            <Dependent Role="Food">
+              <PropertyRef Name="FoodMenuId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -484,7 +484,6 @@
           <ScalarProperty Name="CartItemId" ColumnName="CartItemId" />
           <ScalarProperty Name="CartItemCartId" ColumnName="CartItemCartId" />
           <ScalarProperty Name="CartAddDate" ColumnName="CartAddDate" />
-          <ScalarProperty Name="CartRemoveDate" ColumnName="CartRemoveDate" />
           <ScalarProperty Name="CartItemQty" ColumnName="CartItemQty" />
           <ScalarProperty Name="CartItemFoodId" ColumnName="CartItemFoodId" />
         </MappingFragment>
@@ -520,6 +519,7 @@
           <ScalarProperty Name="FoodCategory" ColumnName="FoodCategory" />
           <ScalarProperty Name="FoodType" ColumnName="FoodType" />
           <ScalarProperty Name="FoodPhotoUrl" ColumnName="FoodPhotoUrl" />
+          <ScalarProperty Name="FoodMenuId" ColumnName="FoodMenuId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -527,11 +527,11 @@
       <EntityTypeMapping TypeName="IsTypeOf(FoodkartModel.Menu)">
         <MappingFragment StoreEntitySet="Menus">
           <ScalarProperty Name="MenuId" ColumnName="MenuId" />
-          <ScalarProperty Name="MenuFoodId" ColumnName="MenuFoodId" />
+          <ScalarProperty Name="MenuName" ColumnName="MenuName" />
+          <ScalarProperty Name="MenuAvailable" ColumnName="MenuAvailable" />
           <ScalarProperty Name="MenuAddDate" ColumnName="MenuAddDate" />
-          <ScalarProperty Name="MenuRemoveDate" ColumnName="MenuRemoveDate" />
-          <ScalarProperty Name="MenuFoodQty" ColumnName="MenuFoodQty" />
-          <ScalarProperty Name="MenuUnitPrice" ColumnName="MenuUnitPrice" />
+          <ScalarProperty Name="MenuModifyDate" ColumnName="MenuModifyDate" />
+          <ScalarProperty Name="MenuLogoUrl" ColumnName="MenuLogoUrl" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

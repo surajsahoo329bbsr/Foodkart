@@ -1,4 +1,4 @@
-﻿@model List<Foodkart.Food>
+﻿@model List<Foodkart.Menu>
 @{
     Layout = null;
 }
@@ -12,25 +12,7 @@
     @Html.Partial("~/Views/Shared/_Header.cshtml");
 </head>
 <body>
-    <style type="text/css">
-
-        table {
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
-            border: 1px solid black;
-            border-collapse: collapse;
-            text-align: center;
-            margin-left: auto;
-            margin-right: auto;
-            margin-top: 25px;
-            box-shadow: 5px;
-            font-size: 20px;
-            background-color: #FFFFFF; 
-        }
-
-        tr, td, th {
-            border: 1px solid black;
-            padding: 10px;
-        }
+    <style type="text/css">       
 
         .card {
             box-shadow: 0 4px 8px 0 #8D8D8D;
@@ -38,7 +20,7 @@
             transition: 0.3s;
             padding: 20px;
             width: 800px;
-            height: 240px;
+            height: 250px;
             position: relative;
             margin-top: 20px;
             margin-left: auto;
@@ -119,48 +101,25 @@
             background-size: cover;
         }
     </style>
-    <br />  <br /> <br /> <br /> <br /> <br />
-    @if (ViewBag.Status == "added")
+   
+    <h2 style="margin-top:50px; margin-bottom:50px;">Menus</h2>  
+    @foreach (Menu menu in @Model)
     {
-        <h2>Item added successfully</h2>
-    }
-    <br />
-    <br />
-    @using (Html.BeginForm())
-    {
-        <table>
-            <tr>
-                <th>Food Name</th>
-                <th>Food Category</th>
-                <th>Food Unit Price</th>
-                <th>Available Quantity</th>
-                <th>Food Type</th>
-                <th>Add To Cart</th>
-            </tr>
-            @foreach (Food food in @Model)
+        <div class="card">
+            <h2>@menu.MenuName</h2>
+            @if (menu.MenuAvailable == true)
             {
-            <tr>
-                <td>@food.FoodName</td>
-                <td>@food.FoodCategory</td>
-                <td>Rs @food.FoodUnitPrice</td>
-                <td>@food.FoodQty</td>
-                @if (food.FoodType == "V")
-                {
-                    <td>Veg</td>
-                }
-                else if (food.FoodType == "N")
-                {
-                    <td>Non-Veg</td>
-                }
-                else
-                {
-                    <td>Egg</td>
-                }
-                <td><a href="@Url.Action("AddToCart","Customer", new { foodId = food.FoodId })" class="blue-link">Add</a></td>
-            </tr>
-             }
-        </table>
-     }        
+                <h2>Accepting Orders</h2>
+            }
+            else
+            {
+                <h2>Currently Not Accepting Orders</h2>
+            }
+            <br/>
+            <a href="@Url.Action("ShowFoodItems","Customer", new { menuId = menu.MenuId })" class="blue-button">Show Menu</a>
+            <a><img src="@menu.MenuLogoUrl" style="width: 200px; height: 200px; position: absolute; margin-left: 450px; margin-top: -100px;" /></a>
+        </div>  
+    }
     <br />
     <br />
     <br />

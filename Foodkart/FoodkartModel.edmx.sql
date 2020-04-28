@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/27/2020 04:46:33
--- Generated from EDMX file: C:\Users\John Doe\Source\Repos\Foodkart\Foodkart\FoodkartModel.edmx
+-- Date Created: 04/28/2020 01:16:28
+-- Generated from EDMX file: C:\Users\John Doe\source\repos\Foodkart\Foodkart\FoodkartModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -23,23 +23,23 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_CartItemCart]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[CartItems] DROP CONSTRAINT [FK_CartItemCart];
 GO
+IF OBJECT_ID(N'[dbo].[FK_FoodCartItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CartItems] DROP CONSTRAINT [FK_FoodCartItem];
+GO
 IF OBJECT_ID(N'[dbo].[FK_CustomerCart]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Carts] DROP CONSTRAINT [FK_CustomerCart];
 GO
 IF OBJECT_ID(N'[dbo].[FK_CustomerOrder]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Orders] DROP CONSTRAINT [FK_CustomerOrder];
 GO
-IF OBJECT_ID(N'[dbo].[FK_FoodCartItem]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[CartItems] DROP CONSTRAINT [FK_FoodCartItem];
-GO
 IF OBJECT_ID(N'[dbo].[FK_FoodOrderItem]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[OrderItems] DROP CONSTRAINT [FK_FoodOrderItem];
 GO
-IF OBJECT_ID(N'[dbo].[FK_MenuFood]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Menus] DROP CONSTRAINT [FK_MenuFood];
-GO
 IF OBJECT_ID(N'[dbo].[FK_OrderOrderItem]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[OrderItems] DROP CONSTRAINT [FK_OrderOrderItem];
+GO
+IF OBJECT_ID(N'[dbo].[FK_FoodMenu]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Foods] DROP CONSTRAINT [FK_FoodMenu];
 GO
 
 -- --------------------------------------------------
@@ -90,7 +90,6 @@ CREATE TABLE [dbo].[CartItems] (
     [CartItemId] bigint IDENTITY(1,1) NOT NULL,
     [CartItemCartId] bigint  NOT NULL,
     [CartAddDate] datetime  NOT NULL,
-    [CartRemoveDate] datetime  NULL,
     [CartItemQty] bigint  NOT NULL,
     [CartItemFoodId] bigint  NOT NULL
 );
@@ -122,18 +121,19 @@ CREATE TABLE [dbo].[Foods] (
     [FoodUnitPrice] bigint  NOT NULL,
     [FoodCategory] nvarchar(30)  NOT NULL,
     [FoodType] nchar(1)  NOT NULL,
-    [FoodPhotoUrl] nvarchar(max)  NULL
+    [FoodPhotoUrl] nvarchar(max)  NULL,
+    [FoodMenuId] bigint  NOT NULL
 );
 GO
 
 -- Creating table 'Menus'
 CREATE TABLE [dbo].[Menus] (
     [MenuId] bigint IDENTITY(1,1) NOT NULL,
-    [MenuFoodId] bigint  NOT NULL,
+    [MenuName] nvarchar(30)  NOT NULL,
+    [MenuAvailable] bit  NOT NULL,
     [MenuAddDate] datetime  NOT NULL,
-    [MenuRemoveDate] datetime  NULL,
-    [MenuFoodQty] bigint  NOT NULL,
-    [MenuUnitPrice] bigint  NOT NULL
+    [MenuModifyDate] datetime  NULL,
+    [MenuLogoUrl] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -301,21 +301,6 @@ ON [dbo].[OrderItems]
     ([OrderItemFoodId]);
 GO
 
--- Creating foreign key on [MenuFoodId] in table 'Menus'
-ALTER TABLE [dbo].[Menus]
-ADD CONSTRAINT [FK_MenuFood]
-    FOREIGN KEY ([MenuFoodId])
-    REFERENCES [dbo].[Foods]
-        ([FoodId])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_MenuFood'
-CREATE INDEX [IX_FK_MenuFood]
-ON [dbo].[Menus]
-    ([MenuFoodId]);
-GO
-
 -- Creating foreign key on [OrderItemOrderId] in table 'OrderItems'
 ALTER TABLE [dbo].[OrderItems]
 ADD CONSTRAINT [FK_OrderOrderItem]
@@ -329,6 +314,21 @@ GO
 CREATE INDEX [IX_FK_OrderOrderItem]
 ON [dbo].[OrderItems]
     ([OrderItemOrderId]);
+GO
+
+-- Creating foreign key on [FoodMenuId] in table 'Foods'
+ALTER TABLE [dbo].[Foods]
+ADD CONSTRAINT [FK_FoodMenu]
+    FOREIGN KEY ([FoodMenuId])
+    REFERENCES [dbo].[Menus]
+        ([MenuId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_FoodMenu'
+CREATE INDEX [IX_FK_FoodMenu]
+ON [dbo].[Foods]
+    ([FoodMenuId]);
 GO
 
 -- --------------------------------------------------

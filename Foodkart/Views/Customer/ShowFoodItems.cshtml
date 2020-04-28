@@ -1,5 +1,4 @@
-﻿@model Foodkart.Food
-
+﻿@model List<Foodkart.Food>
 @{
     Layout = null;
 }
@@ -9,20 +8,39 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>AddToCart</title>
+    <title>ShowFoodItems</title>
     @Html.Partial("~/Views/Shared/_Header.cshtml");
 </head>
 <body>
     <style type="text/css">
+
+        table {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+            border: 1px solid black;
+            border-collapse: collapse;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 150px;
+            box-shadow: 5px;
+            font-size: 20px;
+            background-color: #FFFFFF;
+        }
+
+        tr, td, th {
+            border: 1px solid black;
+            padding: 10px;
+        }
+
         .card {
             box-shadow: 0 4px 8px 0 #8D8D8D;
             border-radius: 5px;
             transition: 0.3s;
             padding: 20px;
             width: 800px;
-            height: 250px;
+            height: 240px;
             position: relative;
-            margin-top: 200px;
+            margin-top: 20px;
             margin-left: auto;
             margin-right: auto;
             background-color: #FFFFFF;
@@ -101,53 +119,50 @@
             background-size: cover;
         }
     </style>
-    @if (@Model == null)
-    {
-        <div class="card">
-            <h2>Item added successfully</h2>
-        </div>
-    }
-    else
-    {
-        using (Html.BeginForm("AddToCart", "Customer", FormMethod.Post))
-        {
-            <input type="number" id="FoodId" name="FoodId" value="@Model.FoodId" hidden />
 
-            <div class="card">
-                <h1>@Model.FoodName</h1>
-                @if (Model.FoodType == "V")
-                {
-                    <h2>&#8360 @Model.FoodUnitPrice  (@Model.FoodCategory, Veg) </h2>
-                }
-                else if (Model.FoodType == "N")
-                {
-                    <h2>&#8360 @Model.FoodUnitPrice  (@Model.FoodCategory, Non-Veg) </h2>
-                }
-                else
-                {
-                    <h2>&#8360 @Model.FoodUnitPrice  (@Model.FoodCategory, Egg) </h2>
-                }
-                <a><img src="@Model.FoodPhotoUrl" style="width: 200px; height: 200px; position: absolute; margin-left: 575px; margin-top: -100px;" /></a>
-                <table>
-                    <tr>
-                        <td>
-                            <div class="input-group">
-                                <input type="number" id="FoodQty" name="FoodQty" min="0" max="@Model.FoodQty" class="input-area" />
-                                <label for="FoodQty" class="label">Quantity</label>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-                <table align="center">
-                    <tr>
-                        <td style="position: absolute; margin-left: -250px;"><a href="/Customer/CustomerHome" class="blue-link">Back</a></td>
-                        <td style="position: absolute; margin-left: 0px;"><a href="#" class="blue-button" onclick="this.closest('form').submit();">Add to Cart</a></td>
-                    </tr>
-                </table>
-            </div>
-        }
+    <h2>Menus</h2>
 
+    @using (Html.BeginForm())
+    {
+        <table>
+            <tr>
+                <th>Menu Name</th>
+                <th>Food Category</th>
+                <th>Food Unit Price</th>
+                <th>Available Quantity</th>
+                <th>Food Type</th>
+                <th>Add To Cart</th>
+            </tr>
+            @foreach (Food food in @Model)
+            {
+                <tr>
+                    <td>@food.FoodName</td>
+                    <td>@food.FoodCategory</td>
+                    <td>Rs @food.FoodUnitPrice</td>
+                    <td>@food.FoodQty</td>
+                    @if (food.FoodType == "V")
+                    {
+                        <td>Veg</td>
+                    }
+                    else if (food.FoodType == "N")
+                    {
+                        <td>Non-Veg</td>
+                    }
+                    else
+                    {
+                        <td>Egg</td>
+                    }
+                    <td><a href="@Url.Action("AddToCart","Customer", new { foodId = food.FoodId })" class="blue-link">Add</a></td>
+                </tr>
+            }
+        </table>
     }
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
     @Html.Partial("~/Views/Shared/_Footer.cshtml")
 </body>
 </html>

@@ -16,15 +16,22 @@ namespace Foodkart.Controllers
             Session["CustFName"] = customer.CustFName;
             Session["CustId"] = customer.CustId;
             Session["CustModel"] = customer;
-            if (customer.CustPassword == "CartAdded")
-                ViewBag.Status = "added";
             FoodkartModelContainer foodContext = new FoodkartModelContainer();
-            List<Food> FoodList = (from food in foodContext.Foods select food).ToList(); 
+            List<Menu> MenuList = (from menu in foodContext.Menus select menu).ToList();
+            return View(MenuList);
+        }
+
+        public ActionResult ShowFoodItems(long menuId)
+        {
+            Session["CustId"] = long.Parse(Session["CustId"].ToString());
+            FoodkartModelContainer foodContext = new FoodkartModelContainer();
+            List<Food> FoodList = (from food in foodContext.Foods where food.FoodMenuId == menuId select food).ToList();
             return View(FoodList);
         }
         
         public ActionResult AddToCart(long foodId)
         {
+            Session["CustId"] = long.Parse(Session["CustId"].ToString());
             FoodkartModelContainer foodContext = new FoodkartModelContainer();
             Food food = foodContext.Foods.Find(foodId);
             return View(food);

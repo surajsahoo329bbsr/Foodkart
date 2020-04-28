@@ -18,17 +18,19 @@ namespace Foodkart
         public Menu()
         {
             this.Admins = new HashSet<Admin>();
+            this.Foods = new HashSet<Food>();
         }
     
         public long MenuId { get; set; }
-        public long MenuFoodId { get; set; }
+        public string MenuName { get; set; }
+        public bool MenuAvailable { get; set; }
         public System.DateTime MenuAddDate { get; set; }
-        public Nullable<System.DateTime> MenuRemoveDate { get; set; }
-        public long MenuFoodQty { get; set; }
-        public long MenuUnitPrice { get; set; }
+        public Nullable<System.DateTime> MenuModifyDate { get; set; }
+        public string MenuLogoUrl { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Admin> Admins { get; set; }
-        public virtual Food Food { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Food> Foods { get; set; }
     }
 }

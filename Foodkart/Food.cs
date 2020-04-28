@@ -19,7 +19,6 @@ namespace Foodkart
         {
             this.CartItems = new HashSet<CartItem>();
             this.OrderItems = new HashSet<OrderItem>();
-            this.Menus = new HashSet<Menu>();
         }
     
         public long FoodId { get; set; }
@@ -29,12 +28,12 @@ namespace Foodkart
         public string FoodCategory { get; set; }
         public string FoodType { get; set; }
         public string FoodPhotoUrl { get; set; }
+        public long FoodMenuId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CartItem> CartItems { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderItem> OrderItems { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Menu> Menus { get; set; }
+        public virtual Menu Menu { get; set; }
     }
 }
