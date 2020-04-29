@@ -200,6 +200,49 @@ namespace Foodkart.Controllers
             return View(OrdersModelList);
         }
 
+        public ActionResult CustomerProfile(Customer customer)
+        {
+            return View(customer);
+        }
+
+        [HttpPost]
+        public ActionResult CustomerProfile(FormCollection form)
+        {
+            long custId = long.Parse(form["CustId"].ToString());
+            string custEmail = form["CustEmail"].ToString();
+            string custPhone = form["CustPhone"].ToString();
+            string custFName = form["CustFName"].ToString();
+            string custLName = form["CustLName"].ToString();
+
+            SqlConnection sqlConn = new SqlConnection(@"Data Source=JOHNDOE-PC\SQLEXPRESS;Initial Catalog=FoodkartDB;Integrated Security=True");
+            sqlConn.Open();
+            SqlCommand sqlCmd = new SqlCommand("update Customers set CustFName = '" + custFName + "', CustLName = '" + custLName + "', CustEmail = '" + custEmail + "', CustPhone = '" + custPhone + "' where CustId = " + custId + ";", sqlConn);
+            sqlCmd.ExecuteNonQuery();
+            SqlCommand sqlCmdFetch = new SqlCommand("select * from Customers where CustId = " + custId + ";", sqlConn);
+            SqlDataReader sdr = sqlCmdFetch.ExecuteReader();
+            Customer customer = null;
+
+            while (sdr.Read())
+            {
+                customer = new Customer
+                {
+                    CustId = long.Parse(sdr[0].ToString()),
+                    CustEmail = sdr[1].ToString(),
+                    CustPhone = sdr[2].ToString(),
+                    CustFName = sdr[3].ToString(),
+                    CustLName = sdr[4].ToString()
+                };
+
+                ViewBag.Status = "updated";
+            }
+
+            Session["CustModel"] = customer;
+            Session["CustFName"] = customer.CustFName;
+
+            sqlConn.Close();
+            return View(customer);
+        }
+
     }
 
 }

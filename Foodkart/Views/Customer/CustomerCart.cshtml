@@ -21,7 +21,7 @@
             transition: 0.3s;
             padding: 20px;
             width: 800px;
-            height: 200px;
+            height: auto;
             position: relative;
             margin-top: 20px;
             margin-left: auto;
@@ -97,9 +97,6 @@
 
         body {
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-            background-image: url("/Images/cart.jpg");
-            background-repeat: no-repeat;
-            background-size: cover;
         }
     </style>
     <br />
@@ -117,7 +114,8 @@
         if (Model.Count() == 0)
         {
             <div class="card">
-                <h2>Cart Empty</h2>
+                <h2>Your Foodkart is Empty</h2>
+                <img src="https://clip.cookdiary.net/sites/default/files/wallpaper/cart-clipart/440696/cart-clipart-trolly-440696-496064.jpg" style="height:400px; width:400px; margin-left: 200px;"/>
             </div>
         }
         else

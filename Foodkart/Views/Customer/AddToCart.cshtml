@@ -28,6 +28,18 @@
             background-color: #FFFFFF;
         }
 
+        .img-card {
+            box-shadow: 0 4px 8px 0 #8D8D8D;
+            border-radius: 5px;
+            border: 1px solid black;
+            transition: 0.3s;
+            width: 200px;
+            height: 200px;
+            position: absolute;
+            margin-left: 575px;
+            margin-top: -100px;
+        }
+
         .input-group {
             position: relative;
         }
@@ -96,9 +108,6 @@
 
         body {
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-            background-image: url("/Images/bbq.jpg");
-            background-repeat: no-repeat;
-            background-size: cover;
         }
     </style>
     @if (@Model == null)
@@ -127,7 +136,7 @@
                 {
                     <h2>&#8360 @Model.FoodUnitPrice  (@Model.FoodCategory, Egg) </h2>
                 }
-                <a><img src="@Model.FoodPhotoUrl" style="width: 200px; height: 200px; position: absolute; margin-left: 575px; margin-top: -100px;" /></a>
+                <a><img src="@Model.FoodPhotoUrl" class="img-card" /></a>
                 <table>
                     <tr>
                         <td>

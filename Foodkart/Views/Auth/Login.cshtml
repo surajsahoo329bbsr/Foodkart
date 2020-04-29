@@ -30,6 +30,13 @@
             background-color: #FFFFFF;
         }
 
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        input:-webkit-autofill:active {
+            transition: background-color 5000s ease-in-out 0s;
+        }
+
         .input-group {
             position: relative;
         }
@@ -103,9 +110,6 @@
 
         body {
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-            background-image: url("/Images/orders.jpg");
-            background-size: cover;
-            background-repeat: no-repeat;
         }
     </style>
     <img src="~/Logos/logo.png" style="position:absolute; margin-left:-900px; height:100px; width:250px;" />
@@ -156,12 +160,6 @@
             </div>
         }
     </div>
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
     <div>
         @Html.Partial("~/Views/Shared/_Footer.cshtml")
     </div>

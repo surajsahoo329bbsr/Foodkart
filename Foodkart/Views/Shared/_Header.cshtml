@@ -10,6 +10,8 @@
             <li><a href="#">Contact Us</a></li>
         </ul>
     </nav>
-    <p>@Session["CustFName"]</p>
+    <ul class="nav_links">
+        <li><a href="@Url.Action("CustomerProfile","Customer", Session["CustModel"]))">@Session["CustFName"]</a></li>
+    </ul>
     <a href="~/Auth/Login" class="blue-button-header">Sign-Out</a>
 </header>

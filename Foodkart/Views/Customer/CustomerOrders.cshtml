@@ -98,9 +98,6 @@
 
         body {
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-            background-image: url("/Images/bbq2.jpg");
-            background-repeat: no-repeat;
-            background-size: cover;
         }
     </style>
     <br /><br /><br /><br /><br /><br /><br /><br />
@@ -112,7 +109,8 @@
         }
         @if (Model.Count() == 0)
         {
-            <h2>Orders Empty</h2>
+            <h2>Oops ! You have no orders.</h2>
+            <img src="https://cdn.dribbble.com/users/721524/screenshots/4112199/no_orders.png" style="height:400px; width:400px; margin-left: 200px;"/>
         }
         else
         {
