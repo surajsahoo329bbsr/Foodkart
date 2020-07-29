@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/28/2020 01:16:28
--- Generated from EDMX file: C:\Users\John Doe\source\repos\Foodkart\Foodkart\FoodkartModel.edmx
+-- Date Created: 07/28/2020 21:26:43
+-- Generated from EDMX file: D:\VisualStudioProjects\Foodkart\Foodkart\FoodkartModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -23,23 +23,23 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_CartItemCart]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[CartItems] DROP CONSTRAINT [FK_CartItemCart];
 GO
-IF OBJECT_ID(N'[dbo].[FK_FoodCartItem]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[CartItems] DROP CONSTRAINT [FK_FoodCartItem];
-GO
 IF OBJECT_ID(N'[dbo].[FK_CustomerCart]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Carts] DROP CONSTRAINT [FK_CustomerCart];
 GO
 IF OBJECT_ID(N'[dbo].[FK_CustomerOrder]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Orders] DROP CONSTRAINT [FK_CustomerOrder];
 GO
+IF OBJECT_ID(N'[dbo].[FK_FoodCartItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CartItems] DROP CONSTRAINT [FK_FoodCartItem];
+GO
+IF OBJECT_ID(N'[dbo].[FK_FoodMenu]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Foods] DROP CONSTRAINT [FK_FoodMenu];
+GO
 IF OBJECT_ID(N'[dbo].[FK_FoodOrderItem]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[OrderItems] DROP CONSTRAINT [FK_FoodOrderItem];
 GO
 IF OBJECT_ID(N'[dbo].[FK_OrderOrderItem]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[OrderItems] DROP CONSTRAINT [FK_OrderOrderItem];
-GO
-IF OBJECT_ID(N'[dbo].[FK_FoodMenu]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Foods] DROP CONSTRAINT [FK_FoodMenu];
 GO
 
 -- --------------------------------------------------
@@ -78,6 +78,8 @@ GO
 -- Creating table 'Admins'
 CREATE TABLE [dbo].[Admins] (
     [AdminId] bigint IDENTITY(1,1) NOT NULL,
+    [AdminUsername] nvarchar(20)  NOT NULL,
+    [AdminPhone] nchar(10)  NOT NULL,
     [AdminFName] nvarchar(20)  NOT NULL,
     [AdminLName] nvarchar(20)  NOT NULL,
     [AdminPassword] nvarchar(20)  NOT NULL,

@@ -109,10 +109,12 @@
             }
 
         body {
+            background-color: lightgrey;
+            margin: 0;
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
         }
     </style>
-    <img src="~/Logos/logo.png" style="position:absolute; margin-left:-900px; height:100px; width:250px;" />
+    <img src="~/Logos/logo.png" style="position:relative; margin-left:0px; height:100px; width:250px;" />
     <div class="card">
         <h2 style="text-align:center; font-size:50px;">Login</h2>
         @using (Html.BeginForm("Login", "Auth", FormMethod.Post))

@@ -1,4 +1,4 @@
-﻿@model Foodkart.Customer
+﻿@model Foodkart.Admin
 
 @{
     Layout = null;
@@ -9,7 +9,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Registration</title>
+    <title>AdminRegistration</title>
 </head>
 <body>
     <style type="text/css">
@@ -23,10 +23,12 @@
             transition: 0.3s;
             padding: 20px;
             width: 500px;
-            height: 900px;
+            height: 800px;
+            margin-top:10px;
+            margin-bottom:180px;
             position: relative;
             margin-left: auto;
-            margin-right: auto;
+            margin-right:auto;
             background-color: #FFFFFF;
         }
 
@@ -113,10 +115,11 @@
             margin: 0;
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
         }
+
     </style>
     <script type="text/javascript">
         function validatePassword() {
-            var password = document.getElementById("CustPassword").value;
+            var password = document.getElementById("AdminPassword").value;
             var confirmPassword = document.getElementById("ConfirmPassword").value;
             if (password != confirmPassword) {
                 alert("Password and Confirm Password Fields Do Not Match !");
@@ -125,17 +128,17 @@
             return true;
         }
     </script>
-    <img src="~/Logos/logo.png" style="position:relative; margin-left:0px; height:100px; width:250px;" />
+    <img src="~/Logos/logo.png" style="position:relative; margin-left:auto; height:100px; width:250px;" />
     <div class="card">
         <h2 style="text-align:center; font-size:50px;">Registration</h2>
-        @using (Html.BeginForm("Registration", "Auth", FormMethod.Post, new { onsubmit = "return validatePassword();" }))
+        @using (Html.BeginForm("AdminRegistration", "AdminAuth", FormMethod.Post, new { onsubmit = "return validatePassword();" }))
         {
             <table align="center">
                 <tr>
                     <td>
                         <div class="input-group">
-                            <input type="text" id="CustFName" name="CustFName" pattern="^[a-zA-Z]{1,20}$" class="input-area" required />
-                            <label for="CustFName" class="label">First Name</label>
+                            <input type="text" id="AdminFName" name="AdminFName" pattern="^[a-zA-Z]{1,20}$" class="input-area" required />
+                            <label for="AdminFName" class="label">First Name</label>
                         </div>
                     </td>
                 </tr>
@@ -144,8 +147,8 @@
                 <tr>
                     <td>
                         <div class="input-group">
-                            <input type="text" id="CustLName" name="CustLName" pattern="^[a-zA-Z]{1,20}$" class="input-area" required />
-                            <label for="CustLName" class="label">Last Name</label>
+                            <input type="text" id="AdminLName" name="AdminLName" pattern="^[a-zA-Z]{1,20}$" class="input-area" required />
+                            <label for="AdminLName" class="label">Last Name</label>
                         </div>
                     </td>
                 </tr>
@@ -154,8 +157,8 @@
                 <tr>
                     <td>
                         <div class="input-group">
-                            <input type="text" id="CustEmail" name="CustEmail" pattern="^([a-zA-Z0-9_\-\.]+)\u0040([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" class="input-area" required />
-                            <label for="CustEmail" class="label">Email</label>
+                            <input type="text" id="AdminUsername" name="AdminUsername" pattern="^(?=[a-z0-9._]{6,30}$)(?!.*[_.]{2})[^_.].*[^_.]$" class="input-area" required />
+                            <label for="AdminUsername" class="label">Username</label>
                         </div>
                     </td>
                 </tr>
@@ -164,8 +167,8 @@
                 <tr>
                     <td>
                         <div class="input-group">
-                            <input type="text" id="CustPhone" name="CustPhone" pattern="^[789]{1}[0-9]{9}$" class="input-area" required />
-                            <label for="CustPhone" class="label">Phone</label>
+                            <input type="text" id="AdminPhone" name="AdminPhone" pattern="^[789]{1}[0-9]{9}$" class="input-area" required />
+                            <label for="AdminPhone" class="label">Phone</label>
                         </div>
                     </td>
                 </tr>
@@ -174,8 +177,18 @@
                 <tr>
                     <td>
                         <div class="input-group">
-                            <input type="password" id="CustPassword" name="CustPassword" pattern="^[a-zA-Z0-9]{8,20}$" required class="input-area" />
-                            <label for="CustPassword" class="label">Password</label>
+                            <input type="number" id="AdminMenuId" name="AdminMenuId" class="input-area" required />
+                            <label for="AdminMenuId" class="label">Branch Id</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr><td> </td> <td> </td></tr>
+                <tr><td> </td> <td> </td></tr>
+                <tr>
+                    <td>
+                        <div class="input-group">
+                            <input type="password" id="AdminPassword" name="AdminPassword" pattern="^[a-zA-Z0-9]{8,20}$" required class="input-area" />
+                            <label for="AdminPassword" class="label">Password</label>
                         </div>
                     </td>
                 </tr>
@@ -196,29 +209,29 @@
                 <tr><td> </td> <td> </td></tr>
                 <tr><td> </td> <td> </td></tr>
                 <tr>
-                    <td style="position: absolute; margin-left: -210px;"><a href="Login" class="blue-link">Login</a></td>
+                    <td style="position: absolute; margin-left: -210px;"><a href="AdminLogin" class="blue-link">Login</a></td>
                     <td style="position: absolute; margin-left: 110px;"><a href="#" class="blue-button" onclick="this.closest('form').submit(); return validatePassword();">Sign-Up</a></td>
                 </tr>
             </table>
         }
         <br />
         <br />
-        @if (Model.CustEmail == "CustInvalid")
+        @if (Model.AdminUsername == "AdminInvalid")
         {
             <div style="text-align:center">
                 <h4>Invalid form entries</h4>
             </div>
         }
-        @if (Model.CustEmail == "CustRegistered")
+        @if (Model.AdminUsername == "AdminRegistered")
         {
             <div style="text-align:center">
                 <h4>Registration Successful</h4>
             </div>
         }
-        @if (Model.CustEmail == "CustExists")
+        @if (Model.AdminUsername == "AdminExists")
         {
             <div style="text-align:center">
-                <h4>Customer already exists. Please Login.</h4>
+                <h4>Admin already exists. Please Login.</h4>
             </div>
         }
     </div>

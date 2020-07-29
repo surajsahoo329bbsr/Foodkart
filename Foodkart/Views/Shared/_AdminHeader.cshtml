@@ -1,0 +1,17 @@
+﻿<link rel="stylesheet" href="~/css/styles.css" />
+<header style="width:100%;">
+    <img src="~/Logos/logo.png" width="200" class="logo" />
+    <nav>
+        <ul class="nav_links">
+            <li><a href="@Url.Action("AdminHome","Admin", Session["AdminModel"])">Home</a></li>
+            <li><a href="@Url.Action("AdminManageItems","Admin", Session["AdminModel"]))">Manage Items</a></li>
+            <li><a href="@Url.Action("AdminCustOrders","Admin", Session["AdminModel"]))">Customer Orders</a></li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Contact Us</a></li>
+        </ul>
+    </nav>
+    <ul class="nav_links">
+        <li><a href="@Url.Action("AdminProfile","Admin", Session["AdminModel"]))">@Session["AdminFName"]</a></li>
+    </ul>
+    <a href="~/AdminAuth/AdminLogin" class="blue-button-header">Sign-Out</a>
+</header>

@@ -1,4 +1,4 @@
-﻿@model Foodkart.Customer
+﻿@model Foodkart.Admin
 
 @{
     Layout = null;
@@ -9,10 +9,9 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>CustomerProfile</title>
-    @Html.Partial("~/Views/Shared/_Header.cshtml");
+    <title>Admin Login</title>
 </head>
-<body>
+<body style="text-align:center">
     <style type="text/css">
         h4 {
             font-size: 24px;
@@ -24,9 +23,9 @@
             transition: 0.3s;
             padding: 20px;
             width: 500px;
-            height: 700px;
+            height: 600px;
             position: relative;
-            margin-top: 150px;
+            margin-top: 50px;
             margin-left: auto;
             margin-right: auto;
             background-color: #FFFFFF;
@@ -116,47 +115,26 @@
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
         }
     </style>
+    <img src="~/Logos/logo.png" style="position:relative; margin-left:auto; height:100px; width:250px;" />
     <div class="card">
-        <h2 style="text-align:center; font-size:50px;">Update</h2>
-        @using (Html.BeginForm("CustomerProfile", "Customer", FormMethod.Post))
+        <h2 style="text-align:center; font-size:50px;">Login</h2>
+        @using (Html.BeginForm("AdminLogin", "AdminAuth", FormMethod.Post))
         {
-            <input type="text" id="CustId" name="CustId" value="@Model.CustId" hidden/>
-            <table align="center">
+            <table align="center" style="margin-top:20px;margin-bottom:20px;">
                 <tr>
                     <td>
                         <div class="input-group">
-                            <input type="text" id="CustFName" name="CustFName" pattern="^[a-zA-Z]{1,20}$" class="input-area"  value="@Model.CustFName" required />
-                            <label for="CustFName" class="label">First Name</label>
+                            <input type="text" id="AdminUsername" name="AdminUsername" class="input-area" pattern="^(?=[a-z0-9._]{6,30}$)(?!.*[_.]{2})[^_.].*[^_.]$" required />
+                            <label for="AdminUsername" class="label">Username</label>
                         </div>
                     </td>
                 </tr>
-                <tr><td> </td> <td> </td></tr>
-                <tr><td> </td> <td> </td></tr>
+                <tr><td><br /></td></tr>
                 <tr>
                     <td>
                         <div class="input-group">
-                            <input type="text" id="CustLName" name="CustLName" pattern="^[a-zA-Z]{1,20}$" class="input-area" value="@Model.CustLName" required />
-                            <label for="CustLName" class="label">Last Name</label>
-                        </div>
-                    </td>
-                </tr>
-                <tr><td> </td> <td> </td></tr>
-                <tr><td> </td> <td> </td></tr>
-                <tr>
-                    <td>
-                        <div class="input-group">
-                            <input type="text" id="CustEmail" name="CustEmail" pattern="^([a-zA-Z0-9_\-\.]+)\u0040([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" class="input-area" value="@Model.CustEmail" required />
-                            <label for="CustEmail" class="label">Email</label>
-                        </div>
-                    </td>
-                </tr>
-                <tr><td> </td> <td> </td></tr>
-                <tr><td> </td> <td> </td></tr>
-                <tr>
-                    <td>
-                        <div class="input-group">
-                            <input type="text" id="CustPhone" name="CustPhone" pattern="^[789]{1}[0-9]{9}$" class="input-area" value="@Model.CustPhone" required />
-                            <label for="CustPhone" class="label">Phone</label>
+                            <input type="password" id="AdminPassword" name="AdminPassword" pattern="^[a-zA-Z0-9]{8,20}$" class="input-area" required />
+                            <label for="AdminPassword" class="label">Password</label>
                         </div>
                     </td>
                 </tr>
@@ -164,15 +142,29 @@
             <br />
             <br />
             <table align="center">
-                <tr><td> </td> <td> </td></tr>
-                <tr><td> </td> <td> </td></tr>
                 <tr>
-                    <td style="position: absolute; margin-left: -210px;"><a href="Login" class="blue-link">Change Password</a></td>
-                    <td style="position: absolute; margin-left: 110px;"><a href="#" class="blue-button" onclick="this.closest('form').submit();">Update</a></td>
+                    <td style="position: absolute; margin-left: -200px;"><a href="/AdminAuth/AdminRegistration" class="blue-link">Create Account</a></td>
+                    <td style="position: absolute; margin-left: 110px;"><a href="#" class="blue-button" onclick="this.closest('form').submit(); return false;">Sign In</a></td>
                 </tr>
             </table>
+            <br />
+            <br />
+        }
+        @if (Model.AdminUsername == "BadCredentials")
+        {
+            <div style="text-align:center">
+                <h4>Bad Credentials</h4>
+            </div>
+        }
+        @if (Model.AdminUsername == "NotRegistered")
+        {
+            <div style="text-align:center">
+                <h4>Admin doesn't exist !</h4>
+            </div>
         }
     </div>
-    @Html.Partial("~/Views/Shared/_Footer.cshtml")
+    <div>
+        @Html.Partial("~/Views/Shared/_Footer.cshtml")
+    </div>
 </body>
 </html>

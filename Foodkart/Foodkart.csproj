@@ -137,6 +137,7 @@
     <Compile Include="CartItem.cs">
       <DependentUpon>FoodkartModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\AdminAuthController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
@@ -243,6 +244,13 @@
     <Content Include="Views\Customer\AddToCart.cshtml" />
     <Content Include="Views\Customer\ShowFoodItems.cshtml" />
     <Content Include="Views\Customer\CustomerProfile.cshtml" />
+    <Content Include="Views\AdminAuth\AdminLogin.cshtml" />
+    <Content Include="Views\AdminAuth\AdminRegistration.cshtml" />
+    <Content Include="Views\Shared\_AdminHeader.cshtml" />
+    <Content Include="Views\Admin\AdminManageItems.cshtml" />
+    <Content Include="Views\Admin\AdminCustOrders.cshtml" />
+    <Content Include="Views\Admin\AdminProfile.cshtml" />
+    <Content Include="Views\Admin\Restock.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

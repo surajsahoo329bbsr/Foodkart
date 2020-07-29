@@ -31,8 +31,6 @@ li, a, button, p{
 
 header {
     box-sizing: border-box;
-    margin: 0;
-    padding: 0;
     background-color: #ffffff;
     display: flex;
     justify-content: space-between;
@@ -40,7 +38,8 @@ header {
     padding: 24px 10%;
     position: fixed;
     top: 0;
-    width: 97%;
+    width: auto;
+    height: auto;
     z-index: 1;
 }
 

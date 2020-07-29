@@ -15,6 +15,8 @@ namespace Foodkart
     public partial class Admin
     {
         public long AdminId { get; set; }
+        public string AdminUsername { get; set; }
+        public string AdminPhone { get; set; }
         public string AdminFName { get; set; }
         public string AdminLName { get; set; }
         public string AdminPassword { get; set; }

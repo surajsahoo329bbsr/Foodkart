@@ -1,0 +1,78 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AdminManageItems</title>
+</head>
+<body>
+    <style type="text/css">
+        .blue_links {
+            list-style: none;
+        }
+            .blue_links h2 a {
+                color: #03A9F4;
+            }
+                .blue_links h2 a:hover {
+                    transition: all 0.3s ease 0s;
+                    color: #0077C2;
+                }
+
+        p span{
+            display: block;
+        }
+
+        .card {
+            box-shadow: 0 4px 8px 0 #8D8D8D;
+            border-radius: 5px;
+            transition: 0.3s;
+            padding: 20px;
+            width: 800px;
+            height: auto;
+            position: relative;
+            margin-top: 150px;
+            margin-bottom: 180px;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: #FFFFFF;
+        }
+
+        body {
+            margin: 0;
+            background-color: lightgrey;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+
+    </style>
+    @Html.Partial("~/Views/Shared/_AdminHeader.cshtml");
+    <div class="card">
+        <div class="blue_links">
+            <div>
+                <h2><a href="@Url.Action("CustomerHome","Customer", Session["CustModel"])">Add New Food Item</a></h2>
+                <p>Add new food items for your restaurant</p>
+                <a><img src="https://image.flaticon.com/icons/svg/2922/2922037.svg" style="width: 200px; height: 200px; position:relative; margin-left: 600px; margin-top: -140px;" /></a>
+            </div>
+            <hr />
+            <div>
+                <h2><a href="@Url.Action("CustomerCart","Customer", Session["CustModel"]))">Update/Delete Food Items</a></h2>
+                <p style="display:inline;"><span>Update existing food item's name / price /</span><span>category / type for your restaurant.</span><span>You can delete existing food item.</span></p>
+                <a>
+                    <img src="https://image.flaticon.com/icons/svg/1830/1830878.svg" style="width: 200px; height: 200px;  clear:right; float:left; position:relative; margin-left: 600px; margin-bottom: 10px; margin-top: -140px;">
+                </a>
+            </div>
+            <hr />
+            <div>
+                <h2><a href="@Url.Action("CustomerOrders","Customer", Session["CustModel"]))">Restock Food Items</a></h2>
+                <p>Restock food items for your restaurant !</p>
+                <a><img src="https://image.flaticon.com/icons/svg/3048/3048353.svg" style="width: 200px; height: 200px; position:relative; margin-left: 600px; margin-top: -120px;" /></a>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("~/Views/Shared/_Footer.cshtml")
+</body>
+</html>

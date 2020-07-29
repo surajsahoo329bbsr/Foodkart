@@ -1,4 +1,4 @@
-﻿@model Foodkart.Admin
+﻿@model List<Foodkart.Food>
 
 @{
     Layout = null;
@@ -12,10 +12,114 @@
     <title>AdminHome</title>
 </head>
 <body>
+    @Html.Partial("~/Views/Shared/_AdminHeader.cshtml");
     <style type="text/css">
 
+        table {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+            border: 1px solid black;
+            border-collapse: collapse;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 50px;
+            box-shadow: 5px;
+            font-size: 20px;
+            background-color: #FFFFFF;
+        }
+
+        .header-center-red {
+            color: red;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 50px;
+        }
+
+        .header-center-green {
+            color: green;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 50px;
+        }
+
+        .header-center {
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 150px;
+        }
+
+        tr, td, th {
+            border: 1px solid black;
+            padding: 10px;
+        }
+
+        .card {
+            box-shadow: 0 4px 8px 0 #8D8D8D;
+            border-radius: 5px;
+            transition: 0.3s;
+            padding-left: 40px;
+            padding-right: 40px;
+            padding-top: 20px;
+            padding-bottom: 40px;
+            width: 800px;
+            height: auto;
+            position: relative;
+            margin-top: 150px;
+            margin-bottom: 180px;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: #FFFFFF;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+            .input-group .input-area {
+                border: 1px solid #03A9F4;
+                padding: 16px 12px;
+                font-size: 20px;
+                width: 80px;
+                height: 20px;
+                text-align: center;
+                border-radius: 5px;
+            }
+
+                .input-group .input-area:focus {
+                    border: 0px solid #03A9F4;
+                }
+
+                    .input-group .input-area:focus + .label {
+                        top: -8px;
+                        padding: 0 3px;
+                        font-size: 20px;
+                        color: #03A9F4;
+                        border-radius: 5px;
+                    }
+
+            .input-group .label {
+                color: #8D8D8D;
+                position: absolute;
+                top: 20px;
+                left: 13px;
+                background: #FFFFFF;
+                transition: 0.3s;
+                border-radius: 5px;
+            }
+
+            .input-group .input-area:valid + .label {
+                top: -8px;
+                padding: 0 3px;
+                font-size: 16px;
+                color: #03A9F4;
+                border-radius: 5px;
+            }
+
         .blue-button {
-            font-size: 14px;
+            font-size: 20px;
             border-radius: 8px;
             padding: 10px 8px;
             background-color: #03A9F4;
@@ -30,11 +134,107 @@
                 text-decoration: none;
             }
 
+        .blue-link {
+            font-size: 18px;
+            color: #03A9F4;
+            text-decoration: none;
+        }
+
         body {
+            margin: 0;
+            background-color: lightgrey;
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
         }
+
     </style>
-    <h2>Welcome, Admin @Model.AdminFName</h2>
-    <a href="~/Home/Login" class="blue-button">Sign-Out</a>
+    <div class="card">
+
+        @{
+            FoodkartModelContainer foodContext = new FoodkartModelContainer();
+            Menu menu = foodContext.Menus.Find(Session["AdminMenuId"]);
+
+            <div style="position:relative;left:0; height:auto;">
+                <h2>@menu.MenuName</h2>
+                @if (menu.MenuAvailable == true)
+                {
+                    <h2 style="color:green;">Accepting Orders</h2>
+                    <br />
+                    <a href="@Url.Action("#", "Admin", new { menuId = menu.MenuId })" class="blue-button">Open Orders</a>
+                }
+                else
+                {
+                    <h2 style="color:green;">Currently Not Accepting Orders</h2>
+                    <br />
+                    <a href="@Url.Action("#", "Admin", new { menuId = menu.MenuId })" class="blue-button">Close Orders</a>
+
+                }
+                <a><img src="@menu.MenuLogoUrl" style="width: 200px; height: 200px; position: relative; margin-left:600px; margin-top: -160px;" /></a>
+            </div>
+
+            <hr />
+
+            <div style="position:relative;">
+                <h3>Total Earnings</h3>
+                <h2>Rs 0</h2>
+
+                <h3>Best Seller</h3>
+                <h2>N/A</h2>
+
+                <h3>Total Orders</h3>
+                <h2>0</h2>
+            </div>
+
+            <hr />
+        }
+
+        @if (@Model.Count == 0)
+        {
+            <h2 class="header-center-green">No items to re-stock.</h2>
+        }
+        else
+        {
+            <h2 class="header-center-red">Some items are going out of stock. Please re-stock as soon as possible.</h2>
+
+            using (Html.BeginForm())
+            {
+                <table>
+                    <tr>
+                        <th>Food Name</th>
+                        <th>Food Category</th>
+                        <th>Food Unit Price</th>
+                        <th>Available Quantity</th>
+                        <th>Food Type</th>
+                        <th>Action</th>
+                    </tr>
+                    @foreach (Food food in @Model)
+                    {
+                        <tr>
+                            <td>@food.FoodName</td>
+                            <td>@food.FoodCategory</td>
+                            <td>Rs @food.FoodUnitPrice</td>
+                            <td>@food.FoodQty</td>
+                            @if (food.FoodType == "V")
+                            {
+                                <td>Veg</td>
+                            }
+                            else if (food.FoodType == "N")
+                            {
+                                <td>Non-Veg</td>
+                            }
+                            else
+                            {
+                                <td>Egg</td>
+                            }
+                            <td><a href="@Url.Action("Restock","Admin", new { foodId = food.FoodId })" class="blue-link">Restock</a></td>
+                        </tr>
+                    }
+                </table>
+            }
+            <br />
+
+        }
+
+    </div>
+    @Html.Partial("~/Views/Shared/_Footer.cshtml")
 </body>
 </html>

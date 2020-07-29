@@ -1,7 +1,6 @@
 ﻿using Foodkart.Models;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web.Mvc;
@@ -123,7 +122,7 @@ namespace Foodkart.Controllers
                 }
             }
 
-            SqlConnection sqlConnection = new SqlConnection(@"Data Source=JOHNDOE-PC\SQLEXPRESS;Initial Catalog=FoodKartDB;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework");
+            SqlConnection sqlConnection = new SqlConnection(@"Data Source=SURAJ-PC;Initial Catalog=FoodKartDB;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework");
             sqlConnection.Open();
 
             foreach (CartItem items in showCartItems)
@@ -172,7 +171,7 @@ namespace Foodkart.Controllers
 
         public ActionResult CustomerOrders()
         {
-            SqlConnection sqlConnection = new SqlConnection(@"Data Source=JOHNDOE-PC\SQLEXPRESS;Initial Catalog=FoodKartDB;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework");
+            SqlConnection sqlConnection = new SqlConnection(@"Data Source=SURAJ-PC;Initial Catalog=FoodKartDB;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework");
             sqlConnection.Open();
             SqlCommand sqlCommand = new SqlCommand("select OrderDate, OrderId, FoodName, FoodCategory, FoodType, OrderItemQty, OrderItemUnitPrice from OrderItems OI join Orders O on OI.OrderItemOrderId = O.OrderId join Foods F on OI.OrderItemFoodId = F.FoodId where OrderCustId = "+ Session["CustId"].ToString() + " order by 1 desc;", sqlConnection);
             SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
@@ -214,7 +213,7 @@ namespace Foodkart.Controllers
             string custFName = form["CustFName"].ToString();
             string custLName = form["CustLName"].ToString();
 
-            SqlConnection sqlConn = new SqlConnection(@"Data Source=JOHNDOE-PC\SQLEXPRESS;Initial Catalog=FoodkartDB;Integrated Security=True");
+            SqlConnection sqlConn = new SqlConnection(@"Data Source=SURAJ-PC;Initial Catalog=FoodkartDB;Integrated Security=True");
             sqlConn.Open();
             SqlCommand sqlCmd = new SqlCommand("update Customers set CustFName = '" + custFName + "', CustLName = '" + custLName + "', CustEmail = '" + custEmail + "', CustPhone = '" + custPhone + "' where CustId = " + custId + ";", sqlConn);
             sqlCmd.ExecuteNonQuery();
