@@ -1,7 +1,7 @@
 ﻿@model List<Foodkart.Food>
 
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <!DOCTYPE html>
@@ -12,12 +12,10 @@
     <title>AdminHome</title>
 </head>
 <body>
-    @Html.Partial("~/Views/Shared/_AdminHeader.cshtml");
     <style type="text/css">
 
         table {
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
-            border: 1px solid black;
             border-collapse: collapse;
             text-align: center;
             margin-left: auto;
@@ -139,13 +137,6 @@
             color: #03A9F4;
             text-decoration: none;
         }
-
-        body {
-            margin: 0;
-            background-color: lightgrey;
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-        }
-
     </style>
     <div class="card">
 
@@ -235,6 +226,5 @@
         }
 
     </div>
-    @Html.Partial("~/Views/Shared/_Footer.cshtml")
 </body>
 </html>

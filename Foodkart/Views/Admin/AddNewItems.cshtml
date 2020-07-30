@@ -1,0 +1,93 @@
+﻿@model Foodkart.Admin
+@{
+    ViewBag.Title = "AddNewItems";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>AddNewItems</h2>
+
+<body>
+    <div class="card_form">
+        <h2 style="text-align:center; font-size:40px;">Add New Item</h2>
+        @using (Html.BeginForm("AddNewItems", "Admin", FormMethod.Post))
+        {
+            <table align="center">
+                <tr>
+                    <td>
+                        <div class="input-group">
+                            <input type="text" id="FoodName" name="FoodName" class="input-area" required />
+                            <label for="FoodName" class="label">Food Name</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr><td> </td> <td> </td></tr>
+                <tr>
+                    <td>
+                        <div class="input-group">
+                            <input type="number" id="FoodQty" name="FoodQty" pattern="^[a-zA-Z]{1,20}$" class="input-area" required />
+                            <label for="FoodQty" class="label">Food Quantity</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr><td> </td> <td> </td></tr>
+                <tr>
+                    <td>
+                        <div class="input-group">
+                            <input type="number" id="FoodUnitPrice" name="FoodUnitPrice" class="input-area" required />
+                            <label for="FoodUnitPrice" class="label">Food Price</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr><td> </td> <td> </td></tr>
+                <tr>
+                    <td style="text-align:left">
+                        <select id="foodCategory" name="foodCategory" style="height:60px; width:100%; font-size:20px; padding:10px;">
+                            <option disabled selected>Select Food Category</option>
+                            <option value="addOns">Add Ons</option>
+                            <option value="breads">Breads</option>
+                            <option value="cakes">Cakes</option>
+                            <option value="chicken">Chicken</option>
+                            <option value="desserts">Desserts</option>
+                            <option value="divine">Divine</option>
+                            <option value="favourite">Favourite</option>
+                            <option value="meals">Meals</option>
+                            <option value="pizza">Pizza</option>
+                            <option value="regular Meal">Regular Meal</option>
+                            <option value="rice">Rice</option>
+                            <option value="spicy Meals">Spicy Meals</option>
+                            <option value="others">Others</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr><td> </td> <td> </td></tr>
+                <tr>
+                    <td style="text-align:left">
+                        <select id="foodType" name="foodType" style="height:60px; width:100%; font-size:20px; padding:10px; ">
+                            <option disabled selected>Select Food Type</option>
+                            <option value="veg">Veg</option>
+                            <option value="nonVeg">Non-Veg</option>
+                            <option value="egg">Egg</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr><td> </td> <td> </td></tr>
+                <tr>
+                    <td>
+                        <div class="input-group">
+                            <input type="text" id="FoodPhotoUrl" name="FoodPhotoUrl" required class="input-area" />
+                            <label for="FoodPhotoUrl" class="label">Food Photo Url</label>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <br />
+            <table align="center" style="margin-bottom:80px;">
+                <tr>
+                    <td style="position: absolute; margin-left: 0px;"><a href="AdminLogin" class="blue-link">Back</a></td>
+                    <td style="position: absolute; margin-left: 250px;"><a href="#" class="blue-button" onclick="this.closest('form').submit();">Add To Stock</a></td>
+                </tr>
+            </table>
+        }
+    </div>
+</body>

@@ -10,6 +10,8 @@ namespace Foodkart.Controllers
     public class CustomerController : Controller
     {
         // GET: Customer
+        public static string connectionString = @"Data Source=SURAJ-PC;Initial Catalog=FoodKartDB;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework";
+
         public ActionResult CustomerHome(Customer customer)
         {
             Session["CustFName"] = customer.CustFName;
@@ -27,7 +29,7 @@ namespace Foodkart.Controllers
             List<Food> FoodList = (from food in foodContext.Foods where food.FoodMenuId == menuId select food).ToList();
             return View(FoodList);
         }
-        
+
         public ActionResult AddToCart(long foodId)
         {
             Session["CustId"] = long.Parse(Session["CustId"].ToString());
@@ -79,11 +81,11 @@ namespace Foodkart.Controllers
             List<CartItem> cartItemList = foodContext.CartItems.ToList();
             List<Cart> cartList = foodContext.Carts.ToList();
             List<CartItem> showCartItems = new List<CartItem>();
-            foreach (CartItem cartItem  in cartItemList)
+            foreach (CartItem cartItem in cartItemList)
             {
-                foreach(Cart cart in cartList)
+                foreach (Cart cart in cartList)
                 {
-                    if(cart.CartCustId == long.Parse(Session["CustId"].ToString()) && cart.CartId == cartItem.CartItemCartId)
+                    if (cart.CartCustId == long.Parse(Session["CustId"].ToString()) && cart.CartId == cartItem.CartItemCartId)
                     {
                         showCartItems.Add(cartItem);
                     }
@@ -96,6 +98,11 @@ namespace Foodkart.Controllers
         [HttpPost]
         public ActionResult CustomerCart(FormCollection formCollection)
         {
+            if (formCollection is null)
+            {
+                throw new ArgumentNullException(nameof(formCollection));
+            }
+
             FoodkartModelContainer foodContext = new FoodkartModelContainer();
 
             Order order = new Order
@@ -122,7 +129,7 @@ namespace Foodkart.Controllers
                 }
             }
 
-            SqlConnection sqlConnection = new SqlConnection(@"Data Source=SURAJ-PC;Initial Catalog=FoodKartDB;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework");
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
             sqlConnection.Open();
 
             foreach (CartItem items in showCartItems)
@@ -136,9 +143,9 @@ namespace Foodkart.Controllers
 
             List<Order> OrderList = (from orderList in foodContext.Orders select orderList).ToList();
 
-            foreach(CartItem cartItem in showCartItems)
+            foreach (CartItem cartItem in showCartItems)
             {
-                Food findFood = foodContext.Foods.Find(cartItem.CartItemFoodId); 
+                Food findFood = foodContext.Foods.Find(cartItem.CartItemFoodId);
 
                 OrderItem orderItem = new OrderItem
                 {
@@ -152,7 +159,7 @@ namespace Foodkart.Controllers
                 foodContext.SaveChanges();
                 foodContext.CartItems.Remove(cartItem);
                 foodContext.SaveChanges();
-                
+
             }
 
             foreach (Cart cart in cartList)
@@ -164,16 +171,16 @@ namespace Foodkart.Controllers
                 }
             }
 
-            ViewBag.Status = "ordered";            
+            ViewBag.Status = "ordered";
             showCartItems = new List<CartItem>(); //Adding this hence Null Pointer Exception Doesn't arise
             return View(showCartItems);
         }
 
         public ActionResult CustomerOrders()
         {
-            SqlConnection sqlConnection = new SqlConnection(@"Data Source=SURAJ-PC;Initial Catalog=FoodKartDB;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework");
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
             sqlConnection.Open();
-            SqlCommand sqlCommand = new SqlCommand("select OrderDate, OrderId, FoodName, FoodCategory, FoodType, OrderItemQty, OrderItemUnitPrice from OrderItems OI join Orders O on OI.OrderItemOrderId = O.OrderId join Foods F on OI.OrderItemFoodId = F.FoodId where OrderCustId = "+ Session["CustId"].ToString() + " order by 1 desc;", sqlConnection);
+            SqlCommand sqlCommand = new SqlCommand("select OrderDate, OrderId, FoodName, FoodCategory, FoodType, OrderItemQty, OrderItemUnitPrice from OrderItems OI join Orders O on OI.OrderItemOrderId = O.OrderId join Foods F on OI.OrderItemFoodId = F.FoodId where OrderCustId = " + Session["CustId"].ToString() + " order by 1 desc;", sqlConnection);
             SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
 
             List<OrdersModel> OrdersModelList = new List<OrdersModel>();
@@ -213,11 +220,11 @@ namespace Foodkart.Controllers
             string custFName = form["CustFName"].ToString();
             string custLName = form["CustLName"].ToString();
 
-            SqlConnection sqlConn = new SqlConnection(@"Data Source=SURAJ-PC;Initial Catalog=FoodkartDB;Integrated Security=True");
-            sqlConn.Open();
-            SqlCommand sqlCmd = new SqlCommand("update Customers set CustFName = '" + custFName + "', CustLName = '" + custLName + "', CustEmail = '" + custEmail + "', CustPhone = '" + custPhone + "' where CustId = " + custId + ";", sqlConn);
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            sqlConnection.Open();
+            SqlCommand sqlCmd = new SqlCommand("update Customers set CustFName = '" + custFName + "', CustLName = '" + custLName + "', CustEmail = '" + custEmail + "', CustPhone = '" + custPhone + "' where CustId = " + custId + ";", sqlConnection);
             sqlCmd.ExecuteNonQuery();
-            SqlCommand sqlCmdFetch = new SqlCommand("select * from Customers where CustId = " + custId + ";", sqlConn);
+            SqlCommand sqlCmdFetch = new SqlCommand("select * from Customers where CustId = " + custId + ";", sqlConnection);
             SqlDataReader sdr = sqlCmdFetch.ExecuteReader();
             Customer customer = null;
 
@@ -238,7 +245,7 @@ namespace Foodkart.Controllers
             Session["CustModel"] = customer;
             Session["CustFName"] = customer.CustFName;
 
-            sqlConn.Close();
+            sqlConnection.Close();
             return View(customer);
         }
 

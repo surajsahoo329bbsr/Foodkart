@@ -53,13 +53,13 @@
     <div class="card">
         <div class="blue_links">
             <div>
-                <h2><a href="@Url.Action("CustomerHome","Customer", Session["CustModel"])">Add New Food Item</a></h2>
+                <h2><a href="@Url.Action("AddNewItems","Admin", Session["AdminModel"])">Add New Food Item</a></h2>
                 <p>Add new food items for your restaurant</p>
                 <a><img src="https://image.flaticon.com/icons/svg/2922/2922037.svg" style="width: 200px; height: 200px; position:relative; margin-left: 600px; margin-top: -140px;" /></a>
             </div>
             <hr />
             <div>
-                <h2><a href="@Url.Action("CustomerCart","Customer", Session["CustModel"]))">Update/Delete Food Items</a></h2>
+                <h2><a href="@Url.Action("UpdateDeleteItems","Admin", Session["AdminModel"]))">Update/Delete Food Items</a></h2>
                 <p style="display:inline;"><span>Update existing food item's name / price /</span><span>category / type for your restaurant.</span><span>You can delete existing food item.</span></p>
                 <a>
                     <img src="https://image.flaticon.com/icons/svg/1830/1830878.svg" style="width: 200px; height: 200px;  clear:right; float:left; position:relative; margin-left: 600px; margin-bottom: 10px; margin-top: -140px;">
@@ -67,7 +67,7 @@
             </div>
             <hr />
             <div>
-                <h2><a href="@Url.Action("CustomerOrders","Customer", Session["CustModel"]))">Restock Food Items</a></h2>
+                <h2><a href="@Url.Action("RestockItems","Admin", Session["AdminModel"]))">Restock Food Items</a></h2>
                 <p>Restock food items for your restaurant !</p>
                 <a><img src="https://image.flaticon.com/icons/svg/3048/3048353.svg" style="width: 200px; height: 200px; position:relative; margin-left: 600px; margin-top: -120px;" /></a>
             </div>

@@ -7,7 +7,8 @@ USE FoodKartDB;
 
 SELECT * FROM CUSTOMERS;
 SELECT * FROM MENUS;
-SELECT * FROM FOODS;
+SELECT * FROM FOODS; 
+SELECT FoodCategory FROM FOODS GROUP BY FoodCategory;
 
 ALTER TABLE MENUS ADD CONSTRAINT DF_MENUS DEFAULT GETDATE() FOR MenuAddDate;
 INSERT INTO 
@@ -92,3 +93,19 @@ VALUES
 ('surajsahoo3', '7978753613', 'Satya', 'Sahoo', 'password3', 3),
 ('surajsahoo4', '7978753614', 'Rohit', 'Verma', 'password4', 4),
 ('surajsahoo5', '7978753615', 'Simran', 'Dutta', 'password5', 5);
+
+SELECT * FROM ORDERS;
+SELECT * FROM OrderItems;
+
+SELECT DISTINCT O.OrderId, O.OrderDate, O.OrderCustId, CONCAT(C.CustFName,' ', C.CustLName)
+FROM ORDERS O 
+INNER JOIN CUSTOMERS C 
+ON O.OrderCustId = C.CustId
+INNER JOIN ORDERITEMS OI 
+ON OI.OrderItemOrderId = O.OrderId
+INNER JOIN FOODS F
+ON OI.OrderItemFoodId = F.FoodId
+WHERE F.FoodMenuId = 1
+ORDER BY 1 DESC;
+
+SELECT F.FoodName, OI.OrderItemQty, F.FoodUnitPrice, (OI.OrderItemQty * F.FoodUnitPrice) FROM ORDERS O INNER JOIN ORDERITEMS OI ON OI.OrderItemOrderId = O.OrderId INNER JOIN FOODS F ON OI.OrderItemFoodId = F.FoodId WHERE O.OrderId = 2 ORDER BY 3 DESC;

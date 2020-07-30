@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>_AdminLayout</title>
+</head>
+<body>
+    <link rel="stylesheet" href="~/css/styles.css" />
+    <style>
+        @@font-face {
+            font-family: MyFont;
+            src: url(../fonts/Montserrat-Medium.ttf);
+        }
+
+        .card-footer {
+            padding: 20px;
+            width: 100%;
+            height: auto;
+            position: fixed;
+            bottom: 0;
+            background-color: black;
+            text-align: center;
+            font-family: MyFont, sans-serif;
+            font-weight: 500;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        body {
+            margin: 0;
+            background-color: lightgrey;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+
+    </style>
+    <header style="width:100%;">
+        <img src="~/Logos/logo.png" width="200" class="logo" />
+        <nav>
+            <ul class="nav_links">
+                <li><a href="@Url.Action("AdminHome","Admin", Session["AdminModel"])">Home</a></li>
+                <li><a href="@Url.Action("AdminManageItems","Admin", Session["AdminModel"]))">Manage Items</a></li>
+                <li><a href="@Url.Action("AdminCustOrders","Admin", Session["AdminModel"]))">Customer Orders</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Contact Us</a></li>
+            </ul>
+        </nav>
+        <ul class="nav_links">
+            <li><a href="@Url.Action("AdminProfile","Admin", Session["AdminModel"]))">@Session["AdminFName"]</a></li>
+        </ul>
+        <a href="~/AdminAuth/AdminLogin" class="blue-button-header">Sign-Out</a>
+    </header>
+    @RenderBody()
+    <footer class="card-footer">
+        <p style="color:white">Foodkart. All rights reserved @@2020</p>
+    </footer>
+</body>
+</html>

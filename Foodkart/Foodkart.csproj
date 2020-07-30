@@ -168,6 +168,7 @@
     <Compile Include="Menu.cs">
       <DependentUpon>FoodkartModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CustOrdersModel.cs" />
     <Compile Include="Models\OrdersModel.cs" />
     <Compile Include="Order.cs">
       <DependentUpon>FoodkartModel.tt</DependentUpon>
@@ -251,6 +252,12 @@
     <Content Include="Views\Admin\AdminCustOrders.cshtml" />
     <Content Include="Views\Admin\AdminProfile.cshtml" />
     <Content Include="Views\Admin\Restock.cshtml" />
+    <Content Include="Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Views\Admin\AddNewItems.cshtml" />
+    <Content Include="Views\Admin\UpdateDeleteItems.cshtml" />
+    <Content Include="Views\Admin\UpdateItem.cshtml" />
+    <Content Include="Views\Admin\DeleteItem.cshtml" />
+    <Content Include="Views\Admin\RestockItems.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
