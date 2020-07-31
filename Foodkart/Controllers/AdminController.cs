@@ -12,13 +12,13 @@ namespace Foodkart.Controllers
         // GET: Admin
         public ActionResult AdminHome(Admin admin)
         {
+            Session["AdminModel"] = admin;
             Session["AdminFName"] = admin.AdminFName;
             Session["AdminId"] = admin.AdminId;
             Session["AdminMenuId"] = admin.AdminMenuId;
-            Session["AdminModel"] = admin;
             FoodkartModelContainer foodContext = new FoodkartModelContainer();
             Menu menu = foodContext.Menus.Find(Session["AdminMenuId"]);
-            List<Food> FoodList = (from food in foodContext.Foods where menu.MenuId == food.FoodMenuId select food).ToList();
+            List<Food> FoodList = (from food in foodContext.Foods where menu.MenuId == food.FoodMenuId orderby 1 select food ).ToList();
             return View(FoodList);
         }
 
@@ -29,7 +29,49 @@ namespace Foodkart.Controllers
 
         public ActionResult AddNewItems()
         {
-            return View();
+            Food food = new Food();
+            if (food.FoodName != null)
+                return View("AddNewItems", food);
+            return View(food);
+        }
+
+        [HttpPost]
+        public ActionResult AddNewItems(Food food)
+        {
+            FoodkartModelContainer foodContext = new FoodkartModelContainer();
+            food.FoodMenuId = long.Parse(Session["AdminMenuId"].ToString());
+            IList<Food> FoodList = (from foods in foodContext.Foods where food.FoodName == foods.FoodName select foods).ToList();
+            bool foodExists = false;
+            foreach(Food foodSearch in FoodList)
+            {
+                if (foodSearch.FoodName == food.FoodName)
+                {
+                    foodExists = true;
+                    break;
+                }
+            }
+
+            if (foodExists || food.FoodName == null || food.FoodQty == 0 || food.FoodUnitPrice == 0 || food.FoodCategory == null || food.FoodType == null || food.FoodPhotoUrl == null )
+            {
+                ViewBag.Status = "FoodInvalid";
+                return View("AddNewItems", food);
+            }
+            else if (!foodExists)
+            {
+                foodContext.Foods.Add(food);
+                if (foodContext.SaveChanges() > 0)
+                {
+                    ViewBag.Status = "FoodRegistered";
+                    return View("AddNewItems", food);
+                }
+            }
+            else
+            {
+                ViewBag.Status = "FoodExists";
+                return View("AddNewItems", food);
+            }
+
+            return View(food);
         }
 
         public ActionResult UpdateDeleteItems()
@@ -40,9 +82,48 @@ namespace Foodkart.Controllers
             return View(FoodList);
         }
 
-        public ActionResult UpdateItem()
+        public ActionResult UpdateItem(long foodId)
         {
-            return View();
+            FoodkartModelContainer foodContext = new FoodkartModelContainer();
+            Food food = foodContext.Foods.Find(foodId);
+            return View(food);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateItem(FormCollection form)
+        {
+            long foodId = long.Parse(form["FoodId"].ToString());
+            string foodName = form["FoodName"].ToString();
+            long foodUnitPrice = long.Parse(form["FoodUnitPrice"].ToString());
+            string foodCategory = form["FoodCategory"].ToString();
+            string foodType = form["FoodType"].ToString();
+            string foodPhotoUrl = form["FoodPhotoUrl"].ToString();
+
+            SqlConnection sqlConnection = new SqlConnection(CustomerController.connectionString);
+            sqlConnection.Open();
+            SqlCommand sqlCmd = new SqlCommand("update Foods set FoodName = '" + foodName + "', FoodUnitPrice = " + foodUnitPrice + ", FoodCategory = '" + foodCategory + "', FoodType = '" + foodType + "', FoodPhotoUrl = '"+ foodPhotoUrl + "' where FoodId = " + foodId + ";", sqlConnection);
+            sqlCmd.ExecuteNonQuery();
+            SqlCommand sqlCmdFetch = new SqlCommand("select * from Foods where FoodId = " + foodId + ";", sqlConnection);
+            SqlDataReader sdr = sqlCmdFetch.ExecuteReader();
+            Food food = null;
+
+            while (sdr.Read())
+            {
+                food = new Food
+                {
+                    FoodId = long.Parse(sdr[0].ToString()),
+                    FoodName = sdr[1].ToString(),
+                    FoodUnitPrice =  long.Parse(sdr[3].ToString()),
+                    FoodCategory = sdr[4].ToString(),
+                    FoodType = sdr[5].ToString(),
+                    FoodPhotoUrl = sdr[6].ToString()
+                };
+
+                ViewBag.Status = "updated";
+            }
+
+            sqlConnection.Close();
+            return View(food);
         }
 
         public ActionResult DeleteItem(long foodId)
@@ -50,6 +131,17 @@ namespace Foodkart.Controllers
             FoodkartModelContainer foodContext = new FoodkartModelContainer();
             Food food = foodContext.Foods.Find(foodId);
             return View(food);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteItem(FormCollection form)
+        {
+            long foodId = long.Parse(form["FoodId"].ToString());
+            FoodkartModelContainer foodkartModelContainer = new FoodkartModelContainer();
+            Food food = foodkartModelContainer.Foods.Find(foodId);
+            foodkartModelContainer.Foods.Remove(food);
+            foodkartModelContainer.SaveChanges();
+            return View();
         }
 
         public ActionResult RestockItems()
@@ -113,6 +205,49 @@ namespace Foodkart.Controllers
 
             sqlConnection.Close();
             return View(CustOrdersModelList);
+        }
+
+        public ActionResult AdminProfile(Admin admin)
+        {
+            return View(admin);
+        }
+
+        [HttpPost]
+        public ActionResult AdminProfile(FormCollection form)
+        {
+            long adminId = long.Parse(form["AdminId"].ToString());
+            string adminUsername = form["AdminUsername"].ToString();
+            string adminPhone = form["AdminPhone"].ToString();
+            string adminFName = form["AdminFName"].ToString();
+            string adminLName = form["AdminLName"].ToString();
+
+            SqlConnection sqlConnection = new SqlConnection(CustomerController.connectionString);
+            sqlConnection.Open();
+            SqlCommand sqlCmd = new SqlCommand("update Admins set AdminFName = '" + adminFName + "', AdminLName = '" + adminLName + "', AdminUsername = '" + adminUsername + "', AdminPhone = '" + adminPhone + "' where AdminId = " + adminId + ";", sqlConnection);
+            sqlCmd.ExecuteNonQuery();
+            SqlCommand sqlCmdFetch = new SqlCommand("select * from Admins where AdminId = " + adminId + ";", sqlConnection);
+            SqlDataReader sdr = sqlCmdFetch.ExecuteReader();
+            Admin admin = null;
+
+            while (sdr.Read())
+            {
+                admin = new Admin
+                {
+                    AdminId = long.Parse(sdr[0].ToString()),
+                    AdminUsername = sdr[1].ToString(),
+                    AdminPhone = sdr[2].ToString(),
+                    AdminFName = sdr[3].ToString(),
+                    AdminLName = sdr[4].ToString()
+                };
+
+                ViewBag.Status = "updated";
+            }
+
+            Session["AdminModel"] = admin;
+            Session["AdminFName"] = admin.AdminFName;
+
+            sqlConnection.Close();
+            return View(admin);
         }
     }
 }

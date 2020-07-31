@@ -1,6 +1,6 @@
-﻿
+﻿@model Foodkart.Admin
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <!DOCTYPE html>
@@ -11,7 +11,58 @@
     <title>AdminProfile</title>
 </head>
 <body>
-    <div> 
+    <div class="card_form">
+        <h2 style="text-align:center; font-size:40px;">Update Profile</h2>
+        @using (Html.BeginForm("AdminProfile", "Admin", FormMethod.Post))
+        {
+            <input type="text" id="AdminId" name="AdminId" value="@Model.AdminId" hidden />
+            <table align="center">
+                <tr>
+                    <td>
+                        <div class="input-group">
+                            <input type="text" id="AdminFName" name="AdminFName" pattern="^[a-zA-Z]{1,20}$" class="input-area" value="@Model.AdminFName" required />
+                            <label for="AdminFName" class="label">First Name</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr><td> </td> <td> </td></tr>
+                <tr><td> </td> <td> </td></tr>
+                <tr>
+                    <td>
+                        <div class="input-group">
+                            <input type="text" id="AdminLName" name="AdminLName" pattern="^[a-zA-Z]{1,20}$" class="input-area" value="@Model.AdminLName" required />
+                            <label for="AdminLName" class="label">Last Name</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr><td> </td> <td> </td></tr>
+                <tr><td> </td> <td> </td></tr>
+                <tr>
+                    <td>
+                        <div class="input-group">
+                            <input type="text" id="AdminUsername" name="AdminUsername" pattern="^(?=[a-z0-9._]{6,30}$)(?!.*[_.]{2})[^_.].*[^_.]$" class="input-area" value="@Model.AdminUsername" required />
+                            <label for="AdminUsername" class="label">Email</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr><td> </td> <td> </td></tr>
+                <tr><td> </td> <td> </td></tr>
+                <tr>
+                    <td>
+                        <div class="input-group">
+                            <input type="text" id="AdminPhone" name="AdminPhone" pattern="^[789]{1}[0-9]{9}$" class="input-area" value="@Model.AdminPhone" required />
+                            <label for="AdminPhone" class="label">Phone</label>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <table align="center">
+                <tr>
+                    <td style="position: relative; margin-left: 0px;"><a href="Login" class="blue-link">Change Password</a></td>
+                    <td style="position: relative; margin-left: 200px;"><a href="#" class="blue-button" onclick="this.closest('form').submit();">Update</a></td>
+                </tr>
+            </table>
+        }
     </div>
 </body>
 </html>

@@ -38,19 +38,20 @@
                 <h2>Do you want to delete this food item?</h2>
                 <h2>Food Id - @Model.FoodId</h2>
                 <h2>@Model.FoodName</h2>
-                <h2>Food Quantity - @Model.FoodQty</h2>
                 @if (Model.FoodType == "V")
                 {
-                    <h2>&#8360 @Model.FoodUnitPrice  (@Model.FoodCategory, Veg) </h2>
+                    <h2>(@Model.FoodCategory, Veg)</h2>
                 }
                 else if (Model.FoodType == "N")
                 {
-                    <h2>&#8360 @Model.FoodUnitPrice  (@Model.FoodCategory, Non-Veg) </h2>
+                    <h2>(@Model.FoodCategory, Non-Veg) </h2>
                 }
                 else
                 {
-                    <h2>&#8360 @Model.FoodUnitPrice  (@Model.FoodCategory, Egg) </h2>
+                    <h2>(@Model.FoodCategory, Egg) </h2>
                 }
+                <h2>Food Quantity - @Model.FoodQty</h2>
+                <h2>&#8360 @Model.FoodUnitPrice</h2>
                 <a><img src="@Model.FoodPhotoUrl" class="img-card" /></a>
                 <table align="center">
                     <tr>

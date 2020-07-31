@@ -10,13 +10,14 @@
 <body>   
     <div class="card_form">
         <h2 style="text-align:center; font-size:40px;">Update Food Item</h2>
-        @using (Html.BeginForm("UpdateDeleteItems", "Admin", FormMethod.Post))
+        @using (Html.BeginForm("UpdateItem", "Admin", FormMethod.Post))
         {
+            <input type="text" id="FoodId" name="FoodId" value="@Model.FoodId" hidden />
             <table align="center">
                 <tr>
                     <td>
                         <div class="input-group">
-                            <input type="text" id="FoodName" name="FoodName" class="input-area" required />
+                            <input type="text" id="FoodName" name="FoodName" class="input-area" value="@Model.FoodName" required />
                             <label for="FoodName" class="label">Food Name</label>
                         </div>
                     </td>
@@ -25,7 +26,7 @@
                 <tr>
                     <td>
                         <div class="input-group">
-                            <input type="number" id="FoodUnitPrice" name="FoodUnitPrice" class="input-area" required />
+                            <input type="number" id="FoodUnitPrice" name="FoodUnitPrice" value="@Model.FoodUnitPrice" class="input-area" required />
                             <label for="FoodUnitPrice" class="label">Food Price</label>
                         </div>
                     </td>
@@ -34,7 +35,8 @@
                 <tr>
                     <td style="text-align:left">
                         <select id="foodCategory" name="foodCategory" style="height:60px; width:100%; font-size:20px; padding:10px;">
-                            <option disabled selected>Select Food Category</option>
+                            <option disabled>Select Food Category</option>
+                            <option value="@Model.FoodCategory" selected>@Model.FoodCategory</option>
                             <option value="addOns">Add Ons</option>
                             <option value="breads">Breads</option>
                             <option value="cakes">Cakes</option>
@@ -55,10 +57,25 @@
                 <tr>
                     <td style="text-align:left">
                         <select id="foodType" name="foodType" style="height:60px; width:100%; font-size:20px; padding:10px; ">
-                            <option disabled selected>Select Food Type</option>
-                            <option value="veg">Veg</option>
-                            <option value="nonVeg">Non-Veg</option>
-                            <option value="egg">Egg</option>
+                            <option disabled>Select Food Type</option>
+                            @{
+                                if (Model.FoodType == "V")
+                                {
+                                    <option value="V" selected>Veg</option>
+                                }
+                                else if (Model.FoodType == "N")
+                                {
+                                    <option value="N" >Non-Veg</option>
+                                }
+                                else
+                                {
+                                    <option value="E" selected>Egg</option>
+                                }
+                            }
+
+                            <option value="V">Veg</option>
+                            <option value="N">Non-Veg</option>
+                            <option value="E">Egg</option>
                         </select>
                     </td>
                 </tr>
@@ -66,7 +83,7 @@
                 <tr>
                     <td>
                         <div class="input-group">
-                            <input type="text" id="FoodPhotoUrl" name="FoodPhotoUrl" required class="input-area" />
+                            <input type="text" id="FoodPhotoUrl" name="FoodPhotoUrl" value="@Model.FoodPhotoUrl" required class="input-area" />
                             <label for="FoodPhotoUrl" class="label">Food Photo Url</label>
                         </div>
                     </td>
@@ -77,7 +94,7 @@
             <table align="center" style="margin-bottom:80px;">
                 <tr>
                     <td style="position: absolute; margin-left: 0px;"><a href="AdminLogin" class="blue-link">Back</a></td>
-                    <td style="position: absolute; margin-left: 250px;"><a href="#" class="blue-button" onclick="this.closest('form').submit();">Add To Stock</a></td>
+                    <td style="position: absolute; margin-left: 250px;"><a href="#" class="blue-button" onclick="this.closest('form').submit();">Update</a></td>
                 </tr>
             </table>
         }

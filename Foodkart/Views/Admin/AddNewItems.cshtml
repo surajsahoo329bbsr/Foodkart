@@ -1,4 +1,4 @@
-﻿@model Foodkart.Admin
+﻿@model Foodkart.Food
 @{
     ViewBag.Title = "AddNewItems";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
@@ -9,6 +9,19 @@
 <body>
     <div class="card_form">
         <h2 style="text-align:center; font-size:40px;">Add New Item</h2>
+        @if (ViewBag.Status == "FoodInvalid")
+        {
+            <h2 style="text-align:center;">Food Invalid</h2>
+        }
+        else if (ViewBag.Status == "FoodRegistered")
+        {
+            <h2 style="text-align:center;">Food Registered</h2>
+        }
+        else
+        {
+            <h2 style="text-align:center;">Food Exists</h2>
+        }
+
         @using (Html.BeginForm("AddNewItems", "Admin", FormMethod.Post))
         {
             <table align="center">
@@ -41,32 +54,32 @@
                 <tr><td> </td> <td> </td></tr>
                 <tr>
                     <td style="text-align:left">
-                        <select id="foodCategory" name="foodCategory" style="height:60px; width:100%; font-size:20px; padding:10px;">
+                        <select id="FoodCategory" name="FoodCategory" style="height:60px; width:100%; font-size:20px; padding:10px;">
                             <option disabled selected>Select Food Category</option>
-                            <option value="addOns">Add Ons</option>
-                            <option value="breads">Breads</option>
-                            <option value="cakes">Cakes</option>
-                            <option value="chicken">Chicken</option>
-                            <option value="desserts">Desserts</option>
-                            <option value="divine">Divine</option>
-                            <option value="favourite">Favourite</option>
-                            <option value="meals">Meals</option>
-                            <option value="pizza">Pizza</option>
-                            <option value="regular Meal">Regular Meal</option>
-                            <option value="rice">Rice</option>
-                            <option value="spicy Meals">Spicy Meals</option>
-                            <option value="others">Others</option>
+                            <option value="Add Ons">Add Ons</option>
+                            <option value="Breads">Breads</option>
+                            <option value="Cakes">Cakes</option>
+                            <option value="Chicken">Chicken</option>
+                            <option value="Desserts">Desserts</option>
+                            <option value="Divine">Divine</option>
+                            <option value="Favourite">Favourite</option>
+                            <option value="Meals">Meals</option>
+                            <option value="Pizza">Pizza</option>
+                            <option value="Regular Meal">Regular Meal</option>
+                            <option value="Rice">Rice</option>
+                            <option value="Spicy Meals">Spicy Meals</option>
+                            <option value="Others">Others</option>
                         </select>
                     </td>
                 </tr>
                 <tr><td> </td> <td> </td></tr>
                 <tr>
                     <td style="text-align:left">
-                        <select id="foodType" name="foodType" style="height:60px; width:100%; font-size:20px; padding:10px; ">
+                        <select id="FoodType" name="FoodType" style="height:60px; width:100%; font-size:20px; padding:10px; ">
                             <option disabled selected>Select Food Type</option>
-                            <option value="veg">Veg</option>
-                            <option value="nonVeg">Non-Veg</option>
-                            <option value="egg">Egg</option>
+                            <option value="V">Veg</option>
+                            <option value="N">Non-Veg</option>
+                            <option value="E">Egg</option>
                         </select>
                     </td>
                 </tr>

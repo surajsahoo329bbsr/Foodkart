@@ -44,6 +44,25 @@ li, a, button, p{
         text-decoration: none;
     }
 
+.tooltip{
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip.tooltiptext{
+    visibility: hidden;
+    width: auto;
+    background-color: black;
+    color:white;
+    padding: 5px 0;
+    border-radius: 5px;
+    position:absolute;
+    z-index:1;
+}
+
+.tooltip:hover.tooltiptext{
+    visibility: visible;
+}
 
 header {
     box-sizing: border-box;

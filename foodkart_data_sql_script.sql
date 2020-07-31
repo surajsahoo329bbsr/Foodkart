@@ -7,8 +7,41 @@ USE FoodKartDB;
 
 SELECT * FROM CUSTOMERS;
 SELECT * FROM MENUS;
-SELECT * FROM FOODS; 
+SELECT * FROM FOODS;
 SELECT FoodCategory FROM FOODS GROUP BY FoodCategory;
+
+SELECT * FROM ORDERS;
+SELECT * FROM OrderItems;
+
+SELECT 
+SUM(F.FoodUnitPrice * OI.OrderItemQty),
+SUM(OI.OrderItemQty),
+(SELECT FoodName FROM Foods 
+WHERE FoodId = 
+(SELECT TOP 1 OrderItemFoodId
+FROM OrderItems OI
+INNER JOIN Foods F ON
+OI.OrderItemFoodId = F.FoodId
+WHERE F.FoodMenuId = 1
+GROUP BY OrderItemFoodId
+ORDER BY SUM(OrderItemQty) DESC))
+FROM Foods F INNER JOIN OrderItems OI 
+ON F.FoodId = OI.OrderItemFoodId
+WHERE F.FoodMenuId = 1;
+
+SELECT SUM(F.FoodUnitPrice * OI.OrderItemQty), SUM(OI.OrderItemQty), (SELECT FoodName FROM Foods WHERE FoodId = (SELECT TOP 1 OrderItemFoodId FROM OrderItems OI INNER JOIN Foods F ON OI.OrderItemFoodId = F.FoodId WHERE F.FoodMenuId = 1 GROUP BY OrderItemFoodId ORDER BY SUM(OrderItemQty) DESC)) FROM Foods F INNER JOIN OrderItems OI ON F.FoodId = OI.OrderItemFoodId WHERE F.FoodMenuId = 1;
+
+SELECT FoodName FROM Foods F
+WHERE FoodId = 
+(SELECT TOP 1 OrderItemFoodId
+FROM OrderItems OI
+INNER JOIN Foods F ON
+OI.OrderItemFoodId = F.FoodId
+WHERE F.FoodMenuId = 1
+GROUP BY OrderItemFoodId
+ORDER BY SUM(OrderItemQty) DESC);
+
+
 
 ALTER TABLE MENUS ADD CONSTRAINT DF_MENUS DEFAULT GETDATE() FOR MenuAddDate;
 INSERT INTO 
