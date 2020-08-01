@@ -1,0 +1,600 @@
+﻿@model Foodkart.Customer
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css">
+        @@font-face {
+            font-family: MyFont;
+            src: url(../fonts/Montserrat-Medium.ttf);
+        }
+
+        li, a, button, p {
+            font-family: MyFont, sans-serif;
+            font-weight: 500;
+            font-size: 24px;
+            font-weight: bold;
+            color: #000000;
+            text-decoration: none;
+        }
+
+        .blue-button {
+            font-size: 24px;
+            border-radius: 8px;
+            padding: 14px 12px;
+            position: relative;
+            width: 400px;
+            text-align: center;
+            background-color: #03A9F4;
+            color: #FFFFFF;
+            text-decoration: none;
+        }
+
+            .blue-button:hover {
+                background-color: #01579B;
+                color: #FFFFFF;
+                transition: 0.8s;
+                text-decoration: none;
+            }
+
+        .blue-button-header {
+            font-size: 22px;
+            border-radius: 8px;
+            padding: 10px 8px;
+            background-color: #03A9F4;
+            color: #FFFFFF;
+            text-decoration: none;
+        }
+
+            .blue-button-header:hover {
+                background-color: #01579B;
+                color: #FFFFFF;
+                transition: 0.8s;
+                text-decoration: none;
+            }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+            .tooltip.tooltiptext {
+                visibility: hidden;
+                width: auto;
+                background-color: black;
+                color: white;
+                padding: 5px 0;
+                border-radius: 5px;
+                position: absolute;
+                z-index: 1;
+            }
+
+            .tooltip:hover.tooltiptext {
+                visibility: visible;
+            }
+
+        header {
+            box-sizing: border-box;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 10%;
+            position: fixed;
+            top: 0;
+            width: auto;
+            height: auto;
+            z-index: 1;
+        }
+
+        .logo {
+            cursor: pointer;
+        }
+
+        .nav_links {
+            list-style: none;
+        }
+
+            .nav_links li {
+                display: inline-block;
+                padding: 0px 20px;
+            }
+
+                .nav_links li a {
+                    transition: all 0.3s ease 0s;
+                }
+
+                    .nav_links li a:hover {
+                        color: #03A9F4;
+                    }
+
+        button {
+            padding: 9px 25px;
+            background-color: rgba(3, 169, 244, 1);
+            border: none;
+            border-radius: 5px;
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.3s ease 0s;
+        }
+
+            button:hover {
+                background-color: rgba(3, 169, 244, 0.8);
+            }
+
+        .card {
+            box-shadow: 0 4px 8px 0 #8D8D8D;
+            border-radius: 5px;
+            transition: 0.3s;
+            padding: 40px;
+            width: 800px;
+            height: auto;
+            position: relative;
+            margin-top: 150px;
+            margin-bottom: 180px;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: #FFFFFF;
+        }
+
+        .card-footer {
+            padding: 20px;
+            width: 100%;
+            height: auto;
+            position: fixed;
+            bottom: 0;
+            background-color: black;
+            text-align: center;
+            font-family: MyFont, sans-serif;
+            font-weight: 500;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .horizontal-flex-container {
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: center;
+            margin: 10px;
+        }
+
+        .card_form {
+            box-shadow: 0 4px 8px 0 #8D8D8D;
+            border-radius: 5px;
+            transition: 0.3s;
+            padding: 40px;
+            width: 450px;
+            height: auto;
+            position: relative;
+            margin-top: 150px;
+            margin-bottom: 180px;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: #FFFFFF;
+        }
+
+        table {
+            border-collapse: collapse;
+            text-align: center;
+            margin-left: auto;
+            font-size: 24px;
+            margin-right: auto;
+            margin-top: 40px;
+            box-shadow: 5px;
+            width: 100%;
+            background-color: #FFFFFF;
+        }
+
+
+
+            table th {
+                background-color: gold;
+                padding: 10px;
+            }
+
+            table td {
+                padding: 10px;
+            }
+
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        input:-webkit-autofill:active {
+            transition: background-color 5000s ease-in-out 0s;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+            .input-group .input-area {
+                border: 1px solid #03A9F4;
+                padding: 16px 12px;
+                font-size: 20px;
+                width: 400px;
+                height: 24px;
+                border-radius: 5px;
+            }
+
+                .input-group .input-area:focus {
+                    border: 0px solid #03A9F4;
+                }
+
+                    .input-group .input-area:focus + .label {
+                        top: -8px;
+                        padding: 0 3px;
+                        font-size: 20px;
+                        color: #03A9F4;
+                        border-radius: 5px;
+                    }
+
+            .input-group .label {
+                color: #8D8D8D;
+                position: absolute;
+                top: 20px;
+                left: 35px;
+                background: #FFFFFF;
+                transition: 0.3s;
+                border-radius: 5px;
+            }
+
+            .input-group .input-area:valid + .label {
+                top: -8px;
+                padding: 0 3px;
+                font-size: 16px;
+                color: #03A9F4;
+                border-radius: 5px;
+            }
+
+        .blue-link {
+            font-size: 24px;
+            color: #03A9F4;
+            text-decoration: none;
+        }
+
+            .blue-link:hover {
+                color: #01579B;
+                transition: 0.8s;
+                text-decoration: none;
+            }
+
+        body {
+            background-color: white;
+            margin: 0;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background-color: #fefefe;
+            margin-left: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 20%;
+            height: 100%;
+        }
+
+        /* The Close Button */
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+            .close:hover,
+            .close:focus {
+                color: #000;
+                text-decoration: none;
+                cursor: pointer;
+            }
+    </style>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+        var i = 0;
+        window.onload = function nextMsg() {
+            if (i == 5) {
+                // once there is no more message, do whatever you want
+                i = 0;
+                $('#message').html(messages[i]).fadeIn(500).delay(1000).fadeOut(500, nextMsg);
+            } else {
+                // change content of message, fade in, wait, fade out and continue with next message
+                $('#message').html(messages[i]).fadeIn(500).delay(1000).fadeOut(500, nextMsg);
+            }
+            i++;
+        };
+        // list of messages to display
+        var messages = [
+            "Cooking Gone Wrong?",
+            "Hungry?",
+            "Game Night?",
+            "Movie Marathon?",
+            "Staying Late At Office?"
+        ].reverse();
+
+        // initially hide the message
+        $('#message').hide();
+
+        // start animation
+        nextMsg();
+    </script>
+</head>
+<body>
+    <!-- Trigger/Open The Modal -->
+    <div style="width:100%; height:800px; position:relative;">
+        <div style="width: 50%; float:left">
+            <img style="width: 200px; float: left; margin-left:35px; margin-top: 35px;" src="~/Logos/logo.png">
+            <ul class="nav_links" style="float: right; margin-right: 35px; margin-top: 60px;">
+                <li><a href="#" id="login">Login</a></li>
+                <li><button id="sign_up">Sign-Up</button></li>
+            </ul>
+            <div style="position:relative; margin-left:35px; margin-right:35px; margin-top: 175px;">
+                <h1 style="font-family:'Comic Sans MS'; font-size:50px; "><span id="message"></span></h1>
+                <p>Order food from restaurants nearby you.</p>
+                <p style="color:darkgrey">Foodkart is an online food-ordering website where you can order food and we will deliver it at your doorstep.</p>
+                <h1 style="font-family:'Comic Sans MS'; font-size:30px;">Our Top Partners</h1>
+                <div class="horizontal-flex-container" style="width:100%;">
+                    <a><img style="width:200px; height:200px; margin:50px;" src="https://i.pinimg.com/originals/aa/92/89/aa9289de1ed2865bccd7c7457f246482.jpg" /></a>
+                    <a><img style="width:200px; height:200px; margin:50px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Baskin-Robbins_logo.svg/768px-Baskin-Robbins_logo.svg.png" /></a>
+                    <a><img style="width:200px; height:200px; margin:50px;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMzs3nbyV7ofFcOY3gLhPTDzSHT7irxA1JfewKu4GBxNjVVA&s" /></a>
+                </div>
+            </div>
+        </div>
+        <div style="width: 50%; float:right;">
+            <a><img style="width:100%" src="https://images.unsplash.com/photo-1541544537156-7627a7a4aa1c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"></a>
+        </div>
+    </div>
+
+    <div class="horizontal-flex-container" style="width:100%; margin:0; position:absolute; height: 400px; background-color:black;">
+        <figure style="margin:100px; font-size:24px; text-align:center">
+            <a><img style="width:200px; height:200px;" src="https://image.flaticon.com/icons/svg/3141/3141010.svg" /></a>
+            <figcaption style="text-align:center; color:white;">Choose Your Food Item</figcaption>
+        </figure>
+        <figure style="margin:100px; font-size:24px; text-align:center">
+            <a><img style="width:200px; height:200px;" src="https://image.flaticon.com/icons/svg/879/879815.svg" /></a>
+            <figcaption style="text-align:center; color:white;">Add To Cart</figcaption>
+        </figure>
+        <figure style="margin:100px; font-size:24px; text-align:center">
+            <a><img style="width:200px; height:200px;" src="https://image.flaticon.com/icons/svg/3069/3069288.svg" /></a>
+            <figcaption style="text-align:center; color:white;">Place Your Order</figcaption>
+        </figure>
+    </div>
+    <footer class="card-footer">
+        <p style="color:white">Foodkart. All rights reserved @@2020</p>
+    </footer>
+    <!-- The Modal -->
+    <div id="loginModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="closeLogin">&times;</span>
+            <h2 style="text-align:center; font-size:50px;">Login</h2>
+            @using (Html.BeginForm("Index", "Auth", FormMethod.Post))
+            {
+                <input type="text" id="userReg" name="userReg" value="login" hidden />
+                <table align="center" style="margin-top:20px;margin-bottom:20px;">
+                    <tr>
+                        <td>
+                            <div class="input-group">
+                                <input type="text" id="CustEmail" name="CustEmail" class="input-area" pattern="^([a-zA-Z0-9_\-\.]+)\u0040([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" required />
+                                <label for="CustEmail" class="label">Email</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="input-group">
+                                <input type="password" id="CustPassword" name="CustPassword" pattern="^[a-zA-Z0-9]{8,20}$" class="input-area" required />
+                                <label for="CustPassword" class="label">Password</label>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <div class="horizontal-flex-container">
+                    <a href="#" class="blue-button" onclick="this.closest('form').submit(); return false;">Login</a>
+                </div>
+            }
+            @if (Model.CustEmail == "BadCredentials")
+            {
+                Session["login_error"] = "true";
+                <div style="text-align:center">
+                    <h4>Bad Credentials</h4>
+                </div>
+            }
+            @if (Model.CustEmail == "NotRegistered")
+            {
+                Session["login_error"] = "true";
+                <div style="text-align:center">
+                    <h4>Customer doesn't exist !</h4>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div id="signUpModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="closeSignUp">&times;</span>
+            <h2 style="text-align:center; font-size:50px;">Registration</h2>
+            @using (Html.BeginForm("Index", "Auth", FormMethod.Post, new { onsubmit = "return validatePassword();" }))
+            {
+                <input type="text" id="userReg" name="userReg" value="reg" hidden/>
+                <table align="center" style="margin-bottom:40px;">
+                    <tr>
+                        <td>
+                            <div class="input-group">
+                                <input type="text" id="CustFName" name="CustFName" pattern="^[a-zA-Z]{1,20}$" class="input-area" required />
+                                <label for="CustFName" class="label">First Name</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="input-group">
+                                <input type="text" id="CustLName" name="CustLName" pattern="^[a-zA-Z]{1,20}$" class="input-area" required />
+                                <label for="CustLName" class="label">Last Name</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="input-group">
+                                <input type="text" id="CustEmail" name="CustEmail" pattern="^([a-zA-Z0-9_\-\.]+)\u0040([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" class="input-area" required />
+                                <label for="CustEmail" class="label">Email</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="input-group">
+                                <input type="text" id="CustPhone" name="CustPhone" pattern="^[789]{1}[0-9]{9}$" class="input-area" required />
+                                <label for="CustPhone" class="label">Phone</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="input-group">
+                                <input type="password" id="CustPassword" name="CustPassword" pattern="^[a-zA-Z0-9]{8,20}$" required class="input-area" />
+                                <label for="CustPassword" class="label">Password</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="input-group">
+                                <input type="password" id="ConfirmPassword" name="ConfirmPassword" pattern="^[a-zA-Z0-9]{8,20}$" required class="input-area" />
+                                <label for="ConfirmPassword" class="label">ConfirmPassword</label>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <div class="horizontal-flex-container">
+                    <a href="#" class="blue-button" onclick="this.closest('form').submit(); return validatePassword();">Sign-Up</a>
+                </div>
+            }
+            <br />
+            <br />
+            @if (Model.CustEmail == "CustInvalid")
+            {
+                Session["login_error"] = "false";
+                <div style="text-align:center">
+                    <h4>Invalid form entries</h4>
+                </div>
+            }
+            @if (Model.CustEmail == "CustRegistered")
+            {
+                Session["login_error"] = "false";
+                <div style="text-align:center">
+                    <h4>Registration Successful</h4>
+                </div>
+            }
+            @if (Model.CustEmail == "CustExists")
+            {
+                Session["login_error"] = "false";
+                <div style="text-align:center">
+                    <h4>Customer already exists. Please Login.</h4>
+                </div>
+            }
+        </div>
+    </div>
+    <script>
+        // Get the modal
+        var loginModal = document.getElementById("loginModal");
+        var signUpModal = document.getElementById("signUpModal");
+
+        // Get the button that opens the modal
+        var signUp = document.getElementById("sign_up");
+        var login = document.getElementById("login")
+
+        // Get the <span> element that closes the modal
+        var loginSpan = document.getElementsByClassName("closeLogin")[0];
+        var signUpSpan = document.getElementsByClassName("closeSignUp")[0];
+
+        // When the user clicks the button, open the modal
+        signUp.onclick = function () {
+            signUpModal.style.display = "block";
+            //Session["auth"] = "true";
+        }
+
+        login.onclick = function () {
+            loginModal.style.display = "block";
+        }
+
+        @try {
+
+            if (Session["login_error"] != null)
+            {
+
+                if (Session["login_error"].ToString() == "true")
+                {
+                    <text>
+                    window.onload = function () {
+                        loginModal.style.display = "block";
+                    }
+                    </text>
+                        Session["login_error"] = "f"; //adding this comment so that the window doesn't pop up everytime
+                }
+
+                if (Session["login_error"].ToString() == "false")
+                {
+                    <text>
+                    window.onload = function () {
+                        signUpModal.style.display = "block";
+                    }
+                    </text>
+                        Session["login_error"] = "f"; //adding this comment so that the window doesn't pop up everytime
+                }
+            }
+        } catch (Exception e) {
+            // do nothing
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        loginSpan.onclick = function () {
+            loginModal.style.display = "none";
+        }
+
+        signUpSpan.onclick = function () {
+            signUpModal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == loginModal) {
+                loginModal.style.display = "none";
+            }
+            if (event.target == signUpModal) {
+                signUpModal.style.display = "none";
+                //Session["auth"] = "false";
+            }
+        }
+
+        function validatePassword() {
+            var password = document.getElementById("CustPassword").value;
+            var confirmPassword = document.getElementById("ConfirmPassword").value;
+            if (password != confirmPassword) {
+                alert("Password and Confirm Password Fields Do Not Match !");
+                return false;
+            }
+            return true;
+        }
+
+    </script>
+
+</body>
+</html>

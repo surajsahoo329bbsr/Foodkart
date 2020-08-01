@@ -258,6 +258,7 @@
     <Content Include="Views\Admin\UpdateItem.cshtml" />
     <Content Include="Views\Admin\DeleteItem.cshtml" />
     <Content Include="Views\Admin\RestockItems.cshtml" />
+    <Content Include="Views\Auth\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
