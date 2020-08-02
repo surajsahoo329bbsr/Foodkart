@@ -1,4 +1,4 @@
-﻿@model Foodkart.Customer
+﻿@model Foodkart.Admin
 <!DOCTYPE html>
 <html>
 <head>
@@ -322,11 +322,11 @@
         };
         // list of messages to display
         var messages = [
-            "Cooking Gone Wrong?",
-            "Hungry?",
-            "Game Night?",
-            "Movie Marathon?",
-            "Staying Late At Office?"
+            "Food Items Out Of Stock?",
+            "Best Selling Food Item?",
+            "How To Manage Food Items?",
+            "Total Earnings?",
+            "Close/Open Orders?"
         ].reverse();
 
         // initially hide the message
@@ -340,15 +340,15 @@
     <!-- Trigger/Open The Modal -->
     <div style="width:100%; height:800px; position:relative;">
         <div style="width: 50%; float:left">
-            <img style="width: 200px; float: left; margin-left:35px; margin-top: 35px;" src="~/Logos/logo.png">
+            <img style="width: 200px; float: left; margin-left:35px; margin-top: 35px;" src="~/Logos/admin_logo.png">
             <ul class="nav_links" style="float: right; margin-right: 35px; margin-top: 60px;">
                 <li><a href="#" id="login">Login</a></li>
                 <li><button id="sign_up">Sign-Up</button></li>
             </ul>
             <div style="position:relative; margin-left:35px; margin-right:35px; margin-top: 175px;">
                 <h1 style="font-family: MyFont, sans-serif; font-size: 50px; "><span id="message"></span></h1>
-                <p>Order food from restaurants nearby you.</p>
-                <p style="color:darkgrey">Foodkart is an online food-ordering website where you can order food and we will deliver it at your doorstep.</p>
+                <p>Keep track of food items of your restaurant</p>
+                <p style="color:darkgrey">Foodkart-admin is the admin website of Foodkart where you can add, update, delete, restock food items of your choice</p>
                 <h1 style="font-family: MyFont, sans-serif; font-size: 30px;">Our Top Partners</h1>
                 <div class="horizontal-flex-container" style="width:100%;">
                     <a><img style="width:200px; height:200px; margin:50px;" src="https://i.pinimg.com/originals/aa/92/89/aa9289de1ed2865bccd7c7457f246482.jpg" /></a>
@@ -358,22 +358,22 @@
             </div>
         </div>
         <div style="width: 50%; float:right;">
-            <a><img style="width:100%" src="https://images.unsplash.com/photo-1541544537156-7627a7a4aa1c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"></a>
+            <a><img style="width:100%" src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"></a>
         </div>
     </div>
 
     <div class="horizontal-flex-container" style="width:100%; margin:0; position:absolute; height: 400px; background-color:black;">
         <figure style="margin:100px; font-size:24px; text-align:center">
-            <a><img style="width:200px; height:200px;" src="https://image.flaticon.com/icons/svg/3141/3141010.svg" /></a>
-            <figcaption style="text-align:center; font-family: MyFont, sans-serif; color:white;">Choose Your Food Item</figcaption>
+            <a><img style="width:200px; height:200px;" src="https://image.flaticon.com/icons/svg/3220/3220160.svg" /></a>
+            <figcaption style="text-align:center; font-family: MyFont, sans-serif; color:white;">Analyze your restaurant's progress</figcaption>
         </figure>
         <figure style="margin:100px; font-size:24px; text-align:center">
-            <a><img style="width:200px; height:200px;" src="https://image.flaticon.com/icons/svg/879/879815.svg" /></a>
-            <figcaption style="text-align:center; font-family: MyFont, sans-serif; color:white;">Add To Cart</figcaption>
+            <a><img style="width:200px; height:200px;" src="https://image.flaticon.com/icons/svg/3082/3082011.svg" /></a>
+            <figcaption style="text-align:center; font-family: MyFont, sans-serif; color:white;">Restock Food Items</figcaption>
         </figure>
         <figure style="margin:100px; font-size:24px; text-align:center">
-            <a><img style="width:200px; height:200px;" src="https://image.flaticon.com/icons/svg/3069/3069288.svg" /></a>
-            <figcaption style="text-align:center; font-family: MyFont, sans-serif; color:white;">Place Your Order</figcaption>
+            <a><img style="width:200px; height:200px;" src="https://image.flaticon.com/icons/svg/849/849551.svg" /></a>
+            <figcaption style="text-align:center; font-family: MyFont, sans-serif; color:white;">View Customer Orders</figcaption>
         </figure>
     </div>
     <footer class="card-footer">
@@ -385,23 +385,23 @@
         <div class="modal-content">
             <span class="closeLogin"><a href="#">&times;</a></span>
             <h2 style="text-align:center; font-family: MyFont, sans-serif; font-size:50px;">Login</h2>
-            @using (Html.BeginForm("Index", "Auth", FormMethod.Post))
+            @using (Html.BeginForm("AdminIndex", "AdminAuth", FormMethod.Post))
             {
                 <input type="text" id="userReg" name="userReg" value="login" hidden />
                 <table align="center" style="margin-top:20px;margin-bottom:20px;">
                     <tr>
                         <td>
                             <div class="input-group">
-                                <input type="text" id="CustEmail" name="CustEmail" class="input-area" pattern="^([a-zA-Z0-9_\-\.]+)\u0040([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" required />
-                                <label for="CustEmail" class="label">Email</label>
+                                <input type="text" id="AdminUsername" name="AdminUsername" class="input-area" pattern="^(?=[a-z0-9._]{6,30}$)(?!.*[_.]{2})[^_.].*[^_.]$" required />
+                                <label for="AdminUsername" class="label">Username</label>
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <td>
                             <div class="input-group">
-                                <input type="password" id="CustPassword" name="CustPassword" pattern="^[a-zA-Z0-9]{8,20}$" class="input-area" required />
-                                <label for="CustPassword" class="label">Password</label>
+                                <input type="password" id="AdminPassword" name="AdminPassword" pattern="^[a-zA-Z0-9]{8,20}$" class="input-area" required />
+                                <label for="AdminPassword" class="label">Password</label>
                             </div>
                         </td>
                     </tr>
@@ -410,18 +410,18 @@
                     <a href="#" class="blue-button" onclick="this.closest('form').submit(); return false;">Login</a>
                 </div>
             }
-            @if (Model.CustEmail == "BadCredentials")
+            @if (Model.AdminUsername == "BadCredentials")
             {
                 Session["login_error"] = "true";
                 <div style="text-align:center">
                     <p>Bad Credentials</p>
                 </div>
             }
-            @if (Model.CustEmail == "NotRegistered")
+            @if (Model.AdminUsername == "NotRegistered")
             {
                 Session["login_error"] = "true";
                 <div style="text-align:center">
-                    <p>Customer doesn't exist !</p>
+                    <p>Admin doesn't exist !</p>
                 </div>
             }
         </div>
@@ -432,47 +432,55 @@
         <div class="modal-content">
             <span class="closeSignUp"><a href="#">&times;</a></span>
             <h2 style="text-align:center;font-family: MyFont, sans-serif; font-size:50px;">Registration</h2>
-            @using (Html.BeginForm("Index", "Auth", FormMethod.Post, new { onsubmit = "return validatePassword();" }))
+            @using (Html.BeginForm("AdminIndex", "AdminAuth", FormMethod.Post, new { onsubmit = "return validatePassword();" }))
             {
-                <input type="text" id="userReg" name="userReg" value="reg" hidden/>
+                <input type="text" id="userReg" name="userReg" value="reg" hidden />
                 <table align="center" style="margin-bottom:40px;">
                     <tr>
                         <td>
                             <div class="input-group">
-                                <input type="text" id="CustFName" name="CustFName" pattern="^[a-zA-Z]{1,20}$" class="input-area" required />
-                                <label for="CustFName" class="label">First Name</label>
+                                <input type="text" id="AdminFName" name="AdminFName" pattern="^[a-zA-Z]{1,20}$" class="input-area" required />
+                                <label for="AdminFName" class="label">Username</label>
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <td>
                             <div class="input-group">
-                                <input type="text" id="CustLName" name="CustLName" pattern="^[a-zA-Z]{1,20}$" class="input-area" required />
-                                <label for="CustLName" class="label">Last Name</label>
+                                <input type="text" id="AdminLName" name="AdminLName" pattern="^[a-zA-Z]{1,20}$" class="input-area" required />
+                                <label for="AdminLName" class="label">Last Name</label>
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <td>
                             <div class="input-group">
-                                <input type="text" id="CustEmail" name="CustEmail" pattern="^([a-zA-Z0-9_\-\.]+)\u0040([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" class="input-area" required />
-                                <label for="CustEmail" class="label">Email</label>
+                                <input type="text" id="AdminUsername" name="AdminUsername" pattern="^(?=[a-z0-9._]{6,30}$)(?!.*[_.]{2})[^_.].*[^_.]$" class="input-area" required />
+                                <label for="AdminUsername" class="label">Username</label>
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <td>
                             <div class="input-group">
-                                <input type="text" id="CustPhone" name="CustPhone" pattern="^[789]{1}[0-9]{9}$" class="input-area" required />
-                                <label for="CustPhone" class="label">Phone</label>
+                                <input type="text" id="AdminPhone" name="AdminPhone" pattern="^[789]{1}[0-9]{9}$" class="input-area" required />
+                                <label for="AdminPhone" class="label">Phone</label>
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <td>
                             <div class="input-group">
-                                <input type="password" id="CustPassword" name="CustPassword" pattern="^[a-zA-Z0-9]{8,20}$" required class="input-area" />
-                                <label for="CustPassword" class="label">Password</label>
+                                <input type="number" id="AdminMenuId" name="AdminMenuId" class="input-area" required />
+                                <label for="AdminMenuId" class="label">Branch Id</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="input-group">
+                                <input type="password" id="AdminPassword" name="AdminPassword" pattern="^[a-zA-Z0-9]{8,20}$" required class="input-area" />
+                                <label for="AdminPassword" class="label">Password</label>
                             </div>
                         </td>
                     </tr>
@@ -491,25 +499,25 @@
             }
             <br />
             <br />
-            @if (Model.CustEmail == "CustInvalid")
+            @if (Model.AdminUsername == "AdminInvalid")
             {
                 Session["login_error"] = "false";
                 <div style="text-align:center">
                     <p>Invalid form entries</p>
                 </div>
             }
-            @if (Model.CustEmail == "CustRegistered")
+            @if (Model.AdminUsername == "AdminRegistered")
             {
                 Session["login_error"] = "false";
                 <div style="text-align:center">
                     <p>Registration Successful</p>
                 </div>
             }
-            @if (Model.CustEmail == "CustExists")
+            @if (Model.AdminUsername == "AdminExists")
             {
                 Session["login_error"] = "false";
                 <div style="text-align:center">
-                    <p>Customer already exists. Please Login.</p>
+                    <p>Admin already exists. Please Login.</p>
                 </div>
             }
         </div>
@@ -585,7 +593,7 @@
         }
 
         function validatePassword() {
-            var password = document.getElementById("CustPassword").value;
+            var password = document.getElementById("AdminPassword").value;
             var confirmPassword = document.getElementById("ConfirmPassword").value;
             if (password != confirmPassword) {
                 alert("Password and Confirm Password Fields Do Not Match !");

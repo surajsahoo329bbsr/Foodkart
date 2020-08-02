@@ -1,7 +1,7 @@
 ﻿@model List<Foodkart.CartItem>
 
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
 }
 
 <!DOCTYPE html>
@@ -10,99 +10,16 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>CustomerCart</title>
-    @Html.Partial("~/Views/Shared/_Header.cshtml");
 </head>
 <body>
-    <style type="text/css">
-
-        .card {
-            box-shadow: 0 4px 8px 0 #8D8D8D;
-            border-radius: 5px;
-            transition: 0.3s;
-            padding: 20px;
-            width: 800px;
-            height: auto;
-            position: relative;
-            margin-top: 20px;
-            margin-left: auto;
-            margin-right: auto;
-            background-color: #FFFFFF;
-        }
-
-        .input-group {
-            position: relative;
-        }
-
-            .input-group .input-area {
-                border: 1px solid #03A9F4;
-                padding: 16px 12px;
-                font-size: 20px;
-                width: 80px;
-                height: 20px;
-                text-align: center;
-                border-radius: 5px;
-            }
-
-                .input-group .input-area:focus {
-                    border: 0px solid #03A9F4;
-                }
-
-                    .input-group .input-area:focus + .label {
-                        top: -8px;
-                        padding: 0 3px;
-                        font-size: 20px;
-                        color: #03A9F4;
-                        border-radius: 5px;
-                    }
-
-            .input-group .label {
-                color: #8D8D8D;
-                position: absolute;
-                top: 20px;
-                left: 13px;
-                background: #FFFFFF;
-                transition: 0.3s;
-                border-radius: 5px;
-            }
-
-            .input-group .input-area:valid + .label {
-                top: -8px;
-                padding: 0 3px;
-                font-size: 16px;
-                color: #03A9F4;
-                border-radius: 5px;
-            }
-
-        .blue-button {
-            font-size: 24px;
-            border-radius: 8px;
-            padding: 10px 8px;
-            background-color: #03A9F4;
-            color: #FFFFFF;
-            text-decoration: none;
-        }
-
-            .blue-button:hover {
-                background-color: #01579B;
-                color: #FFFFFF;
-                transition: 0.8s;
-                text-decoration: none;
-            }
-
-        .blue-link {
-            font-size: 18px;
-            color: #03A9F4;
-            text-decoration: none;
-        }
-
-        body {
-            background-color: lightgrey;
-            margin: 0;
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    <style>
+        .horizontal-flex-container {
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: center;
+            margin: 10px;
         }
     </style>
-    <br />
-    <br />
     @if (ViewBag.Status == "ordered")
     {
         <div class="card">
@@ -111,49 +28,48 @@
     }
     else
     {
-        <br /><br /><br /><br /><br /><br />
-
         if (Model.Count() == 0)
         {
             <div class="card">
-                <h2>Your Foodkart is Empty</h2>
-                <img src="https://image.flaticon.com/icons/svg/879/879815.svg" style="height:400px; width:400px; margin-left: 200px;"/>
+                <p>Your Foodkart is Empty</p>
+                <img src="https://image.flaticon.com/icons/svg/879/879815.svg" style="height:400px; width:400px; margin-left: 200px;" />
             </div>
         }
         else
         {
             using (Html.BeginForm())
             {
+                long totalBill = 0;
 
-                foreach (CartItem cartItem in @Model)
-                {
-
+                <div class="card">
+                    @foreach (CartItem cartItem in @Model)
                     {
                         FoodkartModelContainer foodkartContext = new FoodkartModelContainer();
                         Food food = foodkartContext.Foods.Find(cartItem.CartItemFoodId);
-                        <div class="card">
-                            <h2>@food.FoodName (@food.FoodCategory) </h2>
-                            <h2>Rs @food.FoodUnitPrice</h2>
-                            <h2>@cartItem.CartItemQty item(s)</h2>
+                        long eachItemTotal = @food.FoodUnitPrice * @cartItem.CartItemQty;
+                        <p>@food.FoodName (@food.FoodCategory) </p>
+                        <div style="width:100%; display:inline-block">
+                            <p style="position:relative; float:left;">Rs @food.FoodUnitPrice X @cartItem.CartItemQty item(s)</p>
+                            <p style="position:relative; float:right;">Rs @eachItemTotal</p>
                         </div>
+                        totalBill += eachItemTotal;
+
                     }
-
-
-                }
-
-                <div style="text-align:center; margin-top:40px; margin-bottom:40px; position: relative;">
-                    <a href="#" class="blue-button" onclick="this.closest('form').submit(); return false;">Place Order</a>
+                    <hr />
+                    <div style="width:100%; display:inline-block">
+                        <div style="position:relative; float:left;">
+                            <p class="p_style">Total Bill</p>
+                        </div>
+                        <div style="position:relative; float:right;">
+                            <p class="p_style">Rs @totalBill</p>
+                        </div>
+                    </div>
+                    <div class="horizontal-flex-container" style="text-align:center; margin-top:40px; margin-bottom:40px; position: relative;">
+                        <a href="#" style="width:100%" class="blue-button" onclick="this.closest('form').submit(); return false;">Place Order</a>
+                    </div>
                 </div>
-
             }
         }
     }
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    @Html.Partial("~/Views/Shared/_Footer.cshtml")
 </body>
 </html>

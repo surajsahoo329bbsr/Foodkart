@@ -12,7 +12,7 @@
 </head>
 <body>
     <div class="card_form">
-        <h2 style="text-align:center; font-size:40px;">Update Profile</h2>
+        <h2 style="font-size:40px; text-align:center;">Update Profile</h2>
         @using (Html.BeginForm("AdminProfile", "Admin", FormMethod.Post))
         {
             <input type="text" id="AdminId" name="AdminId" value="@Model.AdminId" hidden />
@@ -25,8 +25,6 @@
                         </div>
                     </td>
                 </tr>
-                <tr><td> </td> <td> </td></tr>
-                <tr><td> </td> <td> </td></tr>
                 <tr>
                     <td>
                         <div class="input-group">
@@ -35,8 +33,6 @@
                         </div>
                     </td>
                 </tr>
-                <tr><td> </td> <td> </td></tr>
-                <tr><td> </td> <td> </td></tr>
                 <tr>
                     <td>
                         <div class="input-group">
@@ -45,8 +41,6 @@
                         </div>
                     </td>
                 </tr>
-                <tr><td> </td> <td> </td></tr>
-                <tr><td> </td> <td> </td></tr>
                 <tr>
                     <td>
                         <div class="input-group">
@@ -56,12 +50,9 @@
                     </td>
                 </tr>
             </table>
-            <table align="center">
-                <tr>
-                    <td style="position: relative; margin-left: 0px;"><a href="Login" class="blue-link">Change Password</a></td>
-                    <td style="position: relative; margin-left: 200px;"><a href="#" class="blue-button" onclick="this.closest('form').submit();">Update</a></td>
-                </tr>
-            </table>
+            <div class="horizontal-flex-container" style="margin-bottom:40px; margin-top:40px;">
+                <a href="#" class="blue-button" style="position:relative; text-align:center; width:400px;" onclick="this.closest('form').submit();">Update</a>
+            </div>
         }
     </div>
 </body>

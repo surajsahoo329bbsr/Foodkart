@@ -1,7 +1,7 @@
 ﻿@model  List<Foodkart.Models.OrdersModel>
 
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
     ViewBag.Pre_Id = 0;
 }
 
@@ -11,146 +11,87 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>CustomerOrders</title>
-    @Html.Partial("~/Views/Shared/_Header.cshtml");
 </head>
 <body>
-    <style type="text/css">
-
-        .card {
-            box-shadow: 0 4px 8px 0 #8D8D8D;
-            border-radius: 5px;
-            transition: 0.3s;
-            padding: 20px;
-            width: 800px;
-            height: auto;
-            position: relative;
-            margin-top: 20px;
-            margin-left: auto;
-            margin-right: auto;
-            background-color: #FFFFFF;
-        }
-
-        .input-group {
-            position: relative;
-        }
-
-            .input-group .input-area {
-                border: 1px solid #03A9F4;
-                padding: 16px 12px;
-                font-size: 20px;
-                width: 80px;
-                height: 20px;
-                text-align: center;
-                border-radius: 5px;
-            }
-
-                .input-group .input-area:focus {
-                    border: 0px solid #03A9F4;
-                }
-
-                    .input-group .input-area:focus + .label {
-                        top: -8px;
-                        padding: 0 3px;
-                        font-size: 20px;
-                        color: #03A9F4;
-                        border-radius: 5px;
-                    }
-
-            .input-group .label {
-                color: #8D8D8D;
-                position: absolute;
-                top: 20px;
-                left: 13px;
-                background: #FFFFFF;
-                transition: 0.3s;
-                border-radius: 5px;
-            }
-
-            .input-group .input-area:valid + .label {
-                top: -8px;
-                padding: 0 3px;
-                font-size: 16px;
-                color: #03A9F4;
-                border-radius: 5px;
-            }
-
-        .blue-button {
-            font-size: 20px;
-            border-radius: 8px;
-            padding: 10px 8px;
-            background-color: #03A9F4;
-            color: #FFFFFF;
-            text-decoration: none;
-        }
-
-            .blue-button:hover {
-                background-color: #01579B;
-                color: #FFFFFF;
-                transition: 0.8s;
-                text-decoration: none;
-            }
-
-        .blue-link {
-            font-size: 18px;
-            color: #03A9F4;
-            text-decoration: none;
-        }
-
-        body {
-            background-color: lightgrey;
-            margin: 0;
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-        }
-    </style>
-    <br /><br /><br /><br /><br /><br /><br /><br />
-
     <div class="card">
         @if (ViewBag.Status == "ordered")
         {
-            <h2>Ordered successfully</h2>
+            <p>Ordered successfully</p>
         }
         @if (Model.Count() == 0)
         {
-            <h2>Oops ! You have no orders.</h2>
-            <img src="https://cdn.dribbble.com/users/721524/screenshots/4112199/no_orders.png" style="height:400px; width:400px; margin-left: 200px;"/>
+            <p>Oops ! You have no orders.</p>
+            <img src="https://cdn.dribbble.com/users/721524/screenshots/4112199/no_orders.png" style="height:400px; width:400px; margin-left: 200px;" />
         }
         else
         {
+            long totalBill = 0;
+            int count = 0;
             foreach (Foodkart.Models.OrdersModel ordersModel in @Model)
             {
+                long eachItemTotal = 0;
                 if (ViewBag.Pre_Id != ordersModel.OrderId)
                 {
                     if (ViewBag.Pre_Id != 0)
                     {
-                        <hr style="height:2px; background: black;" />
+                        <text>
+                            <hr style="margin-top:40px;" />
+                        </text>
+                        <div style="width:100%; display:inline-block">
+                            <p style="position:relative; float:left;">Total Bill</p>
+                            <p style="position:relative; float:right;">Rs @totalBill</p>
+                        </div>
+                        <text>
+                            <hr />
+                        </text>
+                        totalBill = 0;
+
                     }
-                    <h2>Order Id - @ordersModel.OrderId &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; (@ordersModel.OrderDate)</h2>
+                    <p>Order Id - @ordersModel.OrderId </p>
+                    <p>Ordered On @ordersModel.OrderDate</p>
                     {
                         ViewBag.Pre_Id = long.Parse(ordersModel.OrderId.ToString());
                     }
-                    <h2>@ordersModel.FoodName (@ordersModel.FoodCategory)</h2>
-                    <h2>Rs @ordersModel.OrderItemUnitPrice - @ordersModel.OrderItemQty item(s)</h2>
+
+                    eachItemTotal = @ordersModel.OrderItemUnitPrice * @ordersModel.OrderItemQty;
+                    totalBill += eachItemTotal;
+                    <p>@ordersModel.FoodName (@ordersModel.FoodCategory)</p>
+                    <div style="width:100%; display:flex; justify-content:space-between; margin-top:-40px; margin-bottom:-40px; position:relative;">
+                        <p>Rs @ordersModel.OrderItemUnitPrice X @ordersModel.OrderItemQty item(s)</p>
+                        <p>Rs @eachItemTotal</p>
+                    </div>
                 }
                 else
                 {
                     {
                         ViewBag.Pre_Id = long.Parse(ordersModel.OrderId.ToString());
                     }
-                    <h2>@ordersModel.FoodName (@ordersModel.FoodCategory)</h2>
-                    <h2>Rs @ordersModel.OrderItemUnitPrice - @ordersModel.OrderItemQty item(s)</h2>
+
+                    eachItemTotal = @ordersModel.OrderItemUnitPrice * @ordersModel.OrderItemQty;
+                    totalBill += eachItemTotal;
+                    <p>@ordersModel.FoodName (@ordersModel.FoodCategory)</p>
+                    <div style="width:100%; display:flex; justify-content:space-between; margin-top:-40px;  margin-bottom:-40px; position:relative;">
+                        <p>Rs @ordersModel.OrderItemUnitPrice X @ordersModel.OrderItemQty item(s)</p>
+                        <p>Rs @eachItemTotal</p>
+                    </div>
                 }
+                if (count == Model.Count() - 1)
+                {
+                    <text>
+                        <hr style="margin-top:40px;" />
+                    </text>
+                    <div style="width:100%; display:inline-block">
+                        <p style="position:relative; float:left;">Total Bill</p>
+                        <p style="position:relative; float:right;">Rs @totalBill</p>
+                    </div>
+                    <text>
+                        <hr />
+                    </text>
+                }
+                count++;
             }
         }
 
-    </div>
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <div>
-        @Html.Partial("~/Views/Shared/_Footer.cshtml")
     </div>
 </body>
 </html>

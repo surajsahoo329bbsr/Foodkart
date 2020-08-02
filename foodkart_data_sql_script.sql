@@ -5,6 +5,8 @@ CREATE DATABASE [FoodKartDB];
 
 USE FoodKartDB;
 
+select OrderDate, OrderId, FoodName, FoodCategory, FoodType, OrderItemQty, OrderItemUnitPrice from OrderItems OI join Orders O on OI.OrderItemOrderId = O.OrderId join Foods F on OI.OrderItemFoodId = F.FoodId where OrderCustId = 1 order by 1 desc;
+
 SELECT * FROM CUSTOMERS;
 SELECT * FROM MENUS;
 SELECT * FROM FOODS;
@@ -40,8 +42,6 @@ OI.OrderItemFoodId = F.FoodId
 WHERE F.FoodMenuId = 1
 GROUP BY OrderItemFoodId
 ORDER BY SUM(OrderItemQty) DESC);
-
-
 
 ALTER TABLE MENUS ADD CONSTRAINT DF_MENUS DEFAULT GETDATE() FOR MenuAddDate;
 INSERT INTO 

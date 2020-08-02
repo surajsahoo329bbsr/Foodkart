@@ -1,7 +1,7 @@
 ﻿@model Foodkart.Customer
 
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
 }
 
 <!DOCTYPE html>
@@ -10,114 +10,10 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>CustomerProfile</title>
-    @Html.Partial("~/Views/Shared/_Header.cshtml");
 </head>
 <body>
-    <style type="text/css">
-        h4 {
-            font-size: 24px;
-        }
-
-        .card {
-            box-shadow: 0 4px 8px 0 #8D8D8D;
-            border-radius: 5px;
-            transition: 0.3s;
-            padding: 20px;
-            width: 500px;
-            height: 700px;
-            position: relative;
-            margin-top: 150px;
-            margin-left: auto;
-            margin-right: auto;
-            background-color: #FFFFFF;
-        }
-
-        input:-webkit-autofill,
-        input:-webkit-autofill:hover,
-        input:-webkit-autofill:focus,
-        input:-webkit-autofill:active {
-            transition: background-color 5000s ease-in-out 0s;
-        }
-
-        .input-group {
-            position: relative;
-        }
-
-            .input-group .input-area {
-                border: 1px solid #03A9F4;
-                padding: 16px 12px;
-                font-size: 20px;
-                width: 400px;
-                height: 24px;
-                border-radius: 5px;
-            }
-
-                .input-group .input-area:focus {
-                    border: 0px solid #03A9F4;
-                }
-
-                    .input-group .input-area:focus + .label {
-                        top: -8px;
-                        padding: 0 3px;
-                        font-size: 20px;
-                        color: #03A9F4;
-                        border-radius: 5px;
-                    }
-
-            .input-group .label {
-                color: #8D8D8D;
-                position: absolute;
-                top: 20px;
-                left: 13px;
-                background: #FFFFFF;
-                transition: 0.3s;
-                border-radius: 5px;
-            }
-
-            .input-group .input-area:valid + .label {
-                top: -8px;
-                padding: 0 3px;
-                font-size: 16px;
-                color: #03A9F4;
-                border-radius: 5px;
-            }
-
-        .blue-link {
-            font-size: 24px;
-            color: #03A9F4;
-            text-decoration: none;
-        }
-
-            .blue-link:hover {
-                color: #01579B;
-                transition: 0.8s;
-                text-decoration: none;
-            }
-
-        .blue-button {
-            font-size: 24px;
-            border-radius: 8px;
-            padding: 14px 12px;
-            background-color: #03A9F4;
-            color: #FFFFFF;
-            text-decoration: none;
-        }
-
-            .blue-button:hover {
-                background-color: #01579B;
-                color: #FFFFFF;
-                transition: 0.8s;
-                text-decoration: none;
-            }
-
-        body {
-            background-color: lightgrey;
-            margin: 0;
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-        }
-    </style>
-    <div class="card">
-        <h2 style="text-align:center; font-size:50px;">Update</h2>
+    <div class="card_form">
+        <h2 style="font-size:40px; text-align:center;">Update Profile</h2>
         @using (Html.BeginForm("CustomerProfile", "Customer", FormMethod.Post))
         {
             <input type="text" id="CustId" name="CustId" value="@Model.CustId" hidden/>
@@ -130,8 +26,6 @@
                         </div>
                     </td>
                 </tr>
-                <tr><td> </td> <td> </td></tr>
-                <tr><td> </td> <td> </td></tr>
                 <tr>
                     <td>
                         <div class="input-group">
@@ -140,8 +34,6 @@
                         </div>
                     </td>
                 </tr>
-                <tr><td> </td> <td> </td></tr>
-                <tr><td> </td> <td> </td></tr>
                 <tr>
                     <td>
                         <div class="input-group">
@@ -150,8 +42,6 @@
                         </div>
                     </td>
                 </tr>
-                <tr><td> </td> <td> </td></tr>
-                <tr><td> </td> <td> </td></tr>
                 <tr>
                     <td>
                         <div class="input-group">
@@ -161,18 +51,10 @@
                     </td>
                 </tr>
             </table>
-            <br />
-            <br />
-            <table align="center">
-                <tr><td> </td> <td> </td></tr>
-                <tr><td> </td> <td> </td></tr>
-                <tr>
-                    <td style="position: absolute; margin-left: -210px;"><a href="Login" class="blue-link">Change Password</a></td>
-                    <td style="position: absolute; margin-left: 110px;"><a href="#" class="blue-button" onclick="this.closest('form').submit();">Update</a></td>
-                </tr>
-            </table>
+            <div class="horizontal-flex-container" style="margin-bottom:40px; margin-top:40px;">
+                <a href="#" class="blue-button" style="position:relative; text-align:center; width:400px;" onclick="this.closest('form').submit();">Update</a>
+            </div>
         }
     </div>
-    @Html.Partial("~/Views/Shared/_Footer.cshtml")
 </body>
 </html>

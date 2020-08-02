@@ -1,7 +1,7 @@
 ﻿@model Foodkart.Food
 
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
 }
 
 <!DOCTYPE html>
@@ -10,108 +10,8 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>AddToCart</title>
-    @Html.Partial("~/Views/Shared/_Header.cshtml");
 </head>
 <body>
-    <style type="text/css">
-        .card {
-            box-shadow: 0 4px 8px 0 #8D8D8D;
-            border-radius: 5px;
-            transition: 0.3s;
-            padding: 20px;
-            width: 800px;
-            height: 250px;
-            position: relative;
-            margin-top: 200px;
-            margin-left: auto;
-            margin-right: auto;
-            background-color: #FFFFFF;
-        }
-
-        .img-card {
-            box-shadow: 0 4px 8px 0 #8D8D8D;
-            border-radius: 5px;
-            border: 1px solid black;
-            transition: 0.3s;
-            width: 200px;
-            height: 200px;
-            position: absolute;
-            margin-left: 575px;
-            margin-top: -100px;
-        }
-
-        .input-group {
-            position: relative;
-        }
-
-            .input-group .input-area {
-                border: 1px solid #03A9F4;
-                padding: 16px 12px;
-                font-size: 20px;
-                width: 80px;
-                height: 20px;
-                text-align: center;
-                border-radius: 5px;
-            }
-
-                .input-group .input-area:focus {
-                    border: 0px solid #03A9F4;
-                }
-
-                    .input-group .input-area:focus + .label {
-                        top: -8px;
-                        padding: 0 3px;
-                        font-size: 20px;
-                        color: #03A9F4;
-                        border-radius: 5px;
-                    }
-
-            .input-group .label {
-                color: #8D8D8D;
-                position: absolute;
-                top: 20px;
-                left: 13px;
-                background: #FFFFFF;
-                transition: 0.3s;
-                border-radius: 5px;
-            }
-
-            .input-group .input-area:valid + .label {
-                top: -8px;
-                padding: 0 3px;
-                font-size: 16px;
-                color: #03A9F4;
-                border-radius: 5px;
-            }
-
-        .blue-button {
-            font-size: 20px;
-            border-radius: 8px;
-            padding: 10px 8px;
-            background-color: #03A9F4;
-            color: #FFFFFF;
-            text-decoration: none;
-        }
-
-            .blue-button:hover {
-                background-color: #01579B;
-                color: #FFFFFF;
-                transition: 0.8s;
-                text-decoration: none;
-            }
-
-        .blue-link {
-            font-size: 18px;
-            color: #03A9F4;
-            text-decoration: none;
-        }
-
-        body {
-            background-color: lightgrey;
-            margin: 0;
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-        }
-    </style>
     @if (@Model == null)
     {
         <div class="card">
@@ -139,16 +39,10 @@
                     <h2>&#8360 @Model.FoodUnitPrice  (@Model.FoodCategory, Egg) </h2>
                 }
                 <a><img src="@Model.FoodPhotoUrl" class="img-card" /></a>
-                <table>
-                    <tr>
-                        <td>
-                            <div class="input-group">
-                                <input type="number" id="FoodQty" name="FoodQty" min="0" max="@Model.FoodQty" class="input-area" />
-                                <label for="FoodQty" class="label">Quantity</label>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
+                <div style="margin-top:45px;" class="input-group">
+                    <input type="number" id="FoodQty" name="FoodQty" min="0" max="@Model.FoodQty" class="input-area" />
+                    <label for="FoodQty" class="label">Quantity</label>
+                </div>
                 <table align="center">
                     <tr>
                         <td><a href="/Customer/CustomerHome" class="blue-link">Back</a></td>
@@ -159,6 +53,5 @@
         }
 
     }
-    @Html.Partial("~/Views/Shared/_Footer.cshtml")
 </body>
 </html>

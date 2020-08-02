@@ -17,7 +17,7 @@
         {
             <h2 style="text-align:center;">Food Registered</h2>
         }
-        else
+        else if (ViewBag.Status == "FoodExists")
         {
             <h2 style="text-align:center;">Food Exists</h2>
         }
@@ -54,7 +54,7 @@
                 <tr><td> </td> <td> </td></tr>
                 <tr>
                     <td style="text-align:left">
-                        <select id="FoodCategory" name="FoodCategory" style="height:60px; width:100%; font-size:20px; padding:10px;">
+                        <select id="FoodCategory" name="FoodCategory" style="height:60px; width:100%; font-size:20px; border-color:#03A9F4; padding:10px;">
                             <option disabled selected>Select Food Category</option>
                             <option value="Add Ons">Add Ons</option>
                             <option value="Breads">Breads</option>
@@ -75,7 +75,7 @@
                 <tr><td> </td> <td> </td></tr>
                 <tr>
                     <td style="text-align:left">
-                        <select id="FoodType" name="FoodType" style="height:60px; width:100%; font-size:20px; padding:10px; ">
+                        <select id="FoodType" name="FoodType" style="height:60px; width:100%; border-color:#03A9F4; font-size:20px; padding:10px; ">
                             <option disabled selected>Select Food Type</option>
                             <option value="V">Veg</option>
                             <option value="N">Non-Veg</option>
@@ -95,12 +95,9 @@
             </table>
             <br />
             <br />
-            <table align="center" style="margin-bottom:80px;">
-                <tr>
-                    <td style="position: absolute; margin-left: 0px;"><a href="AdminLogin" class="blue-link">Back</a></td>
-                    <td style="position: absolute; margin-left: 250px;"><a href="#" class="blue-button" onclick="this.closest('form').submit();">Add To Stock</a></td>
-                </tr>
-            </table>
+            <div class="horizontal-flex-container" style="margin-bottom:40px;">
+                <a href="#" class="blue-button" style="position:relative; width:400px;" onclick="this.closest('form').submit();">Add</a>
+            </div>
         }
     </div>
 </body>

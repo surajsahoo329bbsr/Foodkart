@@ -203,6 +203,7 @@
     <Content Include="Images\orders.jpg" />
     <Content Include="Images\oreo.jpg" />
     <Content Include="Images\register2.jpg" />
+    <Content Include="Logos\admin_logo.png" />
     <Content Include="Logos\logo.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -235,19 +236,12 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\Admin\AdminHome.cshtml" />
-    <Content Include="Views\Auth\Login.cshtml" />
-    <Content Include="Views\Auth\Registration.cshtml" />
     <Content Include="Views\Customer\CustomerHome.cshtml" />
-    <Content Include="Views\Shared\_Header.cshtml" />
     <Content Include="Views\Customer\CustomerCart.cshtml" />
     <Content Include="Views\Customer\CustomerOrders.cshtml" />
-    <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Customer\AddToCart.cshtml" />
     <Content Include="Views\Customer\ShowFoodItems.cshtml" />
     <Content Include="Views\Customer\CustomerProfile.cshtml" />
-    <Content Include="Views\AdminAuth\AdminLogin.cshtml" />
-    <Content Include="Views\AdminAuth\AdminRegistration.cshtml" />
-    <Content Include="Views\Shared\_AdminHeader.cshtml" />
     <Content Include="Views\Admin\AdminManageItems.cshtml" />
     <Content Include="Views\Admin\AdminCustOrders.cshtml" />
     <Content Include="Views\Admin\AdminProfile.cshtml" />
@@ -259,6 +253,8 @@
     <Content Include="Views\Admin\DeleteItem.cshtml" />
     <Content Include="Views\Admin\RestockItems.cshtml" />
     <Content Include="Views\Auth\Index.cshtml" />
+    <Content Include="Views\Shared\_CustomerLayout.cshtml" />
+    <Content Include="Views\AdminAuth\AdminIndex.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
