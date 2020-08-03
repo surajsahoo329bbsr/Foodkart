@@ -20,7 +20,7 @@ namespace Foodkart.Controllers
         public ActionResult Index(Customer customer, FormCollection forms)
         {
             FoodkartModelContainer foodContext = new FoodkartModelContainer();
-            IList<Customer> CustList = (from cust in foodContext.Customers where cust.CustEmail == customer.CustEmail select cust).ToList();
+            IList<Customer> CustList = (from cust in foodContext.Customers where cust.CustEmail == customer.CustEmail || cust.CustPhone == customer.CustPhone select cust).ToList();
             long custId = 0;
             foreach (Customer cust in CustList) custId = cust.CustId;
             Customer custFound = foodContext.Customers.Find(custId);

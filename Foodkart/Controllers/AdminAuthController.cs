@@ -8,7 +8,6 @@ namespace Foodkart.Controllers
 {
     public class AdminAuthController : Controller
     {
-
         public ActionResult AdminIndex()
         {
             Admin admin = new Admin();
@@ -82,7 +81,6 @@ namespace Foodkart.Controllers
                 }
 
             }
-
         }        
     }
 }

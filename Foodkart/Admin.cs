@@ -9,11 +9,9 @@
 
 namespace Foodkart
 {
-    using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    [MetadataType(typeof(AdminMetaData))]
+    [System.ComponentModel.DataAnnotations.MetadataType(typeof(AdminMetaData))]
     public partial class Admin
     {
         public long AdminId { get; set; }
@@ -27,21 +25,24 @@ namespace Foodkart
         public virtual Menu Menu { get; set; }
     }
 
-    public partial class AdminMetaData
+    internal sealed  class AdminMetaData
     {
-        public long AdminId { get; set; }
+        [Required(ErrorMessage = "Must have alphabets, no spaces, 1-20 characters"), RegularExpression("^[a-zA-Z]{1,20}$", ErrorMessage = "Must have alphabets, no spaces, 1-20 characters"), Display(Name = "First Name")]
+        public string AdminFName { get; set; }
 
-        [Required(ErrorMessage = "Please enter valid username"), RegularExpression(@"^(?=[a-z0-9._]{6,30}$)(?!.*[_.]{2})[^_.].*[^_.]$")]
+        [Required(ErrorMessage = "Must have small letters, digits, . , _  no spaces, 6-30 characters"), RegularExpression("^(?=[a-z0-9._]{6,30}$)(?!.*[_.]{2})[^_.].*[^_.]$", ErrorMessage = "Must have small letters, digits, . , _  no spaces, 6-30 characters"), Display(Name = "Username")]
         public string AdminUsername { get; set; }
 
-        [Required(ErrorMessage = "Please enter valid password"), RegularExpression(@"^[a-zA-Z0-9]{8,20}$")]
+        [Required(ErrorMessage = "Must be 10 digit number starting with 7/8/9"), RegularExpression("^[789]{1}[0-9]{9}$", ErrorMessage = "Must be 10 digit number starting with 7/8/9"), Display(Name = "Phone Number")]
+        public string AdminPhone { get; set; }
+
+        [Required(ErrorMessage = "Must have alphabets, no spaces, 1-20 characters"), RegularExpression("^[a-zA-Z]{1,20}$", ErrorMessage = "Must have alphabets, no spaces, 1-20 characters"), Display(Name = "Last Name")]
+        public string AdminLName { get; set; }
+
+        [Required(ErrorMessage = "Must have alphabets and digits only, 8-20 characters"), RegularExpression("^[a-zA-Z0-9]{8,20}$", ErrorMessage = "Must have alphabets and digits only, 8-20 characters"), Display(Name = "Password")]
         public string AdminPassword { get; set; }
 
-        public string AdminPhone { get; set; }
-        public string AdminFName { get; set; }
-        public string AdminLName { get; set; }
+        [Required(ErrorMessage = "Invalid Branch Id"), RegularExpression("^[0-9]{1,10}$", ErrorMessage = "Invalid Branch Id"), Display(Name = "Branch Id")]
         public long AdminMenuId { get; set; }
-
-        public virtual Menu Menu { get; set; }
     }
 }

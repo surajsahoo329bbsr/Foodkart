@@ -14,6 +14,7 @@
 </head>
 <body>
     <div class="card">
+        <h2 style="font-size:40px;">Your Orders</h2>
         @if (ViewBag.Status == "ordered")
         {
             <p>Ordered successfully</p>
@@ -35,11 +36,11 @@
                     if (ViewBag.Pre_Id != 0)
                     {
                         <text>
-                            <hr style="margin-top:40px;" />
+                            <hr style="margin-top:50px;" />
                         </text>
                         <div style="width:100%; display:inline-block">
-                            <p style="position:relative; float:left;">Total Bill</p>
-                            <p style="position:relative; float:right;">Rs @totalBill</p>
+                            <p style="position:relative; padding-left:10px; float:left;">Total Bill</p>
+                            <p style="position:relative; padding-right:10px; float:right;">Rs @totalBill</p>
                         </div>
                         <text>
                             <hr />
@@ -49,16 +50,23 @@
                     }
                     <p>Order Id - @ordersModel.OrderId </p>
                     <p>Ordered On @ordersModel.OrderDate</p>
+                    <table>
+                        <tr>
+                            <th style="text-align:left">Food Items</th>
+                            <th style="text-align:right">Total Price</th>
+                        </tr>
+                    </table>
                     {
                         ViewBag.Pre_Id = long.Parse(ordersModel.OrderId.ToString());
                     }
 
                     eachItemTotal = @ordersModel.OrderItemUnitPrice * @ordersModel.OrderItemQty;
                     totalBill += eachItemTotal;
-                    <p>@ordersModel.FoodName (@ordersModel.FoodCategory)</p>
+
+                    <p style="padding:10px;">@ordersModel.FoodName (@ordersModel.FoodCategory)</p>
                     <div style="width:100%; display:flex; justify-content:space-between; margin-top:-40px; margin-bottom:-40px; position:relative;">
-                        <p>Rs @ordersModel.OrderItemUnitPrice X @ordersModel.OrderItemQty item(s)</p>
-                        <p>Rs @eachItemTotal</p>
+                        <p style="padding-left:10px;">Rs @ordersModel.OrderItemUnitPrice X @ordersModel.OrderItemQty item(s)</p>
+                        <p style="padding-right:10px;">Rs @eachItemTotal</p>
                     </div>
                 }
                 else
@@ -69,20 +77,20 @@
 
                     eachItemTotal = @ordersModel.OrderItemUnitPrice * @ordersModel.OrderItemQty;
                     totalBill += eachItemTotal;
-                    <p>@ordersModel.FoodName (@ordersModel.FoodCategory)</p>
+                    <p style="padding:10px;">@ordersModel.FoodName (@ordersModel.FoodCategory)</p>
                     <div style="width:100%; display:flex; justify-content:space-between; margin-top:-40px;  margin-bottom:-40px; position:relative;">
-                        <p>Rs @ordersModel.OrderItemUnitPrice X @ordersModel.OrderItemQty item(s)</p>
-                        <p>Rs @eachItemTotal</p>
+                        <p style="padding-left: 10px;">Rs @ordersModel.OrderItemUnitPrice X @ordersModel.OrderItemQty item(s)</p>
+                        <p style="padding-right: 10px;">Rs @eachItemTotal</p>
                     </div>
                 }
                 if (count == Model.Count() - 1)
                 {
                     <text>
-                        <hr style="margin-top:40px;" />
+                        <hr style="margin-top:50px;" />
                     </text>
                     <div style="width:100%; display:inline-block">
-                        <p style="position:relative; float:left;">Total Bill</p>
-                        <p style="position:relative; float:right;">Rs @totalBill</p>
+                        <p style="position:relative; padding-left:10px; float:left;">Total Bill</p>
+                        <p style="position:relative; padding-right:10px; float:right;">Rs @totalBill</p>
                     </div>
                     <text>
                         <hr />

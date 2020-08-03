@@ -42,28 +42,38 @@
                 long totalBill = 0;
 
                 <div class="card">
+                    <h2 style="font-size:40px;">Your Cart</h2>
+                    <table>
+                        <tr>
+                            <th style="text-align:left">Food Items</th>
+                            <th style="text-align:right">Total Price</th>
+                        </tr>
+                    </table>
                     @foreach (CartItem cartItem in @Model)
                     {
                         FoodkartModelContainer foodkartContext = new FoodkartModelContainer();
                         Food food = foodkartContext.Foods.Find(cartItem.CartItemFoodId);
                         long eachItemTotal = @food.FoodUnitPrice * @cartItem.CartItemQty;
-                        <p>@food.FoodName (@food.FoodCategory) </p>
-                        <div style="width:100%; display:inline-block">
-                            <p style="position:relative; float:left;">Rs @food.FoodUnitPrice X @cartItem.CartItemQty item(s)</p>
-                            <p style="position:relative; float:right;">Rs @eachItemTotal</p>
+                        <p style="padding: 10px;">@food.FoodName (@food.FoodCategory) </p>
+                        <div style="width:100%; display:flex; justify-content:space-between; margin-top:-40px; margin-bottom:-40px; position:relative;">
+                            <p style="position:relative; padding:10px; float:left;">Rs @food.FoodUnitPrice X @cartItem.CartItemQty item(s)</p>
+                            <p style="position:relative; padding:10px; float:right;">Rs @eachItemTotal</p>
                         </div>
                         totalBill += eachItemTotal;
 
                     }
+                    <br/>
+                    <br/>
                     <hr />
                     <div style="width:100%; display:inline-block">
                         <div style="position:relative; float:left;">
-                            <p class="p_style">Total Bill</p>
+                            <p class="p_style" style="padding-left: 10px;">Total Bill</p>
                         </div>
                         <div style="position:relative; float:right;">
-                            <p class="p_style">Rs @totalBill</p>
+                            <p class="p_style" style="padding-right: 10px;">Rs @totalBill</p>
                         </div>
                     </div>
+                    <hr/>
                     <div class="horizontal-flex-container" style="text-align:center; margin-top:40px; margin-bottom:40px; position: relative;">
                         <a href="#" style="width:100%" class="blue-button" onclick="this.closest('form').submit(); return false;">Place Order</a>
                     </div>

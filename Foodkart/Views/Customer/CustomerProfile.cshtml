@@ -12,18 +12,24 @@
     <title>CustomerProfile</title>
 </head>
 <body>
+    <link rel="stylesheet" type="text/css" href="~/css/styles.css" />
     <div class="card_form">
-        <h2 style="font-size:40px; text-align:center;">Update Profile</h2>
+        <h2 style="font-size:40px; padding-left:20px;" >Update Profile</h2>
         @using (Html.BeginForm("CustomerProfile", "Customer", FormMethod.Post))
         {
-            <input type="text" id="CustId" name="CustId" value="@Model.CustId" hidden/>
+            <input type="text" id="CustId" name="CustId" value="@Model.CustId" hidden />
             <table align="center">
                 <tr>
                     <td>
                         <div class="input-group">
-                            <input type="text" id="CustFName" name="CustFName" pattern="^[a-zA-Z]{1,20}$" class="input-area"  value="@Model.CustFName" required />
+                            <input type="text" id="CustFName" name="CustFName" pattern="^[a-zA-Z]{1,20}$" class="input-area" value="@Model.CustFName" required />
                             <label for="CustFName" class="label">First Name</label>
                         </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-family:MyFont, sans-serif; font-weight:bold; font-size:20px; color:red;">
+                        @Html.ValidationMessage("CustFName", "")
                     </td>
                 </tr>
                 <tr>
@@ -35,11 +41,21 @@
                     </td>
                 </tr>
                 <tr>
+                    <td style="font-family:MyFont, sans-serif; font-weight:bold; font-size:20px; color:red;">
+                        @Html.ValidationMessage("CustLName", "")
+                    </td>
+                </tr>
+                <tr>
                     <td>
                         <div class="input-group">
                             <input type="text" id="CustEmail" name="CustEmail" pattern="^([a-zA-Z0-9_\-\.]+)\u0040([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" class="input-area" value="@Model.CustEmail" required />
                             <label for="CustEmail" class="label">Email</label>
                         </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-family:MyFont, sans-serif; font-weight:bold; font-size:20px; color:red;">
+                        @Html.ValidationMessage("CustEmail", "")
                     </td>
                 </tr>
                 <tr>
@@ -50,10 +66,28 @@
                         </div>
                     </td>
                 </tr>
+                <tr>
+                    <td style="font-family:MyFont, sans-serif; font-weight:bold; font-size:20px; color:red;">
+                        @Html.ValidationMessage("CustPhone", "")
+                    </td>
+                </tr>
             </table>
             <div class="horizontal-flex-container" style="margin-bottom:40px; margin-top:40px;">
                 <a href="#" class="blue-button" style="position:relative; text-align:center; width:400px;" onclick="this.closest('form').submit();">Update</a>
             </div>
+            if (ViewBag.Status == "KeyViolation")
+            {
+                <div class="danger-div">
+                   <p>Email/Phone Number Taken</p>
+                </div>
+
+            }
+            if (ViewBag.Status == "Updated")
+            {
+                <div class="success-div">
+                    <p>Profile Updated</p>
+                </div>
+            }
         }
     </div>
 </body>

@@ -11,47 +11,45 @@
     <meta name="viewport" content="width=device-width" />
     <title>AddToCart</title>
 </head>
-<body>
-    @if (@Model == null)
+<body>    
+    @using (Html.BeginForm("AddToCart", "Customer", FormMethod.Post))
     {
+        <input type="number" id="FoodId" name="FoodId" value="@Model.FoodId" hidden />
+
         <div class="card">
-            <h2>Item added successfully</h2>
-        </div>
-    }
-    else
-    {
-        using (Html.BeginForm("AddToCart", "Customer", FormMethod.Post))
-        {
-            <input type="number" id="FoodId" name="FoodId" value="@Model.FoodId" hidden />
-
-            <div class="card">
-                <h1>@Model.FoodName</h1>
-                @if (Model.FoodType == "V")
-                {
-                    <h2>&#8360 @Model.FoodUnitPrice  (@Model.FoodCategory, Veg) </h2>
-                }
-                else if (Model.FoodType == "N")
-                {
-                    <h2>&#8360 @Model.FoodUnitPrice  (@Model.FoodCategory, Non-Veg) </h2>
-                }
-                else
-                {
-                    <h2>&#8360 @Model.FoodUnitPrice  (@Model.FoodCategory, Egg) </h2>
-                }
-                <a><img src="@Model.FoodPhotoUrl" class="img-card" /></a>
-                <div style="margin-top:45px;" class="input-group">
-                    <input type="number" id="FoodQty" name="FoodQty" min="0" max="@Model.FoodQty" class="input-area" />
-                    <label for="FoodQty" class="label">Quantity</label>
-                </div>
-                <table align="center">
-                    <tr>
-                        <td><a href="/Customer/CustomerHome" class="blue-link">Back</a></td>
-                        <td><a href="#" class="blue-button" onclick="this.closest('form').submit();">Add to Cart</a></td>
-                    </tr>
-                </table>
+            <h1>@Model.FoodName</h1>
+            @if (Model.FoodType == "V")
+            {
+                <h2>&#8360 @Model.FoodUnitPrice  (@Model.FoodCategory, Veg) </h2>
+            }
+            else if (Model.FoodType == "N")
+            {
+                <h2>&#8360 @Model.FoodUnitPrice  (@Model.FoodCategory, Non-Veg) </h2>
+            }
+            else
+            {
+                <h2>&#8360 @Model.FoodUnitPrice  (@Model.FoodCategory, Egg) </h2>
+            }
+            <a><img src="@Model.FoodPhotoUrl" class="img-card" /></a>
+            <div style="margin-top:45px;" class="input-group">
+                <input type="number" id="FoodQty" name="FoodQty" min="0" max="@Model.FoodQty" class="input-area" />
+                <label for="FoodQty" class="label">Quantity</label>
             </div>
-        }
-
+            <table align="center">
+                <tr>
+                    <td><a href="/Customer/CustomerHome" class="blue-link">Back</a></td>
+                    <td><a href="#" class="blue-button" onclick="this.closest('form').submit();">Add to Cart</a></td>
+                </tr>
+            </table>
+            <br/>
+            <br/>
+            @if(ViewBag.Status == "ItemAdded")
+            {
+                <div class="success-div">
+                    <p>@ViewBag.Quantity items added to cart</p>
+                </div>
+            }
+        </div>
     }
 </body>
 </html>

@@ -9,6 +9,36 @@
             src: url(../fonts/Montserrat-Medium.ttf);
         }
 
+        .danger-div {
+            text-align:center;
+            margin-left:auto;
+            margin-right:auto;
+            width:420px; 
+            border:1px solid red;
+            border-radius:5px; 
+            color:red;
+            background-color:#FFCCCB
+        }
+
+        .danger-div p{
+            color:red;
+        }
+
+        .success-div {
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+            width: 420px;
+            border: 1px solid green;
+            border-radius: 5px;
+            color: red;
+            background-color: #BCF5BC;
+        }
+
+            .success-div p {
+                color: green;
+            }
+
         li, a, button, p {
             font-family: MyFont, sans-serif;
             font-weight: 500;
@@ -398,6 +428,11 @@
                         </td>
                     </tr>
                     <tr>
+                        <td style="font-family:MyFont, sans-serif; font-weight:bold; font-size:20px; color:red;">
+                            @Html.ValidationMessage("AdminUsername", "")
+                        </td>
+                    </tr>
+                    <tr>
                         <td>
                             <div class="input-group">
                                 <input type="password" id="AdminPassword" name="AdminPassword" pattern="^[a-zA-Z0-9]{8,20}$" class="input-area" required />
@@ -405,22 +440,29 @@
                             </div>
                         </td>
                     </tr>
+                    <tr>
+                        <td style="font-family:MyFont, sans-serif; font-weight:bold; font-size:20px; color:red;">
+                            @Html.ValidationMessage("AdminPassword", "")
+                        </td>
+                    </tr>
                 </table>
                 <div class="horizontal-flex-container">
                     <a href="#" class="blue-button" onclick="this.closest('form').submit(); return false;">Login</a>
                 </div>
             }
+            <br />
+            <br />
             @if (Model.AdminUsername == "BadCredentials")
             {
                 Session["login_error"] = "true";
-                <div style="text-align:center">
+                <div class="danger-div">
                     <p>Bad Credentials</p>
                 </div>
             }
             @if (Model.AdminUsername == "NotRegistered")
             {
                 Session["login_error"] = "true";
-                <div style="text-align:center">
+                <div class="danger-div">
                     <p>Admin doesn't exist !</p>
                 </div>
             }
@@ -440,8 +482,13 @@
                         <td>
                             <div class="input-group">
                                 <input type="text" id="AdminFName" name="AdminFName" pattern="^[a-zA-Z]{1,20}$" class="input-area" required />
-                                <label for="AdminFName" class="label">Username</label>
+                                <label for="AdminFName" class="label">First Name</label>
                             </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-family:MyFont, sans-serif; font-weight:bold; font-size:20px; color:red;">
+                            @Html.ValidationMessage("AdminFName", "")
                         </td>
                     </tr>
                     <tr>
@@ -453,11 +500,21 @@
                         </td>
                     </tr>
                     <tr>
+                        <td style="font-family:MyFont, sans-serif; font-weight:bold; font-size:20px; color:red;">
+                            @Html.ValidationMessage("AdminLName", "")
+                        </td>
+                    </tr>
+                    <tr>
                         <td>
                             <div class="input-group">
                                 <input type="text" id="AdminUsername" name="AdminUsername" pattern="^(?=[a-z0-9._]{6,30}$)(?!.*[_.]{2})[^_.].*[^_.]$" class="input-area" required />
                                 <label for="AdminUsername" class="label">Username</label>
                             </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-family:MyFont, sans-serif; font-weight:bold; font-size:20px; color:red;">
+                            @Html.ValidationMessage("AdminUsername", "")
                         </td>
                     </tr>
                     <tr>
@@ -469,6 +526,11 @@
                         </td>
                     </tr>
                     <tr>
+                        <td style="font-family:MyFont, sans-serif; font-weight:bold; font-size:20px; color:red;">
+                            @Html.ValidationMessage("AdminPhone", "")
+                        </td>
+                    </tr>
+                    <tr>
                         <td>
                             <div class="input-group">
                                 <input type="number" id="AdminMenuId" name="AdminMenuId" class="input-area" required />
@@ -477,11 +539,21 @@
                         </td>
                     </tr>
                     <tr>
+                        <td style="font-family:MyFont, sans-serif; font-weight:bold; font-size:20px; color:red;">
+                            @Html.ValidationMessage("AdminMenuId", "")
+                        </td>
+                    </tr>
+                    <tr>
                         <td>
                             <div class="input-group">
                                 <input type="password" id="AdminPassword" name="AdminPassword" pattern="^[a-zA-Z0-9]{8,20}$" required class="input-area" />
                                 <label for="AdminPassword" class="label">Password</label>
                             </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-family:MyFont, sans-serif; font-weight:bold; font-size:20px; color:red;">
+                            @Html.ValidationMessage("AdminPassword", "")
                         </td>
                     </tr>
                     <tr>
@@ -502,21 +574,21 @@
             @if (Model.AdminUsername == "AdminInvalid")
             {
                 Session["login_error"] = "false";
-                <div style="text-align:center">
+                <div class="danger-div">
                     <p>Invalid form entries</p>
                 </div>
             }
             @if (Model.AdminUsername == "AdminRegistered")
             {
                 Session["login_error"] = "false";
-                <div style="text-align:center">
+                <div class="success-div">
                     <p>Registration Successful</p>
                 </div>
             }
             @if (Model.AdminUsername == "AdminExists")
             {
                 Session["login_error"] = "false";
-                <div style="text-align:center">
+                <div class="success-div">
                     <p>Admin already exists. Please Login.</p>
                 </div>
             }

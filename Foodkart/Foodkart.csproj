@@ -193,16 +193,6 @@
       <DependentUpon>FoodkartModel.edmx</DependentUpon>
     </Content>
     <Content Include="Global.asax" />
-    <Content Include="Images\admin.jpg" />
-    <Content Include="Images\bbq.jpg" />
-    <Content Include="Images\bbq2.jpg" />
-    <Content Include="Images\cart.jpg" />
-    <Content Include="Images\home.jpg" />
-    <Content Include="Images\login2.jpg" />
-    <Content Include="Images\login3.jpg" />
-    <Content Include="Images\orders.jpg" />
-    <Content Include="Images\oreo.jpg" />
-    <Content Include="Images\register2.jpg" />
     <Content Include="Logos\admin_logo.png" />
     <Content Include="Logos\logo.png" />
     <Content Include="Scripts\bootstrap.js" />

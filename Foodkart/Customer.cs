@@ -11,9 +11,14 @@ namespace Foodkart
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+    using System.Web.Mvc;
+
+    [System.ComponentModel.DataAnnotations.MetadataType(typeof(CustomerMetaData))]
     public partial class Customer
     {
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Customer()
         {
@@ -32,5 +37,25 @@ namespace Foodkart
         public virtual ICollection<Cart> Carts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }
+    }
+
+    internal sealed class CustomerMetaData
+    {
+        [DisplayName("CustEmail")]
+        [Remote("IsCustEmailAvailable", "CustomerController", ErrorMessage = "Email Already Taken")]
+        [Required(ErrorMessage = "Must match email format"), RegularExpression(@"^([a-zA-Z0-9_\-\.]+)\u0040([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$", ErrorMessage = "Must match email format"), Display(Name = "Email")]
+        public string CustEmail { get; set; }
+
+        [Required(ErrorMessage = "Must be 10 digit number starting with 7/8/9"), RegularExpression("^[789]{1}[0-9]{9}$", ErrorMessage = "Must be 10 digit number starting with 7/8/9"), Display(Name = "Phone Number")]
+        public string CustPhone { get; set; }
+        
+        [Required(ErrorMessage = "Must have alphabets, no spaces, 1-20 characters"), RegularExpression("^[a-zA-Z]{1,20}$", ErrorMessage = "Must have alphabets, no spaces, 1-20 characters"), Display(Name = "First Name")]
+        public string CustFName { get; set; }
+
+        [Required(ErrorMessage = "Must have alphabets, no spaces, 1-20 characters"), RegularExpression("^[a-zA-Z]{1,20}$", ErrorMessage = "Must have alphabets, no spaces, 1-20 characters"), Display(Name = "First Name")]
+        public string CustLName { get; set; }
+
+        [Required(ErrorMessage = "Must have alphabets and digits only, 8-20 characters"), RegularExpression("^[a-zA-Z0-9]{8,20}$", ErrorMessage = "Must have alphabets and digits only, 8-20 characters"), Display(Name = "Password")]
+        public string CustPassword { get; set; }
     }
 }

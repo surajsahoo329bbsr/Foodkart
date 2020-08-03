@@ -33,6 +33,7 @@ namespace Foodkart.Controllers
         public ActionResult AddToCart(long foodId)
         {
             Session["CustId"] = long.Parse(Session["CustId"].ToString());
+            //ViewBag.Status = "";
             FoodkartModelContainer foodContext = new FoodkartModelContainer();
             Food food = foodContext.Foods.Find(foodId);
             return View(food);
@@ -71,7 +72,9 @@ namespace Foodkart.Controllers
                 CustPassword = "CartAdded"
             };
 
-            return View();
+            ViewBag.Status = "ItemAdded";
+            ViewBag.Quantity = long.Parse(forms["FoodQty"].ToString());
+            return View(foodContext.Foods.Find(long.Parse(forms["FoodId"].ToString())));
 
         }
 
@@ -212,43 +215,46 @@ namespace Foodkart.Controllers
         }
 
         [HttpPost]
-        public ActionResult CustomerProfile(FormCollection form)
+        public ActionResult CustomerProfile(Customer customer, FormCollection form)
         {
+            FoodkartModelContainer foodkartModelContainer = new FoodkartModelContainer();
             long custId = long.Parse(form["CustId"].ToString());
-            string custEmail = form["CustEmail"].ToString();
-            string custPhone = form["CustPhone"].ToString();
-            string custFName = form["CustFName"].ToString();
-            string custLName = form["CustLName"].ToString();
+            Customer currCust = foodkartModelContainer.Customers.Find(custId);
+            bool validate = ValidateUniquePhoneEmail(foodkartModelContainer, customer, custId);
 
-            SqlConnection sqlConnection = new SqlConnection(connectionString);
-            sqlConnection.Open();
-            SqlCommand sqlCmd = new SqlCommand("update Customers set CustFName = '" + custFName + "', CustLName = '" + custLName + "', CustEmail = '" + custEmail + "', CustPhone = '" + custPhone + "' where CustId = " + custId + ";", sqlConnection);
-            sqlCmd.ExecuteNonQuery();
-            SqlCommand sqlCmdFetch = new SqlCommand("select * from Customers where CustId = " + custId + ";", sqlConnection);
-            SqlDataReader sdr = sqlCmdFetch.ExecuteReader();
-            Customer customer = null;
-
-            while (sdr.Read())
+            if (!validate)
+                ViewBag.Status = "KeyViolation";
+            else
             {
-                customer = new Customer
-                {
-                    CustId = long.Parse(sdr[0].ToString()),
-                    CustEmail = sdr[1].ToString(),
-                    CustPhone = sdr[2].ToString(),
-                    CustFName = sdr[3].ToString(),
-                    CustLName = sdr[4].ToString()
-                };
+                List<Customer> custList = (from cust in foodkartModelContainer.Customers where cust.CustId == custId select cust).ToList();
 
-                ViewBag.Status = "updated";
+                foreach (Customer c in custList)
+                {
+                    c.CustFName = customer.CustFName;
+                    c.CustLName = customer.CustLName;
+                    c.CustPhone = customer.CustPhone;
+                    c.CustEmail = customer.CustEmail;
+                }
+
+                foodkartModelContainer.SaveChanges();
+                ViewBag.Status = "Updated";
+
             }
 
-            Session["CustModel"] = customer;
-            Session["CustFName"] = customer.CustFName;
+            Session["CustModel"] = currCust;
+            Session["CustFName"] = currCust.CustFName;
 
-            sqlConnection.Close();
-            return View(customer);
+            return View(currCust);
         }
 
+        private bool ValidateUniquePhoneEmail(FoodkartModelContainer foodkartModelContainer, Customer customer, long custId)
+        {
+            List<Customer> custList = (from cust in foodkartModelContainer.Customers where cust.CustId != custId select cust).ToList();
+            foreach (Customer c in custList)
+                if (c.CustPhone == customer.CustPhone || c.CustEmail == customer.CustEmail)
+                    return false;
+            return true;
+        }
     }
 
 }
