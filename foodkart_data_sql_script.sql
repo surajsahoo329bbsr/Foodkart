@@ -142,4 +142,10 @@ ON OI.OrderItemFoodId = F.FoodId
 WHERE F.FoodMenuId = 1
 ORDER BY 1 DESC;
 
-SELECT F.FoodName, OI.OrderItemQty, F.FoodUnitPrice, (OI.OrderItemQty * F.FoodUnitPrice) FROM ORDERS O INNER JOIN ORDERITEMS OI ON OI.OrderItemOrderId = O.OrderId INNER JOIN FOODS F ON OI.OrderItemFoodId = F.FoodId WHERE O.OrderId = 2 ORDER BY 3 DESC;
+SELECT * FROM Orders;
+
+SELECT F.FoodName, OI.OrderItemQty, F.FoodUnitPrice, (OI.OrderItemQty * F.FoodUnitPrice) 
+FROM ORDERS O INNER JOIN ORDERITEMS OI 
+ON OI.OrderItemOrderId = O.OrderId INNER JOIN FOODS F 
+ON OI.OrderItemFoodId = F.FoodId 
+WHERE O.OrderId = 10007 AND F.FoodMenuId = 1 ORDER BY 3 DESC;

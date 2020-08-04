@@ -16,54 +16,55 @@
 </head>
 <body>
     <div class="card">
-    @{
-        SqlConnection sqlConnection = new SqlConnection(CustomerController.connectionString);
-        sqlConnection.Open();
+        <h2 style="font-size:40px;">Customer Orders</h2>
+        @{
+            SqlConnection sqlConnection = new SqlConnection(CustomerController.connectionString);
+            sqlConnection.Open();
 
-        foreach (Foodkart.Models.CustOrdersModel custOrdersModel in Model)
-        {
-            <p>Order Id - @custOrdersModel.CustOrderId</p>
-            <p>Order Date - @custOrdersModel.CustOrderDate</p>
-            <p>Customer Id - @custOrdersModel.CustId</p>
-            <p>Customer Name - @custOrdersModel.CustName</p>
+            foreach (Foodkart.Models.CustOrdersModel custOrdersModel in Model)
+            {
+                <p>Order Id - @custOrdersModel.CustOrderId</p>
+                <p>Order Date - @custOrdersModel.CustOrderDate</p>
+                <p>Customer Id - @custOrdersModel.CustId</p>
+                <p>Customer Name - @custOrdersModel.CustName</p>
 
-            SqlCommand sqlCommand = new SqlCommand("SELECT F.FoodName, OI.OrderItemQty, F.FoodUnitPrice, (OI.OrderItemQty * F.FoodUnitPrice) FROM ORDERS O INNER JOIN ORDERITEMS OI ON OI.OrderItemOrderId = O.OrderId INNER JOIN FOODS F ON OI.OrderItemFoodId = F.FoodId WHERE O.OrderId = " + custOrdersModel.CustOrderId + " ORDER BY 3 DESC;", sqlConnection);
-            SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
-            long totalBill = 0;
+                SqlCommand sqlCommand = new SqlCommand("SELECT F.FoodName, OI.OrderItemQty, F.FoodUnitPrice, (OI.OrderItemQty * F.FoodUnitPrice) FROM ORDERS O INNER JOIN ORDERITEMS OI ON OI.OrderItemOrderId = O.OrderId INNER JOIN FOODS F ON OI.OrderItemFoodId = F.FoodId WHERE O.OrderId = " + custOrdersModel.CustOrderId + " AND F.FoodMenuId = "+ custOrdersModel.CustMenuId +" ORDER BY 3 DESC;", sqlConnection);
+                SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
+                long totalBill = 0;
 
-            <table>
-                <tr>
-                    <th>Item Name</th>
-                    <th>Quantity</th>
-                    <th>Unit Price</th>
-                    <th>Total Price</th>
-                </tr>
-
-                @while (sqlDataReader.Read())
-                {
+                <table>
                     <tr>
-                        <td>@sqlDataReader[0].ToString()</td>
-                        <td>@sqlDataReader[1].ToString()</td>
-                        <td>@sqlDataReader[2].ToString()</td>
-                        <td>@sqlDataReader[3].ToString()</td>
+                        <th>Item Name</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Total Price</th>
                     </tr>
 
-                    totalBill += long.Parse(@sqlDataReader[3].ToString());
-                }
+                    @while (sqlDataReader.Read())
+                    {
+                        <tr>
+                            <td>@sqlDataReader[0].ToString()</td>
+                            <td>@sqlDataReader[1].ToString()</td>
+                            <td>@sqlDataReader[2].ToString()</td>
+                            <td>@sqlDataReader[3].ToString()</td>
+                        </tr>
 
-                <tr style="border-top:1px solid; border-bottom:1px solid;">
-                    <td></td>
-                    <td></td>
-                    <td>Total Bill</td>
-                    <td>@totalBill</td>
-                </tr>
+                        totalBill += long.Parse(@sqlDataReader[3].ToString());
+                    }
 
-            </table>
+                    <tr style="border-top:1px solid; border-bottom:1px solid;">
+                        <td></td>
+                        <td></td>
+                        <td>Total (Rs) </td>
+                        <td>@totalBill</td>
+                    </tr>
+
+                </table>
+            }
+
+            sqlConnection.Close();
+
         }
-
-        sqlConnection.Close();
-
-    }
 
     </div>
 </body>

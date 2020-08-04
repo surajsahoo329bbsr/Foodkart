@@ -12,34 +12,35 @@
 </head>
 <body> 
     <div class="card">
-    @{ 
-        int count = 0;
-        foreach (Menu menu in @Model)
-        {
-            <div style="margin-bottom:80px;">
-                <h2>@menu.MenuName</h2>
-                @if (menu.MenuAvailable == true)
-                {
-                    <h2 style="color:green;">Accepting Orders</h2>
-                    <a href="@Url.Action("ShowFoodItems", "Customer", new { menuId = menu.MenuId })" style="margin-top:10px; position:absolute" class="blue-button">Show Menu</a>
-
-                }
-                else
-                {
-                    <h2 style="color:red;">Currently Not Accepting Orders</h2>
-                }
-                <br />
-                <a><img src="@menu.MenuLogoUrl" style="width: 150px; height: 150px; position:absolute; margin-left: 650px; margin-top:-100px;" /></a>
-            </div>
-            
-            if (count != Model.Count -1)
+        <h2 style="font-size:40px;">Restaurants</h2>
+        @{
+            int count = 0;
+            foreach (Menu menu in @Model)
             {
-                <hr />
-            }
+                <div style="margin-bottom:80px;">
+                    <h2>@menu.MenuName</h2>
+                    @if (menu.MenuAvailable == true)
+                    {
+                        <h2 style="color:green;">Accepting Orders</h2>
+                        <a href="@Url.Action("ShowFoodItems", "Customer", new { menuId = menu.MenuId })" style="margin-top:10px; position:absolute" class="blue-button">Show Menu</a>
 
-            count++;
+                    }
+                    else
+                    {
+                        <h2 style="color:red;">Currently Not Accepting Orders</h2>
+                    }
+                    <br />
+                    <a><img src="@menu.MenuLogoUrl" style="width: 150px; height: 150px; position:absolute; margin-left: 650px; margin-top:-100px;" /></a>
+                </div>
+
+                if (count != Model.Count - 1)
+                {
+                    <hr />
+                }
+
+                count++;
+            }
         }
-    }
     </div>
 </body>
 </html>

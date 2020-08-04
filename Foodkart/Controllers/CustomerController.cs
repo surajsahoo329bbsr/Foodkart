@@ -33,7 +33,6 @@ namespace Foodkart.Controllers
         public ActionResult AddToCart(long foodId)
         {
             Session["CustId"] = long.Parse(Session["CustId"].ToString());
-            //ViewBag.Status = "";
             FoodkartModelContainer foodContext = new FoodkartModelContainer();
             Food food = foodContext.Foods.Find(foodId);
             return View(food);
@@ -209,8 +208,7 @@ namespace Foodkart.Controllers
             return View(OrdersModelList);
         }
 
-        public ActionResult CustomerProfile(Customer customer)
-        {
+        public ActionResult CustomerProfile(Customer customer){        
             return View(customer);
         }
 
@@ -236,8 +234,8 @@ namespace Foodkart.Controllers
                     c.CustEmail = customer.CustEmail;
                 }
 
-                foodkartModelContainer.SaveChanges();
-                ViewBag.Status = "Updated";
+                if (ModelState.IsValid)
+                    foodkartModelContainer.SaveChanges();  
 
             }
 

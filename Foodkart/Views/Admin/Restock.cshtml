@@ -25,7 +25,8 @@
             <input type="number" id="FoodId" name="FoodId" value="@Model.FoodId" hidden />
 
             <div class="card">
-                <h1>@Model.FoodName</h1>
+                <h2 style="font-size:40px;">Restock</h2>
+                <h2>@Model.FoodName</h2>
                 @if (Model.FoodType == "V")
                 {
                     <h2>&#8360 @Model.FoodUnitPrice  (@Model.FoodCategory, Veg) </h2>
@@ -45,10 +46,12 @@
                 </div>
                 <table align="center">
                     <tr>
-                        <td><a href="/Admin/RestockItems" class="blue-link">Back</a></td>
-                        <td><a href="#" class="blue-button" onclick="this.closest('form').submit();">Restock</a></td>
+                        <td style="text-align:start"><a href="/Admin/RestockItems" class="blue-link">Back</a></td>
+                        <td style="text-align:end; padding-right:60px;"><a href="#" class="blue-button" onclick="this.closest('form').submit();">Restock</a></td>
                     </tr>
                 </table>
+                <br/>
+                <br/>
             </div>
         }
 

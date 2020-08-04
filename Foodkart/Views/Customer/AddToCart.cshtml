@@ -15,30 +15,30 @@
     @using (Html.BeginForm("AddToCart", "Customer", FormMethod.Post))
     {
         <input type="number" id="FoodId" name="FoodId" value="@Model.FoodId" hidden />
-
         <div class="card">
-            <h1>@Model.FoodName</h1>
+            <h2 style="font-size:40px;">Add To Cart</h2>
+            <h2>@Model.FoodName</h2>
             @if (Model.FoodType == "V")
             {
-                <h2>&#8360 @Model.FoodUnitPrice  (@Model.FoodCategory, Veg) </h2>
+                <h2>Rs @Model.FoodUnitPrice  (@Model.FoodCategory, Veg) </h2>
             }
             else if (Model.FoodType == "N")
             {
-                <h2>&#8360 @Model.FoodUnitPrice  (@Model.FoodCategory, Non-Veg) </h2>
+                <h2>Rs @Model.FoodUnitPrice  (@Model.FoodCategory, Non-Veg) </h2>
             }
             else
             {
-                <h2>&#8360 @Model.FoodUnitPrice  (@Model.FoodCategory, Egg) </h2>
+                <h2>Rs @Model.FoodUnitPrice  (@Model.FoodCategory, Egg) </h2>
             }
             <a><img src="@Model.FoodPhotoUrl" class="img-card" /></a>
             <div style="margin-top:45px;" class="input-group">
-                <input type="number" id="FoodQty" name="FoodQty" min="0" max="@Model.FoodQty" class="input-area" />
+                <input type="number" id="FoodQty" name="FoodQty" min="1" value="1" max="@Model.FoodQty" class="input-area" />
                 <label for="FoodQty" class="label">Quantity</label>
             </div>
             <table align="center">
                 <tr>
-                    <td><a href="/Customer/CustomerHome" class="blue-link">Back</a></td>
-                    <td><a href="#" class="blue-button" onclick="this.closest('form').submit();">Add to Cart</a></td>
+                    <td style="text-align:start"><a href="@Url.Action("ShowFoodItems","Customer", new { menuId = Model.FoodMenuId })" class="blue-link">Back</a></td>
+                    <td style="text-align:end; padding-right:40px;"><a href="#" class="blue-button" onclick="this.closest('form').submit();">Add to Cart</a></td>
                 </tr>
             </table>
             <br/>

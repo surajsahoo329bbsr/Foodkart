@@ -41,8 +41,6 @@ namespace Foodkart
 
     internal sealed class CustomerMetaData
     {
-        [DisplayName("CustEmail")]
-        [Remote("IsCustEmailAvailable", "CustomerController", ErrorMessage = "Email Already Taken")]
         [Required(ErrorMessage = "Must match email format"), RegularExpression(@"^([a-zA-Z0-9_\-\.]+)\u0040([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$", ErrorMessage = "Must match email format"), Display(Name = "Email")]
         public string CustEmail { get; set; }
 

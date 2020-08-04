@@ -11,7 +11,9 @@ namespace Foodkart
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
+    [System.ComponentModel.DataAnnotations.MetadataType(typeof(FoodMetaData))]
     public partial class Food
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -36,4 +38,18 @@ namespace Foodkart
         public virtual ICollection<OrderItem> OrderItems { get; set; }
         public virtual Menu Menu { get; set; }
     }
+
+    internal sealed class FoodMetaData
+    {
+        [Required(ErrorMessage = "Please enter food name"), MinLength(1, ErrorMessage = "Please enter food name"), Display(Name = "Food Name")]
+        public string FoodName { get; set; }
+
+        [Required(ErrorMessage = "Minimum 50 quantity food items"), Range(50, long.MaxValue, ErrorMessage = "Minimum 50 quantity food items"), Display(Name = "Food Quanity")]
+        public long FoodQty { get; set; }
+
+        [Required(ErrorMessage = "Food Items cannnot be free"), Range(1, long.MaxValue, ErrorMessage = "Food Items cannnot be free"), Display(Name = "Food Quanity")]
+        public long FoodUnitPrice { get; set; }
+    }
+
+    
 }

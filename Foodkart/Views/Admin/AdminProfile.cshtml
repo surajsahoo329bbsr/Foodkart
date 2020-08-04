@@ -26,11 +26,21 @@
                     </td>
                 </tr>
                 <tr>
+                    <td style="font-family:MyFont, sans-serif; font-weight:bold; font-size:20px; color:red;">
+                        @Html.ValidationMessage("AdminFName", "")
+                    </td>
+                </tr>
+                <tr>
                     <td>
                         <div class="input-group">
                             <input type="text" id="AdminLName" name="AdminLName" pattern="^[a-zA-Z]{1,20}$" class="input-area" value="@Model.AdminLName" required />
                             <label for="AdminLName" class="label">Last Name</label>
                         </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-family:MyFont, sans-serif; font-weight:bold; font-size:20px; color:red;">
+                        @Html.ValidationMessage("AdminLName", "")
                     </td>
                 </tr>
                 <tr>
@@ -42,6 +52,11 @@
                     </td>
                 </tr>
                 <tr>
+                    <td style="font-family:MyFont, sans-serif; font-weight:bold; font-size:20px; color:red;">
+                        @Html.ValidationMessage("AdminUsername", "")
+                    </td>
+                </tr>
+                <tr>
                     <td>
                         <div class="input-group">
                             <input type="text" id="AdminPhone" name="AdminPhone" pattern="^[789]{1}[0-9]{9}$" class="input-area" value="@Model.AdminPhone" required />
@@ -49,10 +64,21 @@
                         </div>
                     </td>
                 </tr>
+                <tr>
+                    <td style="font-family:MyFont, sans-serif; font-weight:bold; font-size:20px; color:red;">
+                        @Html.ValidationMessage("AdminPhone", "")
+                    </td>
+                </tr>
             </table>
             <div class="horizontal-flex-container" style="margin-bottom:40px; margin-top:40px;">
                 <a href="#" class="blue-button" style="position:relative; text-align:center; width:400px;" onclick="this.closest('form').submit();">Update</a>
             </div>
+            if (ViewBag.Status == "KeyViolation")
+            {
+                <div class="danger-div">
+                    <p>Username/Phone Number Taken</p>
+                </div>
+            }
         }
     </div>
 </body>

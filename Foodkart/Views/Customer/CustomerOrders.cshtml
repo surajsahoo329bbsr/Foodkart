@@ -36,11 +36,11 @@
                     if (ViewBag.Pre_Id != 0)
                     {
                         <text>
-                            <hr style="margin-top:50px;" />
+                            <hr style="margin-top:40px;" />
                         </text>
-                        <div style="width:100%; display:inline-block">
-                            <p style="position:relative; padding-left:10px; float:left;">Total Bill</p>
-                            <p style="position:relative; padding-right:10px; float:right;">Rs @totalBill</p>
+                        <div style="width:100%; display:inline-block; margin-top:-20px; margin-bottom:-20px;">
+                            <p style="position:relative; padding-left:10px; float:left;">Total Bill (Rs)</p>
+                            <p style="position:relative; padding-right:10px; float:right;">@totalBill</p>
                         </div>
                         <text>
                             <hr />
@@ -48,8 +48,8 @@
                         totalBill = 0;
 
                     }
-                    <p>Order Id - @ordersModel.OrderId </p>
-                    <p>Ordered On @ordersModel.OrderDate</p>
+                    <p style="position:relative; padding-left:10px;">Order Id - @ordersModel.OrderId </p>
+                    <p style="position:relative; padding-left:10px;">Ordered On @ordersModel.OrderDate</p>
                     <table>
                         <tr>
                             <th style="text-align:left">Food Items</th>
@@ -66,7 +66,7 @@
                     <p style="padding:10px;">@ordersModel.FoodName (@ordersModel.FoodCategory)</p>
                     <div style="width:100%; display:flex; justify-content:space-between; margin-top:-40px; margin-bottom:-40px; position:relative;">
                         <p style="padding-left:10px;">Rs @ordersModel.OrderItemUnitPrice X @ordersModel.OrderItemQty item(s)</p>
-                        <p style="padding-right:10px;">Rs @eachItemTotal</p>
+                        <p style="padding-right:10px;">@eachItemTotal</p>
                     </div>
                 }
                 else
@@ -80,17 +80,17 @@
                     <p style="padding:10px;">@ordersModel.FoodName (@ordersModel.FoodCategory)</p>
                     <div style="width:100%; display:flex; justify-content:space-between; margin-top:-40px;  margin-bottom:-40px; position:relative;">
                         <p style="padding-left: 10px;">Rs @ordersModel.OrderItemUnitPrice X @ordersModel.OrderItemQty item(s)</p>
-                        <p style="padding-right: 10px;">Rs @eachItemTotal</p>
+                        <p style="padding-right: 10px;">@eachItemTotal</p>
                     </div>
                 }
                 if (count == Model.Count() - 1)
                 {
                     <text>
-                        <hr style="margin-top:50px;" />
+                        <hr style="margin-top:40px;" />
                     </text>
-                    <div style="width:100%; display:inline-block">
-                        <p style="position:relative; padding-left:10px; float:left;">Total Bill</p>
-                        <p style="position:relative; padding-right:10px; float:right;">Rs @totalBill</p>
+                    <div style="width:100%; display:inline-block; margin-top:-20px; margin-bottom:-20px;">
+                        <p style="position:relative; padding-left:10px; float:left;">Total Bill (Rs)</p>
+                        <p style="position:relative; padding-right:10px; float:right;">@totalBill</p>
                     </div>
                     <text>
                         <hr />

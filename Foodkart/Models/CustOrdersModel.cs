@@ -11,6 +11,7 @@ namespace Foodkart.Models
         public DateTime CustOrderDate { get; set; }
         public long CustId { get; set; }
         public string CustName { get; set; }
+        public string CustMenuId { get; set; }
 
     }
 }

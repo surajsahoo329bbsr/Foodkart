@@ -9,7 +9,7 @@
 
 <body>   
     <div class="card_form">
-        <h2 style="text-align:center; font-size:40px;">Update Food Item</h2>
+        <h2 style="font-size: 40px; padding-left: 20px;">Update Food Item</h2>
         @using (Html.BeginForm("UpdateItem", "Admin", FormMethod.Post))
         {
             <input type="text" id="FoodId" name="FoodId" value="@Model.FoodId" hidden />

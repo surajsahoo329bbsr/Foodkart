@@ -8,20 +8,7 @@
 
 <body>
     <div class="card_form">
-        <h2 style="text-align:center; font-size:40px;">Add New Item</h2>
-        @if (ViewBag.Status == "FoodInvalid")
-        {
-            <h2 style="text-align:center;">Food Invalid</h2>
-        }
-        else if (ViewBag.Status == "FoodRegistered")
-        {
-            <h2 style="text-align:center;">Food Registered</h2>
-        }
-        else if (ViewBag.Status == "FoodExists")
-        {
-            <h2 style="text-align:center;">Food Exists</h2>
-        }
-
+        <h2 style="font-size:40px; padding-left:20px;">Add New Item</h2>
         @using (Html.BeginForm("AddNewItems", "Admin", FormMethod.Post))
         {
             <table align="center">
@@ -33,7 +20,9 @@
                         </div>
                     </td>
                 </tr>
-                <tr><td> </td> <td> </td></tr>
+                <tr>
+                    <td style="color:red;"> @Html.ValidationMessage("FoodName", "")</td>
+                </tr>
                 <tr>
                     <td>
                         <div class="input-group">
@@ -42,7 +31,9 @@
                         </div>
                     </td>
                 </tr>
-                <tr><td> </td> <td> </td></tr>
+                <tr>
+                    <td style="color:red;"> @Html.ValidationMessage("FoodQty", "")</td>
+                </tr>
                 <tr>
                     <td>
                         <div class="input-group">
@@ -51,12 +42,14 @@
                         </div>
                     </td>
                 </tr>
-                <tr><td> </td> <td> </td></tr>
+                <tr>
+                    <td style="color:red;"> @Html.ValidationMessage("FoodUnitPrice", "")</td>
+                </tr>
                 <tr>
                     <td style="text-align:left">
                         <select id="FoodCategory" name="FoodCategory" style="height:60px; width:100%; font-size:20px; border-color:#03A9F4; padding:10px;">
-                            <option disabled selected>Select Food Category</option>
-                            <option value="Add Ons">Add Ons</option>
+                            <option disabled>Select Food Category</option>
+                            <option value="Add Ons" selected>Add Ons</option>
                             <option value="Breads">Breads</option>
                             <option value="Cakes">Cakes</option>
                             <option value="Chicken">Chicken</option>
@@ -72,18 +65,22 @@
                         </select>
                     </td>
                 </tr>
-                <tr><td> </td> <td> </td></tr>
+                <tr>
+                    <td style="color:red;"> @Html.ValidationMessage("FoodCategory", "")</td>
+                </tr>
                 <tr>
                     <td style="text-align:left">
                         <select id="FoodType" name="FoodType" style="height:60px; width:100%; border-color:#03A9F4; font-size:20px; padding:10px; ">
-                            <option disabled selected>Select Food Type</option>
-                            <option value="V">Veg</option>
+                            <option disabled>Select Food Type</option>
+                            <option value="V" selected>Veg</option>
                             <option value="N">Non-Veg</option>
                             <option value="E">Egg</option>
                         </select>
                     </td>
                 </tr>
-                <tr><td> </td> <td> </td></tr>
+                <tr>
+                    <td style="color:red;"> @Html.ValidationMessage("FoodType", "")</td>
+                </tr>
                 <tr>
                     <td>
                         <div class="input-group">
@@ -98,6 +95,26 @@
             <div class="horizontal-flex-container" style="margin-bottom:40px;">
                 <a href="#" class="blue-button" style="position:relative; width:400px;" onclick="this.closest('form').submit();">Add</a>
             </div>
+            <br/>
+            <br/>
+            if (ViewBag.Status == "FoodInvalid")
+            {
+                <div class="danger-div">
+                    <p>Food Invalid</p>
+                </div>
+            }
+            else if (ViewBag.Status == "FoodRegistered")
+            {
+                <div class="success-div">
+                    <p>Food Added</p>
+                </div>
+            }
+            else if (ViewBag.Status == "FoodExists")
+            {
+                <div class="danger-div">
+                    <p>Food Exists</p>
+                </div>
+            }
         }
     </div>
 </body>

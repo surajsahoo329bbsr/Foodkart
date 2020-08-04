@@ -10,15 +10,33 @@ namespace Foodkart.Controllers
     public class AdminController : Controller
     {
         // GET: Admin
+        FoodkartModelContainer foodContext = new FoodkartModelContainer();
+
         public ActionResult AdminHome(Admin admin)
         {
             Session["AdminModel"] = admin;
             Session["AdminFName"] = admin.AdminFName;
             Session["AdminId"] = admin.AdminId;
             Session["AdminMenuId"] = admin.AdminMenuId;
-            FoodkartModelContainer foodContext = new FoodkartModelContainer();
             Menu menu = foodContext.Menus.Find(Session["AdminMenuId"]);
-            List<Food> FoodList = (from food in foodContext.Foods where menu.MenuId == food.FoodMenuId orderby 1 select food ).ToList();
+            List<Food> FoodList = (from food in foodContext.Foods where menu.MenuId == food.FoodMenuId && food.FoodQty < 50 orderby 1 select food ).ToList();
+            return View(FoodList);
+        }
+
+        [HttpPost]
+        public ActionResult AdminHome(List<Food> FoodList, FormCollection forms)
+        {
+            bool menuAvailable = bool.Parse(forms["MenuAvailable"].ToString());
+            long menuId = long.Parse(Session["AdminMenuId"].ToString());
+            List<Menu> MenuList = (from menu in foodContext.Menus where menu.MenuAvailable == menuAvailable where menu.MenuId == menuId select menu).ToList();
+            
+            foreach(Menu m in MenuList)
+                m.MenuAvailable = !menuAvailable;
+
+            foodContext.SaveChanges();
+            Menu menuFound = foodContext.Menus.Find(Session["AdminMenuId"]);
+            FoodList = (from food in foodContext.Foods where menuFound.MenuId == food.FoodMenuId && food.FoodQty < 50 orderby 1 select food).ToList();
+
             return View(FoodList);
         }
 
@@ -38,7 +56,6 @@ namespace Foodkart.Controllers
         [HttpPost]
         public ActionResult AddNewItems(Food food)
         {
-            FoodkartModelContainer foodContext = new FoodkartModelContainer();
             food.FoodMenuId = long.Parse(Session["AdminMenuId"].ToString());
             IList<Food> FoodList = (from foods in foodContext.Foods where food.FoodName == foods.FoodName select foods).ToList();
             bool foodExists = false;
@@ -59,11 +76,16 @@ namespace Foodkart.Controllers
             else if (!foodExists)
             {
                 foodContext.Foods.Add(food);
-                if (foodContext.SaveChanges() > 0)
+
+                if (ModelState.IsValid)
                 {
-                    ViewBag.Status = "FoodRegistered";
-                    return View("AddNewItems", food);
+                    if (foodContext.SaveChanges() > 0)
+                    {
+                        ViewBag.Status = "FoodRegistered";
+                        return View("AddNewItems", food);
+                    }
                 }
+                    
             }
             else
             {
@@ -76,7 +98,6 @@ namespace Foodkart.Controllers
 
         public ActionResult UpdateDeleteItems()
         {
-            FoodkartModelContainer foodContext = new FoodkartModelContainer();
             Menu menu = foodContext.Menus.Find(Session["AdminMenuId"]);
             List<Food> FoodList = (from food in foodContext.Foods where menu.MenuId == food.FoodMenuId select food).ToList();
             return View(FoodList);
@@ -84,7 +105,6 @@ namespace Foodkart.Controllers
 
         public ActionResult UpdateItem(long foodId)
         {
-            FoodkartModelContainer foodContext = new FoodkartModelContainer();
             Food food = foodContext.Foods.Find(foodId);
             return View(food);
         }
@@ -128,7 +148,6 @@ namespace Foodkart.Controllers
 
         public ActionResult DeleteItem(long foodId)
         {
-            FoodkartModelContainer foodContext = new FoodkartModelContainer();
             Food food = foodContext.Foods.Find(foodId);
             return View(food);
         }
@@ -137,16 +156,14 @@ namespace Foodkart.Controllers
         public ActionResult DeleteItem(FormCollection form)
         {
             long foodId = long.Parse(form["FoodId"].ToString());
-            FoodkartModelContainer foodkartModelContainer = new FoodkartModelContainer();
-            Food food = foodkartModelContainer.Foods.Find(foodId);
-            foodkartModelContainer.Foods.Remove(food);
-            foodkartModelContainer.SaveChanges();
+            Food food = foodContext.Foods.Find(foodId);
+            foodContext.Foods.Remove(food);
+            foodContext.SaveChanges();
             return View();
         }
 
         public ActionResult RestockItems()
         {
-            FoodkartModelContainer foodContext = new FoodkartModelContainer();
             Menu menu = foodContext.Menus.Find(Session["AdminMenuId"]);
             List<Food> FoodList = (from food in foodContext.Foods where menu.MenuId == food.FoodMenuId select food).ToList();
             return View(FoodList);
@@ -154,7 +171,6 @@ namespace Foodkart.Controllers
 
         public ActionResult Restock(long foodId)
         {
-            FoodkartModelContainer foodContext = new FoodkartModelContainer();
             Food food = foodContext.Foods.Find(foodId);
             return View(food);
         }
@@ -197,7 +213,8 @@ namespace Foodkart.Controllers
                     CustOrderId = long.Parse(sqlDataReader[0].ToString()),
                     CustOrderDate = DateTime.Parse(sqlDataReader[1].ToString()),
                     CustId = long.Parse(sqlDataReader[2].ToString()),
-                    CustName = sqlDataReader[3].ToString()
+                    CustName = sqlDataReader[3].ToString(),
+                    CustMenuId = Session["AdminMenuId"].ToString()
                 };
 
                 CustOrdersModelList.Add(custOrdersModel);
@@ -213,41 +230,44 @@ namespace Foodkart.Controllers
         }
 
         [HttpPost]
-        public ActionResult AdminProfile(FormCollection form)
+        public ActionResult AdminProfile(Admin admin, FormCollection form)
         {
             long adminId = long.Parse(form["AdminId"].ToString());
-            string adminUsername = form["AdminUsername"].ToString();
-            string adminPhone = form["AdminPhone"].ToString();
-            string adminFName = form["AdminFName"].ToString();
-            string adminLName = form["AdminLName"].ToString();
+            Admin currAdmin = foodContext.Admins.Find(adminId);
+            bool validate = ValidateUniquePhoneUsername(admin, adminId);
 
-            SqlConnection sqlConnection = new SqlConnection(CustomerController.connectionString);
-            sqlConnection.Open();
-            SqlCommand sqlCmd = new SqlCommand("update Admins set AdminFName = '" + adminFName + "', AdminLName = '" + adminLName + "', AdminUsername = '" + adminUsername + "', AdminPhone = '" + adminPhone + "' where AdminId = " + adminId + ";", sqlConnection);
-            sqlCmd.ExecuteNonQuery();
-            SqlCommand sqlCmdFetch = new SqlCommand("select * from Admins where AdminId = " + adminId + ";", sqlConnection);
-            SqlDataReader sdr = sqlCmdFetch.ExecuteReader();
-            Admin admin = null;
-
-            while (sdr.Read())
+            if (!validate)
+                ViewBag.Status = "KeyViolation";
+            else
             {
-                admin = new Admin
-                {
-                    AdminId = long.Parse(sdr[0].ToString()),
-                    AdminUsername = sdr[1].ToString(),
-                    AdminPhone = sdr[2].ToString(),
-                    AdminFName = sdr[3].ToString(),
-                    AdminLName = sdr[4].ToString()
-                };
+                List<Admin> adminList = (from a in foodContext.Admins where a.AdminId == adminId select a).ToList();
 
-                ViewBag.Status = "updated";
+                foreach (Admin adm in adminList)
+                {
+                    adm.AdminFName = admin.AdminFName;
+                    adm.AdminLName = admin.AdminLName;
+                    adm.AdminPhone = admin.AdminPhone;
+                    adm.AdminUsername = admin.AdminUsername;
+                }
+
+                if (ModelState.IsValid)
+                    foodContext.SaveChanges();
+
             }
 
-            Session["AdminModel"] = admin;
-            Session["AdminFName"] = admin.AdminFName;
+            Session["AdminModel"] = currAdmin;
+            Session["AdminFName"] = currAdmin.AdminFName;
 
-            sqlConnection.Close();
-            return View(admin);
+            return View(currAdmin);
+        }
+
+        private bool ValidateUniquePhoneUsername(Admin admin, long adminId)
+        {
+            List<Admin> adminList = (from adm in foodContext.Admins where adm.AdminId != adminId select adm).ToList();
+            foreach (Admin a in adminList)
+                if (a.AdminPhone == admin.AdminPhone || a.AdminUsername == admin.AdminUsername)
+                    return false;
+            return true;
         }
     }
 }

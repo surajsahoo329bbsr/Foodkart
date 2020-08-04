@@ -55,9 +55,9 @@
                         Food food = foodkartContext.Foods.Find(cartItem.CartItemFoodId);
                         long eachItemTotal = @food.FoodUnitPrice * @cartItem.CartItemQty;
                         <p style="padding: 10px;">@food.FoodName (@food.FoodCategory) </p>
-                        <div style="width:100%; display:flex; justify-content:space-between; margin-top:-40px; margin-bottom:-40px; position:relative;">
+                        <div style="width:100%; display:flex; justify-content:space-between; margin-top:-50px; margin-bottom:-50px; position:relative;">
                             <p style="position:relative; padding:10px; float:left;">Rs @food.FoodUnitPrice X @cartItem.CartItemQty item(s)</p>
-                            <p style="position:relative; padding:10px; float:right;">Rs @eachItemTotal</p>
+                            <p style="position:relative; padding:10px; float:right;">@eachItemTotal</p>
                         </div>
                         totalBill += eachItemTotal;
 
@@ -65,12 +65,12 @@
                     <br/>
                     <br/>
                     <hr />
-                    <div style="width:100%; display:inline-block">
+                    <div style="width:100%; display:inline-block; margin-top:-20px; margin-bottom:-20px;">
                         <div style="position:relative; float:left;">
-                            <p class="p_style" style="padding-left: 10px;">Total Bill</p>
+                            <p class="p_style" style="padding-left: 10px;">Total Bill (Rs)</p>
                         </div>
                         <div style="position:relative; float:right;">
-                            <p class="p_style" style="padding-right: 10px;">Rs @totalBill</p>
+                            <p class="p_style" style="padding-right: 10px;">@totalBill</p>
                         </div>
                     </div>
                     <hr/>
