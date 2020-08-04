@@ -11,90 +11,134 @@ namespace Foodkart.Controllers
     {
         // GET: Customer
         public static string connectionString = @"Data Source=SURAJ-PC;Initial Catalog=FoodKartDB;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework";
+        readonly FoodkartModelContainer foodContext = new FoodkartModelContainer();
 
         public ActionResult CustomerHome(Customer customer)
         {
-            Session["CustFName"] = customer.CustFName;
-            Session["CustId"] = customer.CustId;
-            Session["CustModel"] = customer;
-            FoodkartModelContainer foodContext = new FoodkartModelContainer();
-            List<Menu> MenuList = (from menu in foodContext.Menus select menu).ToList();
-            return View(MenuList);
+            try
+            {
+                Session["CustFName"] = customer.CustFName;
+                Session["CustId"] = customer.CustId;
+                Session["CustModel"] = customer;
+                List<Menu> MenuList = (from menu in foodContext.Menus select menu).ToList();
+                return View(MenuList);
+            }
+            catch(Exception e)
+            {
+                string exceptionMessage = DateTime.Now + " ActionResult : " + Request.RequestContext.RouteData.Values["action"].ToString() + "Exception : " + e.Message.ToString();
+                AuthController.WriteExceptionToFile(exceptionMessage, out string fileExceptionMessage);
+                return Content(exceptionMessage + "\n" + fileExceptionMessage);
+            }
+            
         }
 
         public ActionResult ShowFoodItems(long menuId)
         {
-            Session["CustId"] = long.Parse(Session["CustId"].ToString());
-            FoodkartModelContainer foodContext = new FoodkartModelContainer();
-            List<Food> FoodList = (from food in foodContext.Foods where food.FoodMenuId == menuId select food).ToList();
-            return View(FoodList);
+            try
+            {
+                Session["CustId"] = long.Parse(Session["CustId"].ToString());
+                List<Food> FoodList = (from food in foodContext.Foods where food.FoodMenuId == menuId select food).ToList();
+                return View(FoodList);
+            }
+            catch (Exception e)
+            {
+                string exceptionMessage = DateTime.Now + " ActionResult : " + Request.RequestContext.RouteData.Values["action"].ToString() + "Exception : " + e.Message.ToString();
+                AuthController.WriteExceptionToFile(exceptionMessage, out string fileExceptionMessage);
+                return Content(exceptionMessage + "\n" + fileExceptionMessage);
+            }
+            
         }
 
         public ActionResult AddToCart(long foodId)
         {
-            Session["CustId"] = long.Parse(Session["CustId"].ToString());
-            FoodkartModelContainer foodContext = new FoodkartModelContainer();
-            Food food = foodContext.Foods.Find(foodId);
-            return View(food);
+            try
+            {
+                Session["CustId"] = long.Parse(Session["CustId"].ToString());
+                Food food = foodContext.Foods.Find(foodId);
+                return View(food);
+            }
+            catch (Exception e)
+            {
+                string exceptionMessage = DateTime.Now + " ActionResult : " + Request.RequestContext.RouteData.Values["action"].ToString() + "Exception : " + e.Message.ToString();
+                AuthController.WriteExceptionToFile(exceptionMessage, out string fileExceptionMessage);
+                return Content(exceptionMessage + "\n" + fileExceptionMessage);
+            }
 
         }
 
         [HttpPost]
         public ActionResult AddToCart(FormCollection forms)
         {
-            FoodkartModelContainer foodContext = new FoodkartModelContainer();
-            Cart cart = new Cart
+            try
             {
-                CartCustId = long.Parse(Session["CustId"].ToString())
-            };
+                Cart cart = new Cart
+                {
+                    CartCustId = long.Parse(Session["CustId"].ToString())
+                };
 
-            foodContext.Carts.Add(cart);
-            foodContext.SaveChanges();
+                foodContext.Carts.Add(cart);
+                foodContext.SaveChanges();
 
-            List<Cart> CartList = (from cartList in foodContext.Carts select cartList).ToList();
+                List<Cart> CartList = (from cartList in foodContext.Carts select cartList).ToList();
 
-            CartItem cartItem = new CartItem
+                CartItem cartItem = new CartItem
+                {
+                    CartItemCartId = CartList.Last().CartId,
+                    CartAddDate = DateTime.Now,
+                    CartItemQty = long.Parse(forms["FoodQty"].ToString()),
+                    CartItemFoodId = long.Parse(forms["FoodId"].ToString())
+                };
+
+                foodContext.CartItems.Add(cartItem);
+                foodContext.SaveChanges();
+
+                Customer customer = new Customer
+                {
+                    CustId = long.Parse(Session["CustId"].ToString()),
+                    CustFName = Session["CustFName"].ToString(),
+                    CustPassword = "CartAdded"
+                };
+
+                ViewBag.Status = "ItemAdded";
+                ViewBag.Quantity = long.Parse(forms["FoodQty"].ToString());
+                return View(foodContext.Foods.Find(long.Parse(forms["FoodId"].ToString())));
+            }
+            catch (Exception e)
             {
-                CartItemCartId = CartList.Last().CartId,
-                CartAddDate = DateTime.Now,
-                CartItemQty = long.Parse(forms["FoodQty"].ToString()),
-                CartItemFoodId = long.Parse(forms["FoodId"].ToString())
-            };
-
-            foodContext.CartItems.Add(cartItem);
-            foodContext.SaveChanges();
-
-            Customer customer = new Customer
-            {
-                CustId = long.Parse(Session["CustId"].ToString()),
-                CustFName = Session["CustFName"].ToString(),
-                CustPassword = "CartAdded"
-            };
-
-            ViewBag.Status = "ItemAdded";
-            ViewBag.Quantity = long.Parse(forms["FoodQty"].ToString());
-            return View(foodContext.Foods.Find(long.Parse(forms["FoodId"].ToString())));
+                string exceptionMessage = DateTime.Now + " ActionResult : " + Request.RequestContext.RouteData.Values["action"].ToString() + "Exception : " + e.Message.ToString();
+                AuthController.WriteExceptionToFile(exceptionMessage, out string fileExceptionMessage);
+                return Content(exceptionMessage + "\n" + fileExceptionMessage);
+            }
 
         }
 
         public ActionResult CustomerCart()
         {
-            FoodkartModelContainer foodContext = new FoodkartModelContainer();
-            List<CartItem> cartItemList = foodContext.CartItems.ToList();
-            List<Cart> cartList = foodContext.Carts.ToList();
-            List<CartItem> showCartItems = new List<CartItem>();
-            foreach (CartItem cartItem in cartItemList)
+            try
             {
-                foreach (Cart cart in cartList)
+                List<CartItem> cartItemList = foodContext.CartItems.ToList();
+                List<Cart> cartList = foodContext.Carts.ToList();
+                List<CartItem> showCartItems = new List<CartItem>();
+                foreach (CartItem cartItem in cartItemList)
                 {
-                    if (cart.CartCustId == long.Parse(Session["CustId"].ToString()) && cart.CartId == cartItem.CartItemCartId)
+                    foreach (Cart cart in cartList)
                     {
-                        showCartItems.Add(cartItem);
+                        if (cart.CartCustId == long.Parse(Session["CustId"].ToString()) && cart.CartId == cartItem.CartItemCartId)
+                        {
+                            showCartItems.Add(cartItem);
+                        }
                     }
                 }
-            }
 
-            return View(showCartItems);
+                return View(showCartItems);
+            }
+            catch (Exception e)
+            {
+                string exceptionMessage = DateTime.Now + " ActionResult : " + Request.RequestContext.RouteData.Values["action"].ToString() + "Exception : " + e.Message.ToString();
+                AuthController.WriteExceptionToFile(exceptionMessage, out string fileExceptionMessage);
+                return Content(exceptionMessage + "\n" + fileExceptionMessage);
+            }
+            
         }
 
         [HttpPost]
@@ -105,107 +149,125 @@ namespace Foodkart.Controllers
                 throw new ArgumentNullException(nameof(formCollection));
             }
 
-            FoodkartModelContainer foodContext = new FoodkartModelContainer();
-
-            Order order = new Order
+            try
             {
-                OrderDate = DateTime.Now,
-                OrderCustId = long.Parse(Session["CustId"].ToString())
-            };
-
-            foodContext.Orders.Add(order);
-            foodContext.SaveChanges();
-
-
-            List<CartItem> cartItemList = foodContext.CartItems.ToList();
-            List<Cart> cartList = foodContext.Carts.ToList();
-            List<CartItem> showCartItems = new List<CartItem>();
-            foreach (CartItem cartItem in cartItemList)
-            {
-                foreach (Cart cart in cartList)
+                Order order = new Order
                 {
-                    if (cart.CartCustId == long.Parse(Session["CustId"].ToString()) && cart.CartId == cartItem.CartItemCartId)
-                    {
-                        showCartItems.Add(cartItem);
-                    }
-                }
-            }
-
-            SqlConnection sqlConnection = new SqlConnection(connectionString);
-            sqlConnection.Open();
-
-            foreach (CartItem items in showCartItems)
-            {
-                SqlCommand sqlCommand = new SqlCommand("update Foods set FoodQty = FoodQty  - " + items.CartItemQty + " where FoodId = ( select CartItemFoodId from CartItems where CartItemCartId = " + items.CartItemCartId + " );", sqlConnection);
-                sqlCommand.ExecuteNonQuery();
-            }
-
-            sqlConnection.Close();
-
-
-            List<Order> OrderList = (from orderList in foodContext.Orders select orderList).ToList();
-
-            foreach (CartItem cartItem in showCartItems)
-            {
-                Food findFood = foodContext.Foods.Find(cartItem.CartItemFoodId);
-
-                OrderItem orderItem = new OrderItem
-                {
-                    OrderItemOrderId = OrderList.Last().OrderId,
-                    OrderItemFoodId = cartItem.CartItemFoodId,
-                    OrderItemQty = cartItem.CartItemQty,
-                    OrderItemUnitPrice = findFood.FoodUnitPrice
+                    OrderDate = DateTime.Now,
+                    OrderCustId = long.Parse(Session["CustId"].ToString())
                 };
 
-                foodContext.OrderItems.Add(orderItem);
-                foodContext.SaveChanges();
-                foodContext.CartItems.Remove(cartItem);
+                foodContext.Orders.Add(order);
                 foodContext.SaveChanges();
 
-            }
-
-            foreach (Cart cart in cartList)
-            {
-                if (cart.CartCustId == long.Parse(Session["CustId"].ToString()))
+                List<CartItem> cartItemList = foodContext.CartItems.ToList();
+                List<Cart> cartList = foodContext.Carts.ToList();
+                List<CartItem> showCartItems = new List<CartItem>();
+                foreach (CartItem cartItem in cartItemList)
                 {
-                    foodContext.Carts.Remove(cart);
-                    foodContext.SaveChanges();
+                    foreach (Cart cart in cartList)
+                    {
+                        if (cart.CartCustId == long.Parse(Session["CustId"].ToString()) && cart.CartId == cartItem.CartItemCartId)
+                        {
+                            showCartItems.Add(cartItem);
+                        }
+                    }
                 }
-            }
 
-            ViewBag.Status = "ordered";
-            showCartItems = new List<CartItem>(); //Adding this hence Null Pointer Exception Doesn't arise
-            return View(showCartItems);
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                foreach (CartItem items in showCartItems)
+                {
+                    SqlCommand sqlCommand = new SqlCommand("update Foods set FoodQty = FoodQty  - " + items.CartItemQty + " where FoodId = ( select CartItemFoodId from CartItems where CartItemCartId = " + items.CartItemCartId + " );", sqlConnection);
+                    sqlCommand.ExecuteNonQuery();
+                }
+
+                sqlConnection.Close();
+
+
+                List<Order> OrderList = (from orderList in foodContext.Orders select orderList).ToList();
+
+                foreach (CartItem cartItem in showCartItems)
+                {
+                    Food findFood = foodContext.Foods.Find(cartItem.CartItemFoodId);
+
+                    OrderItem orderItem = new OrderItem
+                    {
+                        OrderItemOrderId = OrderList.Last().OrderId,
+                        OrderItemFoodId = cartItem.CartItemFoodId,
+                        OrderItemQty = cartItem.CartItemQty,
+                        OrderItemUnitPrice = findFood.FoodUnitPrice
+                    };
+
+                    foodContext.OrderItems.Add(orderItem);
+                    foodContext.SaveChanges();
+                    foodContext.CartItems.Remove(cartItem);
+                    foodContext.SaveChanges();
+
+                }
+
+                foreach (Cart cart in cartList)
+                {
+                    if (cart.CartCustId == long.Parse(Session["CustId"].ToString()))
+                    {
+                        foodContext.Carts.Remove(cart);
+                        foodContext.SaveChanges();
+                    }
+                }
+
+                ViewBag.Status = "ordered";
+                showCartItems = new List<CartItem>(); //Adding this hence Null Pointer Exception Doesn't arise
+                return View(showCartItems);
+            }
+            catch (Exception e)
+            {
+                string exceptionMessage = DateTime.Now + " ActionResult : " + Request.RequestContext.RouteData.Values["action"].ToString() + "Exception : " + e.Message.ToString();
+                AuthController.WriteExceptionToFile(exceptionMessage, out string fileExceptionMessage);
+                return Content(exceptionMessage + "\n" + fileExceptionMessage);
+            }         
+            
         }
 
         public ActionResult CustomerOrders()
         {
-            SqlConnection sqlConnection = new SqlConnection(connectionString);
-            sqlConnection.Open();
-            SqlCommand sqlCommand = new SqlCommand("select OrderDate, OrderId, FoodName, FoodCategory, FoodType, OrderItemQty, OrderItemUnitPrice from OrderItems OI join Orders O on OI.OrderItemOrderId = O.OrderId join Foods F on OI.OrderItemFoodId = F.FoodId where OrderCustId = " + Session["CustId"].ToString() + " order by 1 desc;", sqlConnection);
-            SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
-
-            List<OrdersModel> OrdersModelList = new List<OrdersModel>();
-
-            while (sqlDataReader.Read())
+            try
             {
-                OrdersModel ordersModel = new OrdersModel
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+                SqlCommand sqlCommand = new SqlCommand("select OrderDate, OrderId, FoodName, FoodCategory, FoodType, OrderItemQty, OrderItemUnitPrice from OrderItems OI join Orders O on OI.OrderItemOrderId = O.OrderId join Foods F on OI.OrderItemFoodId = F.FoodId where OrderCustId = " + Session["CustId"].ToString() + " order by 1 desc;", sqlConnection);
+                SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
+
+                List<OrdersModel> OrdersModelList = new List<OrdersModel>();
+
+                while (sqlDataReader.Read())
                 {
-                    OrderDate = DateTime.Parse(sqlDataReader[0].ToString()),
-                    OrderId = long.Parse(sqlDataReader[1].ToString()),
-                    FoodName = sqlDataReader[2].ToString(),
-                    FoodCategory = sqlDataReader[3].ToString(),
-                    FoodType = sqlDataReader[4].ToString(),
-                    OrderItemQty = long.Parse(sqlDataReader[5].ToString()),
-                    OrderItemUnitPrice = long.Parse(sqlDataReader[6].ToString())
+                    OrdersModel ordersModel = new OrdersModel
+                    {
+                        OrderDate = DateTime.Parse(sqlDataReader[0].ToString()),
+                        OrderId = long.Parse(sqlDataReader[1].ToString()),
+                        FoodName = sqlDataReader[2].ToString(),
+                        FoodCategory = sqlDataReader[3].ToString(),
+                        FoodType = sqlDataReader[4].ToString(),
+                        OrderItemQty = long.Parse(sqlDataReader[5].ToString()),
+                        OrderItemUnitPrice = long.Parse(sqlDataReader[6].ToString())
 
-                };
+                    };
 
-                OrdersModelList.Add(ordersModel);
+                    OrdersModelList.Add(ordersModel);
+                }
+
+                sqlConnection.Close();
+                return View(OrdersModelList);
+
             }
-
-            sqlConnection.Close();
-            return View(OrdersModelList);
+            catch (Exception e)
+            {
+                string exceptionMessage = DateTime.Now + " ActionResult : " + Request.RequestContext.RouteData.Values["action"].ToString() + "Exception : " + e.Message.ToString();
+                AuthController.WriteExceptionToFile(exceptionMessage, out string fileExceptionMessage);
+                return Content(exceptionMessage + "\n" + fileExceptionMessage);
+            }
+            
         }
 
         public ActionResult CustomerProfile(Customer customer){        
@@ -215,34 +277,44 @@ namespace Foodkart.Controllers
         [HttpPost]
         public ActionResult CustomerProfile(Customer customer, FormCollection form)
         {
-            FoodkartModelContainer foodkartModelContainer = new FoodkartModelContainer();
-            long custId = long.Parse(form["CustId"].ToString());
-            Customer currCust = foodkartModelContainer.Customers.Find(custId);
-            bool validate = ValidateUniquePhoneEmail(foodkartModelContainer, customer, custId);
-
-            if (!validate)
-                ViewBag.Status = "KeyViolation";
-            else
+            try
             {
-                List<Customer> custList = (from cust in foodkartModelContainer.Customers where cust.CustId == custId select cust).ToList();
+                FoodkartModelContainer foodkartModelContainer = new FoodkartModelContainer();
+                long custId = long.Parse(form["CustId"].ToString());
+                Customer currCust = foodkartModelContainer.Customers.Find(custId);
+                bool validate = ValidateUniquePhoneEmail(foodkartModelContainer, customer, custId);
 
-                foreach (Customer c in custList)
+                if (!validate)
+                    ViewBag.Status = "KeyViolation";
+                else
                 {
-                    c.CustFName = customer.CustFName;
-                    c.CustLName = customer.CustLName;
-                    c.CustPhone = customer.CustPhone;
-                    c.CustEmail = customer.CustEmail;
+                    List<Customer> custList = (from cust in foodkartModelContainer.Customers where cust.CustId == custId select cust).ToList();
+
+                    foreach (Customer c in custList)
+                    {
+                        c.CustFName = customer.CustFName;
+                        c.CustLName = customer.CustLName;
+                        c.CustPhone = customer.CustPhone;
+                        c.CustEmail = customer.CustEmail;
+                    }
+
+                    if (ModelState.IsValid)
+                        foodkartModelContainer.SaveChanges();
+
                 }
 
-                if (ModelState.IsValid)
-                    foodkartModelContainer.SaveChanges();  
+                Session["CustModel"] = currCust;
+                Session["CustFName"] = currCust.CustFName;
 
+                return View(currCust);
             }
-
-            Session["CustModel"] = currCust;
-            Session["CustFName"] = currCust.CustFName;
-
-            return View(currCust);
+            catch (Exception e)
+            {
+                string exceptionMessage = DateTime.Now + " ActionResult : " + Request.RequestContext.RouteData.Values["action"].ToString() + "Exception : " + e.Message.ToString();
+                AuthController.WriteExceptionToFile(exceptionMessage, out string fileExceptionMessage);
+                return Content(exceptionMessage + "\n" + fileExceptionMessage);
+            }
+            
         }
 
         private bool ValidateUniquePhoneEmail(FoodkartModelContainer foodkartModelContainer, Customer customer, long custId)

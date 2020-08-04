@@ -12,49 +12,47 @@
     <title>AddToCart</title>
 </head>
 <body>
-    @if (@Model == null)
+    @using (Html.BeginForm("Restock", "Admin", FormMethod.Post))
     {
+        <input type="number" id="FoodId" name="FoodId" value="@Model.FoodId" hidden />
+
         <div class="card">
-            <h2>Item restocked successfully.</h2>
-        </div>
-    }
-    else
-    {
-        using (Html.BeginForm("Restock", "Admin", FormMethod.Post))
-        {
-            <input type="number" id="FoodId" name="FoodId" value="@Model.FoodId" hidden />
-
-            <div class="card">
-                <h2 style="font-size:40px;">Restock</h2>
-                <h2>@Model.FoodName</h2>
-                @if (Model.FoodType == "V")
-                {
-                    <h2>&#8360 @Model.FoodUnitPrice  (@Model.FoodCategory, Veg) </h2>
-                }
-                else if (Model.FoodType == "N")
-                {
-                    <h2>&#8360 @Model.FoodUnitPrice  (@Model.FoodCategory, Non-Veg) </h2>
-                }
-                else
-                {
-                    <h2>&#8360 @Model.FoodUnitPrice  (@Model.FoodCategory, Egg) </h2>
-                }
-                <a><img src="@Model.FoodPhotoUrl" class="img-card" /></a>
-                <div style="margin-top:45px;" class="input-group">
-                    <input type="number" id="FoodQty" name="FoodQty" min="50" max="@Model.FoodQty" class="input-area" value="50" />
-                    <label for="FoodQty" class="label">Quantity</label>
-                </div>
-                <table align="center">
-                    <tr>
-                        <td style="text-align:start"><a href="/Admin/RestockItems" class="blue-link">Back</a></td>
-                        <td style="text-align:end; padding-right:60px;"><a href="#" class="blue-button" onclick="this.closest('form').submit();">Restock</a></td>
-                    </tr>
-                </table>
-                <br/>
-                <br/>
+            <h2 style="font-size:40px;">Restock</h2>
+            <h2>@Model.FoodName</h2>
+            @if (Model.FoodType == "V")
+            {
+                <h2>&#8360 @Model.FoodUnitPrice  (@Model.FoodCategory, Veg) </h2>
+            }
+            else if (Model.FoodType == "N")
+            {
+                <h2>&#8360 @Model.FoodUnitPrice  (@Model.FoodCategory, Non-Veg) </h2>
+            }
+            else
+            {
+                <h2>&#8360 @Model.FoodUnitPrice  (@Model.FoodCategory, Egg) </h2>
+            }
+            <a><img src="@Model.FoodPhotoUrl" class="img-card" /></a>
+            <div style="margin-top:45px;" class="input-group">
+                <input type="number" id="FoodQty" name="FoodQty" min="50" max="@Model.FoodQty" class="input-area" value="50" />
+                <label for="FoodQty" class="label">Quantity</label>
             </div>
-        }
-
+            <table align="center">
+                <tr>
+                    <td style="text-align:start"><a href="/Admin/RestockItems" class="blue-link">Back</a></td>
+                    <td style="text-align:end; padding-right:60px;"><a href="#" class="blue-button" onclick="this.closest('form').submit();">Restock</a></td>
+                </tr>
+            </table>
+            <br />
+            <br />
+            @if (ViewBag.Status == "Restock")
+            {
+                <div class="success-div">
+                    <p>Items Restocked</p>
+                </div>
+                <br />
+                <br />
+            }
+        </div>
     }
 </body>
 </html>

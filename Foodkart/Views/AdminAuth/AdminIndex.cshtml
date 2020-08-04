@@ -566,7 +566,7 @@
                     </tr>
                 </table>
                 <div class="horizontal-flex-container">
-                    <a href="#" class="blue-button" onclick="this.closest('form').submit(); return validatePassword();">Sign-Up</a>
+                    <a href="#" class="blue-button" onclick="this.closest('form').submit(); return false;">Sign-Up</a>
                 </div>
             }
             <br />
@@ -662,16 +662,6 @@
             if (event.target == signUpModal) {
                 signUpModal.style.display = "none";
             }
-        }
-
-        function validatePassword() {
-            var password = document.getElementById("AdminPassword").value;
-            var confirmPassword = document.getElementById("ConfirmPassword").value;
-            if (password != confirmPassword) {
-                alert("Password and Confirm Password Fields Do Not Match !");
-                return false;
-            }
-            return true;
         }
 
     </script>

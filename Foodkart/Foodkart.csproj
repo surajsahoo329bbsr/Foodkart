@@ -246,7 +246,9 @@
     <Content Include="Views\Shared\_CustomerLayout.cshtml" />
     <Content Include="Views\AdminAuth\AdminIndex.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ExceptionFiles\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
