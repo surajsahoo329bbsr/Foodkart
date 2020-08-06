@@ -10,4 +10,51 @@ Admin Side
 After successful registration and login, the admin can view best selling item, total items sold, total earnings and all customer orders.
 He/she can restock, add, update and delete food items of his choice.
 
-![alt text](https://github.com/surajsahoo329bbsr/Foodkart/blob/master/index.png?raw=true)
+Customer 
+
+Index Page
+![alt text](https://github.com/surajsahoo329bbsr/Foodkart/blob/master/screenshots/index.png)
+
+Home Page
+![alt text](https://github.com/surajsahoo329bbsr/Foodkart/blob/master/screenshots/customer_home.png)
+
+Menu Page
+![alt text](https://github.com/surajsahoo329bbsr/Foodkart/blob/master/screenshots/customer_menu.png)
+
+Add Item PAge
+![alt text](https://github.com/surajsahoo329bbsr/Foodkart/blob/master/screenshots/customer_add_item.png)
+
+Order Successful Page
+![alt text](https://github.com/surajsahoo329bbsr/Foodkart/blob/master/screenshots/customer_ordered_successfully.png)
+
+Customer Orders Page
+![alt text](https://github.com/surajsahoo329bbsr/Foodkart/blob/master/screenshots/customer_orders.png)
+
+Update Profile Page
+![alt text](https://github.com/surajsahoo329bbsr/Foodkart/blob/master/screenshots/customer_update_profile.png)
+
+Admin
+
+Index Page
+![alt text](https://github.com/surajsahoo329bbsr/Foodkart/blob/master/screenshots/admin_index.png)
+
+Home Page
+![alt text](https://github.com/surajsahoo329bbsr/Foodkart/blob/master/screenshots/admin_home.png)
+
+Manage Items PAge
+![alt text](https://github.com/surajsahoo329bbsr/Foodkart/blob/master/screenshots/admin_manage_items.png)
+
+Restock Page
+![alt text](https://github.com/surajsahoo329bbsr/Foodkart/blob/master/screenshots/admin_restock.png)
+
+Update Delete Page
+![alt text](https://github.com/surajsahoo329bbsr/Foodkart/blob/master/screenshots/admin_update_delete.png)
+
+Add Item Page
+![alt text](https://github.com/surajsahoo329bbsr/Foodkart/blob/master/screenshots/admin_add_item.png)
+
+Customer Orders Page
+![alt text](https://github.com/surajsahoo329bbsr/Foodkart/blob/master/screenshots/admin_cust_orders.png)
+
+Update Profile Page
+![alt text](https://github.com/surajsahoo329bbsr/Foodkart/blob/master/screenshots/admin_update_profile.png)
