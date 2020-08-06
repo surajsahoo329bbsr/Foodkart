@@ -1,11 +1,11 @@
 ﻿@model List<Foodkart.Food>
-@using Foodkart.Models;
 @using Foodkart.Controllers;
 @using System;
 @using System.Collections.Generic;
 @using System.Data.SqlClient;
-@using System.Linq;
 @using System.Web.Mvc;
+@using System.Data.SqlClient;
+@using WebMatrix.Data; 
 
 @{
 
@@ -18,6 +18,49 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>AdminHome</title>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json",
+                url: '@Url.Action("Graph","Admin")',
+                success: function (result) {
+                    google.charts.load('current', {
+                        'packages': ['corechart']
+                    });
+                    google.charts.setOnLoadCallback(function () {
+                        drawChart(result);
+                    });
+                }
+            });
+        });
+
+        function drawChart(result) {
+            var data = new google.visualization.DataTable();
+            data.addColumn('date', 'OrderDate');
+            data.addColumn('number', 'OrderItemQty');
+            
+            for (var i = 0; i < result.length; i++) {
+                var date = new Date(parseInt(result[i].OrderDate.substr(6)));
+                data.addRow([new Date(date), result[i].OrderItemQty]);
+            }
+
+            var columnChartOptions = {
+                fontSize: 16,
+                lineWidth: 5,
+                title: 'Items',
+                width: 750,
+                height: 400
+            }
+
+            var columnChart = new google.visualization.LineChart(document.getElementById('chart'));
+            columnChart.draw(data, columnChartOptions);
+        }
+    </script>
 </head>
 <body>
     <style type="text/css">
@@ -31,6 +74,11 @@
             margin-top: 50px;
             font-size: 20px;
             background-color: #FFFFFF;
+        }
+
+        .chart-container img {
+            width: 700px;
+            height: 400px;
         }
 
         .header-center-red {
@@ -130,8 +178,8 @@
             .slider.round:before {
                 border-radius: 50%;
             }
-
     </style>
+    
     <div class="card">
         <h2 style="font-size:40px;">Dashboard</h2>
         @{
@@ -166,6 +214,9 @@
 
                 <a><img src="@menu.MenuLogoUrl" style="width: 200px; height: 200px; position: relative; margin-left:600px; margin-top: -120px;" /></a>
             </div>
+            <br />
+            <hr/>
+            <div id="chart"></div>
             <br/>
             <hr />
 
@@ -175,7 +226,7 @@
 
             SqlConnection sqlConnection = new SqlConnection(CustomerController.connectionString);
             sqlConnection.Open();
-            SqlCommand sqlCommand = new SqlCommand("SELECT SUM(F.FoodUnitPrice * OI.OrderItemQty), SUM(OI.OrderItemQty), (SELECT FoodName FROM Foods WHERE FoodId = (SELECT TOP 1 OrderItemFoodId FROM OrderItems OI INNER JOIN Foods F ON OI.OrderItemFoodId = F.FoodId WHERE F.FoodMenuId = " + long.Parse(Session["AdminMenuId"].ToString()) + " GROUP BY OrderItemFoodId ORDER BY SUM(OrderItemQty) DESC)) FROM Foods F INNER JOIN OrderItems OI ON F.FoodId = OI.OrderItemFoodId WHERE F.FoodMenuId = " + long.Parse(Session["AdminMenuId"].ToString()) + ";", sqlConnection);
+            SqlCommand sqlCommand = new SqlCommand("SELECT SUM(OI.OrderItemUnitPrice * OI.OrderItemQty), SUM(OI.OrderItemQty), (SELECT FoodName FROM Foods WHERE FoodId = (SELECT TOP 1 OrderItemFoodId FROM OrderItems OI INNER JOIN Foods F ON OI.OrderItemFoodId = F.FoodId WHERE F.FoodMenuId = " + long.Parse(Session["AdminMenuId"].ToString()) + " GROUP BY OrderItemFoodId ORDER BY SUM(OrderItemQty) DESC)) FROM Foods F INNER JOIN OrderItems OI ON F.FoodId = OI.OrderItemFoodId WHERE F.FoodMenuId = " + long.Parse(Session["AdminMenuId"].ToString()) + ";", sqlConnection);
             SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
 
             while (sqlDataReader.Read())

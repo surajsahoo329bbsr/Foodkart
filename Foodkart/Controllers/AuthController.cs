@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 
+
 namespace Foodkart.Controllers
 {
     public class AuthController : Controller
@@ -11,7 +12,6 @@ namespace Foodkart.Controllers
         public static bool WriteExceptionToFile(string exception, out string fileException)
         {
             string exceptionFile = @"D:\VisualStudioProjects\Foodkart\Foodkart\ExceptionFiles\FoodkartCustomerException.txt";
-
             try
             {
                 FileInfo fileInfo = new FileInfo(exceptionFile);

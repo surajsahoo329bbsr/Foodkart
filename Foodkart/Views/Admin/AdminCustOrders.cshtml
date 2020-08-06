@@ -28,7 +28,7 @@
                 <p>Customer Id - @custOrdersModel.CustId</p>
                 <p>Customer Name - @custOrdersModel.CustName</p>
 
-                SqlCommand sqlCommand = new SqlCommand("SELECT F.FoodName, OI.OrderItemQty, F.FoodUnitPrice, (OI.OrderItemQty * F.FoodUnitPrice) FROM ORDERS O INNER JOIN ORDERITEMS OI ON OI.OrderItemOrderId = O.OrderId INNER JOIN FOODS F ON OI.OrderItemFoodId = F.FoodId WHERE O.OrderId = " + custOrdersModel.CustOrderId + " AND F.FoodMenuId = "+ custOrdersModel.CustMenuId +" ORDER BY 3 DESC;", sqlConnection);
+                SqlCommand sqlCommand = new SqlCommand("SELECT F.FoodName, OI.OrderItemQty, OI.OrderItemUnitPrice, (OI.OrderItemQty * OI.OrderItemUnitPrice) FROM ORDERS O INNER JOIN ORDERITEMS OI ON OI.OrderItemOrderId = O.OrderId INNER JOIN FOODS F ON OI.OrderItemFoodId = F.FoodId WHERE O.OrderId = " + custOrdersModel.CustOrderId + " AND F.FoodMenuId = "+ custOrdersModel.CustMenuId +" ORDER BY 3 DESC;", sqlConnection);
                 SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
                 long totalBill = 0;
 

@@ -3,7 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Web.Helpers;
 using System.Web.Mvc;
+using WebMatrix.Data;
 
 namespace Foodkart.Controllers
 {
@@ -306,6 +308,52 @@ namespace Foodkart.Controllers
                 string exceptionMessage = DateTime.Now + " ActionResult : " + Request.RequestContext.RouteData.Values["action"].ToString() + "Exception : " + e.Message.ToString();
                 AdminAuthController.WriteExceptionToFile(exceptionMessage, out string fileExceptionMessage);
                 return Content(exceptionMessage + "\n" + fileExceptionMessage);
+            }
+        }
+
+        public ActionResult Graph()
+        {
+            try
+            {
+                return Json(Result(), JsonRequestBehavior.AllowGet);
+
+            }
+            catch(Exception e)
+            {
+                string exceptionMessage = DateTime.Now + " ActionResult : " + Request.RequestContext.RouteData.Values["action"].ToString() + "Exception : " + e.Message.ToString();
+                AdminAuthController.WriteExceptionToFile(exceptionMessage, out string fileExceptionMessage);
+                return Content(exceptionMessage + "\n" + fileExceptionMessage);
+            }
+            
+        }
+
+        public List<OrdersModel> Result()
+        {
+            try
+            {
+                List<OrdersModel> ListOrdersModel = new List<OrdersModel>();
+
+                SqlConnection sqlConnection = new SqlConnection(CustomerController.connectionString);
+                sqlConnection.Open();
+                SqlCommand sqlCommand = new SqlCommand("SELECT CAST(O.OrderDate AS DATE), (SELECT SUM(OI.OrderItemQty)) FROM OrderItems OI INNER JOIN Orders O ON O.OrderId = OI.OrderItemOrderId INNER JOIN Foods F ON OI.OrderItemFoodId = F.FoodId WHERE F.FoodMenuId = " + long.Parse(Session["AdminMenuId"].ToString()) + " GROUP BY CAST(O.OrderDate AS DATE);", sqlConnection);
+                SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
+                while (sqlDataReader.Read())
+                {
+                    OrdersModel ordersModel = new OrdersModel
+                    {
+                        OrderDate = DateTime.Parse(sqlDataReader[0].ToString()),
+                        OrderItemQty = long.Parse(sqlDataReader[1].ToString())
+                    };
+
+                    ListOrdersModel.Add(ordersModel);
+                }
+
+                sqlConnection.Close();
+                return ListOrdersModel;
+            }
+            catch (Exception)
+            {
+                return null;
             }
         }
 

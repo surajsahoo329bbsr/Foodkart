@@ -16,6 +16,8 @@ UPDATE CUSTOMERS SET CustFName = 'Suraj' WHERE CustId = 1;
 SELECT * FROM ORDERS;
 SELECT * FROM OrderItems;
 
+SELECT CAST(O.OrderDate AS DATE), (SELECT SUM(OI.OrderItemQty)) FROM OrderItems OI INNER JOIN Orders O ON O.OrderId = OI.OrderItemOrderId INNER JOIN Foods F ON OI.OrderItemFoodId = F.FoodId WHERE F.FoodMenuId = 1 GROUP BY CAST(O.OrderDate AS DATE);
+
 SELECT 
 SUM(F.FoodUnitPrice * OI.OrderItemQty),
 SUM(OI.OrderItemQty),
