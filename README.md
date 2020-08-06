@@ -9,3 +9,5 @@ After adding food items to cart he can place order and view his orders. He/she c
 Admin Side
 After successful registration and login, the admin can view best selling item, total items sold, total earnings and all customer orders.
 He/she can restock, add, update and delete food items of his choice.
+
+![alt text](https://github.com/surajsahoo329bbsr/Foodkart/blob/master/index.png?raw=true)
