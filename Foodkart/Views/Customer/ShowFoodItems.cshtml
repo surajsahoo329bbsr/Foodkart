@@ -57,7 +57,15 @@
                         {
                             <td>Egg</td>
                         }
-                        <td><a href="@Url.Action("AddToCart","Customer", new { foodId = food.FoodId })" class="blue-link">Add</a></td>
+
+                        @if(food.FoodQty != 0)
+                        {
+                            <td><a href="@Url.Action("AddToCart","Customer", new { foodId = food.FoodId })" class="blue-link">Add</a></td>                    
+                        }
+                        else
+                        {
+                            <td><p style="color:red">Out Of Stock</p></td>  
+                        }
                     </tr>
                 }
             </table>

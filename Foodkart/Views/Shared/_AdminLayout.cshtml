@@ -146,6 +146,13 @@
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
         }
     </style>
+    <script>
+        function PreventBack() {
+            window.history.forward();
+        }
+        setTimeout("PreventBack()", 0);
+        window.onunload = function () { null };
+    </script>
     <header style="width:100%;">
         <img src="~/Logos/admin_logo.png" width="200" class="logo" />
         <nav>
@@ -158,7 +165,7 @@
         <ul class="nav_links">
             <li><a href="@Url.Action("AdminProfile","Admin", Session["AdminModel"]))">@Session["AdminFName"]</a></li>
         </ul>
-        <a href="~/AdminAuth/AdminIndex" class="blue-button-header">Sign-Out</a>
+        <a href="~/AdminAuth/AdminIndex" class="blue-button-header" onclick="PreventBack();">Sign-Out</a>
     </header>
     @RenderBody()
     <footer class="card-footer">
